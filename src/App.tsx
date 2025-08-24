@@ -24,10 +24,25 @@ const AppContent: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
   const [showDashboard, setShowDashboard] = useState(false);
   
+  // Fix incorrect module ID
+  const moduleId = currentModule?.id === 'matching-vocabulary-c1' 
+    ? 'matching-vocabulary-c1' 
+    : currentModule?.id || 'flashcard-ielts-general';
+    
   // Load module data when needed
-  const { data: moduleData, isLoading, error } = useModuleData(
-    currentModule?.id || 'flashcard-ielts-general'
-  );
+  const { data: moduleData, isLoading, error } = useModuleData(moduleId);
+  
+  // DEBUG
+  console.log('🔍 App.tsx DEBUG:', {
+    currentView,
+    currentModuleId: currentModule?.id,
+    correctedModuleId: moduleId,
+    hasModuleData: !!moduleData,
+    isLoading,
+    error: !!error,
+    errorDetails: error,
+    showDashboard
+  });
 
   if (isLoading) {
     return (
@@ -44,7 +59,8 @@ const AppContent: React.FC = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading module</p>
+          <p className="text-red-600 mb-4">Error loading module: {currentModule?.id}</p>
+          <p className="text-sm text-gray-600 mb-4">{error.message}</p>
           <button 
             onClick={() => window.location.reload()}
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
@@ -88,6 +104,16 @@ const AppContent: React.FC = () => {
         
         {currentView === 'matching' && moduleData && (
           <MatchingComponent module={moduleData} />
+        )}
+        
+        {/* DEBUG: Show what's happening */}
+        {currentView !== 'menu' && !showDashboard && (
+          <div className="fixed top-20 right-4 bg-yellow-100 p-2 text-xs border rounded">
+            <p>View: {currentView}</p>
+            <p>Module: {currentModule?.id || 'none'}</p>
+            <p>Data: {moduleData ? '✅' : '❌'}</p>
+            <p>Loading: {isLoading ? '⏳' : '✅'}</p>
+          </div>
         )}
       </main>
     </div>
