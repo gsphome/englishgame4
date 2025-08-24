@@ -4,12 +4,13 @@ export interface LearningModule {
   name: string;
   description?: string;
   learningMode: 'flashcard' | 'quiz' | 'completion' | 'sorting' | 'matching';
-  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  level: string[] | string;
   category: string;
-  tags: string[];
-  data: any[];
-  estimatedTime: number;
-  difficulty: number;
+  tags?: string[];
+  data?: any[];
+  dataPath?: string;
+  estimatedTime?: number;
+  difficulty?: number;
 }
 
 export interface FlashcardData {

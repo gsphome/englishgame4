@@ -25,7 +25,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercise = module.data[0] as MatchingData;
+  const exercise = (module.data?.[0] || { pairs: [] }) as MatchingData;
 
   useEffect(() => {
     // Shuffle items

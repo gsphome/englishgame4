@@ -16,8 +16,23 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   const { setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const flashcards = module.data as FlashcardData[];
+  const flashcards = (module?.data || []) as FlashcardData[];
   const currentCard = flashcards[currentIndex];
+
+  // Early return if no data
+  if (!flashcards.length) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 text-center">
+        <p className="text-gray-600 mb-4">No flashcards available</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Back to Menu
+        </button>
+      </div>
+    );
+  }
 
   const handleNext = () => {
     if (currentIndex < flashcards.length - 1) {
@@ -99,14 +114,14 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         {/* Front */}
         <div className="absolute inset-0 w-full h-full backface-hidden bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col justify-center items-center p-6">
           <p className="text-2xl font-semibold text-gray-900 text-center mb-2">
-            {currentCard.en}
+            {currentCard?.en || 'Loading...'}
           </p>
-          {currentCard.ipa && (
+          {currentCard?.ipa && (
             <p className="text-lg text-gray-500 text-center mb-4">
               {currentCard.ipa}
             </p>
           )}
-          {currentCard.example && (
+          {currentCard?.example && (
             <p className="text-sm text-gray-600 italic text-center">
               "{currentCard.example}"
             </p>
@@ -117,17 +132,17 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         {/* Back */}
         <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-blue-50 rounded-xl shadow-lg border border-blue-200 flex flex-col justify-center items-center p-6">
           <p className="text-2xl font-semibold text-gray-900 text-center mb-2">
-            {currentCard.en}
+            {currentCard?.en || 'Loading...'}
           </p>
-          {currentCard.ipa && (
+          {currentCard?.ipa && (
             <p className="text-lg text-gray-500 text-center mb-2">
               {currentCard.ipa}
             </p>
           )}
           <p className="text-2xl font-bold text-blue-900 text-center mb-4">
-            {currentCard.es}
+            {currentCard?.es || 'Loading...'}
           </p>
-          {currentCard.example && (
+          {currentCard?.example && (
             <div className="text-center">
               <p className="text-sm text-gray-700 italic mb-1">
                 "{currentCard.example}"

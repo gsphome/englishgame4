@@ -24,7 +24,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercise = module.data[0] as SortingData;
+  const exercise = (module.data?.[0] || { words: [], categories: [] }) as SortingData;
 
   useEffect(() => {
     // Initialize with shuffled words

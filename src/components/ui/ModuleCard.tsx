@@ -41,7 +41,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({ module, onClick }) => {
       <div className="flex items-start justify-between mb-4">
         <Icon className="h-8 w-8" />
         <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded">
-          {module.level}
+          {Array.isArray(module.level) ? module.level[0] : module.level}
         </span>
       </div>
       
@@ -57,7 +57,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({ module, onClick }) => {
       
       <div className="flex items-center justify-between text-xs opacity-75">
         <span>{module.category}</span>
-        <span>{module.estimatedTime}min</span>
+        <span>{module.estimatedTime || 5}min</span>
       </div>
     </button>
   );

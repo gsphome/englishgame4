@@ -2,11 +2,32 @@ import { useQuery } from '@tanstack/react-query';
 import type { LearningModule } from '../types';
 
 const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
-  const response = await fetch(`/src/assets/data/${moduleId}.json`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch module ${moduleId}`);
+  // First get module metadata
+  const modulesResponse = await fetch('/src/assets/data/learningModules.json');
+  if (!modulesResponse.ok) {
+    throw new Error('Failed to fetch modules list');
   }
-  return response.json();
+  const modules: LearningModule[] = await modulesResponse.json();
+  const moduleInfo = modules.find(m => m.id === moduleId);
+  
+  if (!moduleInfo) {
+    throw new Error(`Module ${moduleId} not found`);
+  }
+  
+  // Then get module data
+  const dataResponse = await fetch(`/src/assets/data/${moduleId}.json`);
+  if (!dataResponse.ok) {
+    throw new Error(`Failed to fetch module data ${moduleId}`);
+  }
+  const data = await dataResponse.json();
+  
+  return {
+    ...moduleInfo,
+    data: data.data || data,
+    estimatedTime: data.estimatedTime || 5,
+    difficulty: data.difficulty || 3,
+    tags: data.tags || []
+  };
 };
 
 const fetchAllModules = async (): Promise<LearningModule[]> => {
@@ -14,7 +35,13 @@ const fetchAllModules = async (): Promise<LearningModule[]> => {
   if (!response.ok) {
     throw new Error('Failed to fetch modules list');
   }
-  return response.json();
+  const modules = await response.json();
+  return modules.map((module: any) => ({
+    ...module,
+    estimatedTime: 5,
+    difficulty: 3,
+    tags: [module.category]
+  }));
 };
 
 export const useModuleData = (moduleId: string) => {
