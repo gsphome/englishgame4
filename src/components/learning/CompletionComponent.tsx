@@ -23,8 +23,23 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercises = module.data as CompletionData[];
+  const exercises = (module?.data || []) as CompletionData[];
   const currentExercise = exercises[currentIndex];
+
+  // Early return if no data
+  if (!exercises.length) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <p className="text-gray-600 mb-4">No completion exercises available</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Back to Menu
+        </button>
+      </div>
+    );
+  }
 
   const handleAnswerChange = (blankIndex: number, value: string) => {
     if (showResult) return;
@@ -35,13 +50,13 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
     if (showResult) return;
     
     let correct = 0;
-    currentExercise.blanks.forEach((blank, index) => {
+    (currentExercise?.blanks || []).forEach((blank, index) => {
       if (answers[index] === blank.correct) {
         correct++;
       }
     });
     
-    const isAllCorrect = correct === currentExercise.blanks.length;
+    const isAllCorrect = correct === (currentExercise?.blanks?.length || 0);
     updateSessionScore(isAllCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
   };
@@ -64,11 +79,11 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
     const parts = [];
     let lastIndex = 0;
 
-    currentExercise.blanks.forEach((blank, blankIndex) => {
+    (currentExercise?.blanks || []).forEach((blank, blankIndex) => {
       // Add text before blank
       parts.push(
         <span key={`text-${blankIndex}`}>
-          {currentExercise.sentence.substring(lastIndex, blank.position)}
+          {currentExercise?.sentence?.substring(lastIndex, blank.position) || ''}
         </span>
       );
 
@@ -93,7 +108,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
           }`}
         >
           <option value="">---</option>
-          {blank.options.map((option, optIndex) => (
+          {(blank.options || []).map((option, optIndex) => (
             <option key={optIndex} value={option}>
               {option}
             </option>
@@ -107,7 +122,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
     // Add remaining text
     parts.push(
       <span key="text-end">
-        {currentExercise.sentence.substring(lastIndex)}
+        {currentExercise?.sentence?.substring(lastIndex) || ''}
       </span>
     );
 
@@ -117,7 +132,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'Enter' && !showResult) {
-        const allAnswered = currentExercise.blanks.every((_, index) => answers[index]);
+        const allAnswered = (currentExercise?.blanks || []).every((_, index) => answers[index]);
         if (allAnswered) {
           checkAnswers();
         }
@@ -132,7 +147,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [answers, showResult]);
 
-  const allAnswered = currentExercise.blanks.every((_, index) => answers[index]);
+  const allAnswered = (currentExercise?.blanks || []).every((_, index) => answers[index]);
 
   return (
     <div className="max-w-4xl mx-auto p-6">
@@ -163,7 +178,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
         {/* Results */}
         {showResult && (
           <div className="space-y-3">
-            {currentExercise.blanks.map((blank, index) => {
+            {(currentExercise?.blanks || []).map((blank, index) => {
               const userAnswer = answers[index];
               const isCorrect = userAnswer === blank.correct;
               
