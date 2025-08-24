@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { RotateCcw, Check } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
@@ -7,13 +7,6 @@ import type { LearningModule } from '../../types';
 interface MatchingData {
   id?: string;
   pairs: { left: string; right: string }[];
-}
-
-interface MatchingItem {
-  id: string;
-  term: string;
-  definition: string;
-  term_es?: string;
 }
 
 interface MatchingComponentProps {
@@ -32,25 +25,28 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  // Check if data has the demo format (data[0].pairs) or sample format (array of items)
-  let pairs: { left: string; right: string }[] = [];
-  
-  if (module?.data?.[0]?.pairs) {
-    // Demo format: data[0].pairs
-    pairs = module.data[0].pairs;
-    console.log('Using demo format - pairs:', pairs);
-  } else if (Array.isArray(module?.data)) {
-    // Sample format: array of {term, definition}
-    const rawData = module.data as MatchingItem[];
-    pairs = rawData.map(item => ({
-      left: item.term || '',
-      right: item.definition || ''
-    }));
-    console.log('Using sample format - converted pairs:', pairs);
-  }
-  
-  const exercise: MatchingData = { pairs };
-  console.log('MatchingComponent - final exercise:', exercise);
+  // Memoize data conversion to prevent re-processing
+  const exercise = useMemo(() => {
+    let pairs: { left: string; right: string }[] = [];
+    
+    if (module?.data?.[0]?.pairs) {
+      // Demo format: data[0].pairs
+      pairs = module.data[0].pairs;
+      console.log('Using demo format - pairs:', pairs);
+    } else if (Array.isArray(module?.data)) {
+      // Sample format: array of {en, es} or {term, definition}
+      const rawData = module.data as any[];
+      pairs = rawData.map(item => ({
+        left: item.en || item.term || '',
+        right: item.es || item.definition || ''
+      }));
+      console.log('Using sample format - converted pairs:', pairs.slice(0, 3));
+    }
+    
+    const result: MatchingData = { pairs };
+    console.log('MatchingComponent - final exercise:', result);
+    return result;
+  }, [module?.data]);
 
   // Early return if no data
   if (!exercise.pairs?.length) {
@@ -75,8 +71,14 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
       
       setLeftItems(left);
       setRightItems(right);
+      
+      // Reset state when module changes
+      setMatches({});
+      setSelectedLeft(null);
+      setSelectedRight(null);
+      setShowResult(false);
     }
-  }, [module.id]);
+  }, [exercise.pairs]);
 
   const handleLeftClick = (item: string) => {
     if (showResult || matches[item]) return;
