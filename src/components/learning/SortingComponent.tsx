@@ -27,17 +27,19 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const exercise = (module.data?.[0] || { words: [], categories: [] }) as SortingData;
 
   useEffect(() => {
-    // Initialize with shuffled words
-    const shuffled = [...exercise.words].sort(() => Math.random() - 0.5);
-    setAvailableWords(shuffled);
-    
-    // Initialize empty categories
-    const initialSorted: Record<string, string[]> = {};
-    exercise.categories.forEach(cat => {
-      initialSorted[cat.name] = [];
-    });
-    setSortedItems(initialSorted);
-  }, [exercise]);
+    if (exercise.words?.length > 0) {
+      // Initialize with shuffled words
+      const shuffled = [...exercise.words].sort(() => Math.random() - 0.5);
+      setAvailableWords(shuffled);
+      
+      // Initialize empty categories
+      const initialSorted: Record<string, string[]> = {};
+      exercise.categories.forEach(cat => {
+        initialSorted[cat.name] = [];
+      });
+      setSortedItems(initialSorted);
+    }
+  }, [module.id]);
 
   const handleDragStart = (e: React.DragEvent, word: string) => {
     setDraggedItem(word);

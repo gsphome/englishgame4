@@ -25,16 +25,33 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercise = (module.data?.[0] || { pairs: [] }) as MatchingData;
+  const exercise = (module?.data?.[0] || { pairs: [] }) as MatchingData;
+
+  // Early return if no data
+  if (!exercise.pairs?.length) {
+    return (
+      <div className="max-w-6xl mx-auto p-6 text-center">
+        <p className="text-gray-600 mb-4">No matching pairs available</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Back to Menu
+        </button>
+      </div>
+    );
+  }
 
   useEffect(() => {
-    // Shuffle items
-    const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
-    const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
-    
-    setLeftItems(left);
-    setRightItems(right);
-  }, [exercise]);
+    if (exercise.pairs?.length > 0) {
+      // Shuffle items
+      const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
+      const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
+      
+      setLeftItems(left);
+      setRightItems(right);
+    }
+  }, [module.id]);
 
   const handleLeftClick = (item: string) => {
     if (showResult || matches[item]) return;
@@ -80,23 +97,25 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const checkAnswers = () => {
     let correctMatches = 0;
     
-    exercise.pairs.forEach(pair => {
+    (exercise.pairs || []).forEach(pair => {
       if (matches[pair.left] === pair.right) {
         correctMatches++;
       }
     });
     
-    const isAllCorrect = correctMatches === exercise.pairs.length;
+    const isAllCorrect = correctMatches === (exercise.pairs?.length || 0);
     updateSessionScore(isAllCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
   };
 
   const resetExercise = () => {
-    const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
-    const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
-    
-    setLeftItems(left);
-    setRightItems(right);
+    if (exercise.pairs?.length > 0) {
+      const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
+      const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
+      
+      setLeftItems(left);
+      setRightItems(right);
+    }
     setMatches({});
     setSelectedLeft(null);
     setSelectedRight(null);
@@ -105,22 +124,22 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
   const finishExercise = () => {
     const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-    const correctCount = exercise.pairs.filter(pair => matches[pair.left] === pair.right).length;
-    const finalScore = Math.round((correctCount / exercise.pairs.length) * 100);
+    const correctCount = (exercise.pairs || []).filter(pair => matches[pair.left] === pair.right).length;
+    const finalScore = Math.round((correctCount / (exercise.pairs?.length || 1)) * 100);
     updateUserScore(module.id, finalScore, timeSpent);
     setCurrentView('menu');
   };
 
-  const allMatched = Object.keys(matches).length === exercise.pairs.length;
+  const allMatched = Object.keys(matches).length === (exercise.pairs?.length || 0);
 
   const getItemStatus = (item: string, isLeft: boolean) => {
     if (showResult) {
       if (isLeft) {
-        const correctMatch = exercise.pairs.find(pair => pair.left === item)?.right;
+        const correctMatch = (exercise.pairs || []).find(pair => pair.left === item)?.right;
         const userMatch = matches[item];
         return userMatch === correctMatch ? 'correct' : 'incorrect';
       } else {
-        const correctPair = exercise.pairs.find(pair => pair.right === item);
+        const correctPair = (exercise.pairs || []).find(pair => pair.right === item);
         const userMatch = Object.entries(matches).find(([_, right]) => right === item);
         if (correctPair && userMatch) {
           return userMatch[0] === correctPair.left ? 'correct' : 'incorrect';
@@ -188,8 +207,8 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
             <div className="text-4xl mb-4">↔️</div>
             <p className="text-sm text-gray-600">
               {showResult 
-                ? `${exercise.pairs.filter(pair => matches[pair.left] === pair.right).length}/${exercise.pairs.length} correct`
-                : `${Object.keys(matches).length}/${exercise.pairs.length} matched`
+                ? `${(exercise.pairs || []).filter(pair => matches[pair.left] === pair.right).length}/${exercise.pairs?.length || 0} correct`
+                : `${Object.keys(matches).length}/${exercise.pairs?.length || 0} matched`
               }
             </p>
           </div>
