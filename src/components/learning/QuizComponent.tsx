@@ -25,15 +25,30 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const questions = module.data as QuizData[];
+  const questions = (module?.data || []) as QuizData[];
   const currentQuestion = questions[currentIndex];
+
+  // Early return if no data
+  if (!questions.length) {
+    return (
+      <div className="max-w-3xl mx-auto p-6 text-center">
+        <p className="text-gray-600 mb-4">No quiz questions available</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Back to Menu
+        </button>
+      </div>
+    );
+  }
 
   const handleAnswerSelect = (optionIndex: number) => {
     if (showResult) return;
     setSelectedAnswer(optionIndex);
     setShowResult(true);
     
-    const isCorrect = optionIndex === currentQuestion.correct;
+    const isCorrect = optionIndex === currentQuestion?.correct;
     updateSessionScore(isCorrect ? { correct: 1 } : { incorrect: 1 });
   };
 
@@ -53,9 +68,9 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key >= '1' && e.key <= '4' && !showResult) {
+      if (e.key >= '1' && e.key <= '4' && !showResult && currentQuestion) {
         const optionIndex = parseInt(e.key) - 1;
-        if (optionIndex < currentQuestion.options.length) {
+        if (optionIndex < (currentQuestion.options?.length || 0)) {
           handleAnswerSelect(optionIndex);
         }
       } else if (e.key === 'Enter' && showResult) {
@@ -88,20 +103,20 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       {/* Question */}
       <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
         <h2 className="text-2xl font-semibold text-gray-900 mb-8">
-          {currentQuestion.question}
+          {currentQuestion?.question || 'Loading question...'}
         </h2>
 
         {/* Options */}
         <div className="space-y-4">
-          {currentQuestion.options.map((option, index) => {
+          {(currentQuestion?.options || []).map((option, index) => {
             let buttonClass = "w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ";
             
             if (!showResult) {
               buttonClass += "border-gray-200 hover:border-blue-300 hover:bg-blue-50";
             } else {
-              if (index === currentQuestion.correct) {
+              if (index === currentQuestion?.correct) {
                 buttonClass += "border-green-500 bg-green-50 text-green-800";
-              } else if (index === selectedAnswer && index !== currentQuestion.correct) {
+              } else if (index === selectedAnswer && index !== currentQuestion?.correct) {
                 buttonClass += "border-red-500 bg-red-50 text-red-800";
               } else {
                 buttonClass += "border-gray-200 bg-gray-50 text-gray-600";
@@ -125,10 +140,10 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
                   
                   {showResult && (
                     <div>
-                      {index === currentQuestion.correct && (
+                      {index === currentQuestion?.correct && (
                         <CheckCircle className="h-6 w-6 text-green-600" />
                       )}
-                      {index === selectedAnswer && index !== currentQuestion.correct && (
+                      {index === selectedAnswer && index !== currentQuestion?.correct && (
                         <XCircle className="h-6 w-6 text-red-600" />
                       )}
                     </div>
@@ -140,7 +155,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         </div>
 
         {/* Explanation */}
-        {showResult && currentQuestion.explanation && (
+        {showResult && currentQuestion?.explanation && (
           <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <h4 className="font-medium text-blue-900 mb-2">Explanation:</h4>
             <p className="text-blue-800">{currentQuestion.explanation}</p>
