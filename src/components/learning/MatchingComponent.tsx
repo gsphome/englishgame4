@@ -1,13 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RotateCcw, Check } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import type { LearningModule } from '../../types';
-
-interface MatchingData {
-  id?: string;
-  pairs: { left: string; right: string }[];
-}
 
 interface MatchingComponentProps {
   module: LearningModule;
@@ -21,64 +16,80 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const [matches, setMatches] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
+  const [currentModuleId, setCurrentModuleId] = useState<string | null>(null);
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  // Memoize data conversion to prevent re-processing
-  const exercise = useMemo(() => {
+  // Initialize component when module changes
+  useEffect(() => {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] MatchingComponent useEffect - module.id: ${module?.id}, hasData: ${!!module?.data}`);
+    
+    if (!module?.data || !module?.id) {
+      console.log(`[${timestamp}] MatchingComponent - Early return: noData=${!module?.data}, noId=${!module?.id}`);
+      return;
+    }
+
+    // Only initialize if module changed
+    if (currentModuleId === module.id) {
+      console.log(`[${timestamp}] MatchingComponent - Same module, skipping initialization`);
+      return;
+    }
+
     let pairs: { left: string; right: string }[] = [];
     
-    if (module?.data?.[0]?.pairs) {
-      // Demo format: data[0].pairs
+    // Handle different data formats
+    if (module.data[0]?.pairs) {
       pairs = module.data[0].pairs;
-      console.log('Using demo format - pairs:', pairs);
-    } else if (Array.isArray(module?.data)) {
-      // Sample format: array of {en, es} or {term, definition}
-      const rawData = module.data as any[];
-      pairs = rawData.map(item => ({
+      console.log(`[${timestamp}] MatchingComponent - Using demo format, pairs count: ${pairs.length}`);
+    } else if (Array.isArray(module.data)) {
+      pairs = module.data.map((item: any) => ({
         left: item.en || item.term || '',
         right: item.es || item.definition || ''
       }));
-      console.log('Using sample format - converted pairs:', pairs.slice(0, 3));
+      console.log(`[${timestamp}] MatchingComponent - Using sample format, pairs count: ${pairs.length}`);
     }
-    
-    const result: MatchingData = { pairs };
-    console.log('MatchingComponent - final exercise:', result);
-    return result;
-  }, [module?.data]);
 
-  // Early return if no data
-  if (!exercise.pairs?.length) {
-    return (
-      <div className="max-w-6xl mx-auto p-6 text-center">
-        <p className="text-gray-600 mb-4">No matching pairs available</p>
-        <button
-          onClick={() => setCurrentView('menu')}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Back to Menu
-        </button>
-      </div>
-    );
-  }
-
-  useEffect(() => {
-    if (exercise.pairs?.length > 0) {
-      // Shuffle items
-      const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
-      const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
+    if (pairs.length > 0) {
+      const left = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
+      const right = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
       
+      console.log(`[${timestamp}] MatchingComponent - Initializing with ${pairs.length} pairs`);
       setLeftItems(left);
       setRightItems(right);
-      
-      // Reset state when module changes
       setMatches({});
       setSelectedLeft(null);
       setSelectedRight(null);
       setShowResult(false);
+      setCurrentModuleId(module.id);
+    } else {
+      console.log(`[${timestamp}] MatchingComponent - No pairs found`);
     }
-  }, [exercise.pairs]);
+  }, [module?.data, module?.id, currentModuleId]);
+
+  if (!module?.data || leftItems.length === 0) {
+    const timestamp = new Date().toISOString();
+    console.log(`[${timestamp}] MatchingComponent - Showing loading: hasData=${!!module?.data}, leftItems.length=${leftItems.length}`);
+    return (
+      <div className="max-w-6xl mx-auto p-6 text-center">
+        <p className="text-gray-600 mb-4">Loading matching exercise...</p>
+      </div>
+    );
+  }
+
+  const getPairs = (): { left: string; right: string }[] => {
+    if (!module.data) return [];
+    if (module.data[0]?.pairs) {
+      return module.data[0].pairs;
+    }
+    return (module.data as any[]).map((item: any) => ({
+      left: item.en || item.term || '',
+      right: item.es || item.definition || ''
+    }));
+  };
+
+  const pairs = getPairs();
 
   const handleLeftClick = (item: string) => {
     if (showResult || matches[item]) return;
@@ -124,25 +135,23 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const checkAnswers = () => {
     let correctMatches = 0;
     
-    (exercise.pairs || []).forEach(pair => {
+    pairs.forEach((pair: { left: string; right: string }) => {
       if (matches[pair.left] === pair.right) {
         correctMatches++;
       }
     });
     
-    const isAllCorrect = correctMatches === (exercise.pairs?.length || 0);
+    const isAllCorrect = correctMatches === pairs.length;
     updateSessionScore(isAllCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
   };
 
   const resetExercise = () => {
-    if (exercise.pairs?.length > 0) {
-      const left = exercise.pairs.map(pair => pair.left).sort(() => Math.random() - 0.5);
-      const right = exercise.pairs.map(pair => pair.right).sort(() => Math.random() - 0.5);
-      
-      setLeftItems(left);
-      setRightItems(right);
-    }
+    const left = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
+    const right = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
+    
+    setLeftItems(left);
+    setRightItems(right);
     setMatches({});
     setSelectedLeft(null);
     setSelectedRight(null);
@@ -151,22 +160,22 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
   const finishExercise = () => {
     const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-    const correctCount = (exercise.pairs || []).filter(pair => matches[pair.left] === pair.right).length;
-    const finalScore = Math.round((correctCount / (exercise.pairs?.length || 1)) * 100);
+    const correctCount = pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length;
+    const finalScore = Math.round((correctCount / pairs.length) * 100);
     updateUserScore(module.id, finalScore, timeSpent);
     setCurrentView('menu');
   };
 
-  const allMatched = Object.keys(matches).length === (exercise.pairs?.length || 0);
+  const allMatched = Object.keys(matches).length === pairs.length;
 
   const getItemStatus = (item: string, isLeft: boolean) => {
     if (showResult) {
       if (isLeft) {
-        const correctMatch = (exercise.pairs || []).find(pair => pair.left === item)?.right;
+        const correctMatch = pairs.find((pair: { left: string; right: string }) => pair.left === item)?.right;
         const userMatch = matches[item];
         return userMatch === correctMatch ? 'correct' : 'incorrect';
       } else {
-        const correctPair = (exercise.pairs || []).find(pair => pair.right === item);
+        const correctPair = pairs.find((pair: { left: string; right: string }) => pair.right === item);
         const userMatch = Object.entries(matches).find(([_, right]) => right === item);
         if (correctPair && userMatch) {
           return userMatch[0] === correctPair.left ? 'correct' : 'incorrect';
@@ -210,7 +219,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
               return (
                 <button
-                  key={`left-${index}-${item}`}
+                  key={`left-${index}`}
                   onClick={() => isMatched ? removeMatch(item) : handleLeftClick(item)}
                   className={className}
                 >
@@ -234,8 +243,8 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
             <div className="text-4xl mb-4">↔️</div>
             <p className="text-sm text-gray-600">
               {showResult 
-                ? `${(exercise.pairs || []).filter(pair => matches[pair.left] === pair.right).length}/${exercise.pairs?.length || 0} correct`
-                : `${Object.keys(matches).length}/${exercise.pairs?.length || 0} matched`
+                ? `${pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length}/${pairs.length} correct`
+                : `${Object.keys(matches).length}/${pairs.length} matched`
               }
             </p>
           </div>
@@ -268,7 +277,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
               return (
                 <button
-                  key={`right-${index}-${item}`}
+                  key={`right-${index}`}
                   onClick={() => handleRightClick(item)}
                   disabled={isMatched}
                   className={className}
