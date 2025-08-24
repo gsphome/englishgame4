@@ -5,8 +5,15 @@ import { useUserStore } from '../../stores/userStore';
 import type { LearningModule } from '../../types';
 
 interface MatchingData {
-  id: string;
+  id?: string;
   pairs: { left: string; right: string }[];
+}
+
+interface MatchingItem {
+  id: string;
+  term: string;
+  definition: string;
+  term_es?: string;
 }
 
 interface MatchingComponentProps {
@@ -25,7 +32,25 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercise = (module?.data?.[0] || { pairs: [] }) as MatchingData;
+  // Check if data has the demo format (data[0].pairs) or sample format (array of items)
+  let pairs: { left: string; right: string }[] = [];
+  
+  if (module?.data?.[0]?.pairs) {
+    // Demo format: data[0].pairs
+    pairs = module.data[0].pairs;
+    console.log('Using demo format - pairs:', pairs);
+  } else if (Array.isArray(module?.data)) {
+    // Sample format: array of {term, definition}
+    const rawData = module.data as MatchingItem[];
+    pairs = rawData.map(item => ({
+      left: item.term || '',
+      right: item.definition || ''
+    }));
+    console.log('Using sample format - converted pairs:', pairs);
+  }
+  
+  const exercise: MatchingData = { pairs };
+  console.log('MatchingComponent - final exercise:', exercise);
 
   // Early return if no data
   if (!exercise.pairs?.length) {
@@ -160,9 +185,9 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* Left Column */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">English</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Terms</h3>
           <div className="space-y-3">
-            {leftItems.map((item) => {
+            {leftItems.map((item, index) => {
               const isMatched = matches[item];
               const isSelected = selectedLeft === item;
               const status = getItemStatus(item, true);
@@ -183,7 +208,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
               return (
                 <button
-                  key={item}
+                  key={`left-${index}-${item}`}
                   onClick={() => isMatched ? removeMatch(item) : handleLeftClick(item)}
                   className={className}
                 >
@@ -216,9 +241,9 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
         {/* Right Column */}
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Español</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Definitions</h3>
           <div className="space-y-3">
-            {rightItems.map((item) => {
+            {rightItems.map((item, index) => {
               const isMatched = Object.values(matches).includes(item);
               const isSelected = selectedRight === item;
               const status = getItemStatus(item, false);
@@ -241,7 +266,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
               return (
                 <button
-                  key={item}
+                  key={`right-${index}-${item}`}
                   onClick={() => handleRightClick(item)}
                   disabled={isMatched}
                   className={className}
