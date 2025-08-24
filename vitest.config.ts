@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
-    setupFiles: ['./src-react/test/setup.ts'],
+    setupFiles: ['./src/test/setup.ts'],
     coverage: {
       reporter: ['text', 'html', 'lcov'],
       threshold: {
@@ -20,7 +20,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': '/src-react'
+      '@': '/src'
     }
   }
 })
