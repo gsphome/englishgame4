@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RotateCcw, Check } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
@@ -16,61 +16,43 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const [matches, setMatches] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
-  const [currentModuleId, setCurrentModuleId] = useState<string | null>(null);
+  const currentModuleIdRef = useRef<string | null>(null);
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
   // Initialize component when module changes
   useEffect(() => {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] MatchingComponent useEffect - module.id: ${module?.id}, hasData: ${!!module?.data}`);
+    if (!module?.data || !module?.id) return;
+    if (currentModuleIdRef.current === module.id) return;
     
-    if (!module?.data || !module?.id) {
-      console.log(`[${timestamp}] MatchingComponent - Early return: noData=${!module?.data}, noId=${!module?.id}`);
-      return;
-    }
-
-    // Only initialize if module changed
-    if (currentModuleId === module.id) {
-      console.log(`[${timestamp}] MatchingComponent - Same module, skipping initialization`);
-      return;
-    }
+    currentModuleIdRef.current = module.id;
 
     let pairs: { left: string; right: string }[] = [];
     
-    // Handle different data formats
     if (module.data[0]?.pairs) {
       pairs = module.data[0].pairs;
-      console.log(`[${timestamp}] MatchingComponent - Using demo format, pairs count: ${pairs.length}`);
     } else if (Array.isArray(module.data)) {
       pairs = module.data.map((item: any) => ({
         left: item.en || item.term || '',
         right: item.es || item.definition || ''
       }));
-      console.log(`[${timestamp}] MatchingComponent - Using sample format, pairs count: ${pairs.length}`);
     }
 
     if (pairs.length > 0) {
       const left = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
       const right = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
       
-      console.log(`[${timestamp}] MatchingComponent - Initializing with ${pairs.length} pairs`);
       setLeftItems(left);
       setRightItems(right);
       setMatches({});
       setSelectedLeft(null);
       setSelectedRight(null);
       setShowResult(false);
-      setCurrentModuleId(module.id);
-    } else {
-      console.log(`[${timestamp}] MatchingComponent - No pairs found`);
     }
-  }, [module?.data, module?.id, currentModuleId]);
+  }, [module?.data, module?.id]);
 
   if (!module?.data || leftItems.length === 0) {
-    const timestamp = new Date().toISOString();
-    console.log(`[${timestamp}] MatchingComponent - Showing loading: hasData=${!!module?.data}, leftItems.length=${leftItems.length}`);
     return (
       <div className="max-w-6xl mx-auto p-6 text-center">
         <p className="text-gray-600 mb-4">Loading matching exercise...</p>
@@ -188,6 +170,10 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      {/* DEBUG: Visual indicator */}
+      <div className="bg-green-100 p-2 mb-4 text-center">
+        <p className="text-green-800">✅ MatchingComponent Loaded - {leftItems.length} items</p>
+      </div>
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">{module.name}</h2>
         <p className="text-gray-600">Click items from both columns to match them</p>

@@ -70,24 +70,24 @@ const AppContent: React.FC = () => {
           <MainMenu />
         ) : null}
         
-        {currentView === 'flashcard' && (currentModule || moduleData) && (
-          <FlashcardComponent module={currentModule || moduleData!} />
+        {currentView === 'flashcard' && moduleData && (
+          <FlashcardComponent module={moduleData} />
         )}
         
-        {currentView === 'quiz' && (currentModule || moduleData) && (
-          <QuizComponent module={currentModule || moduleData!} />
+        {currentView === 'quiz' && moduleData && (
+          <QuizComponent module={moduleData} />
         )}
         
-        {currentView === 'completion' && (currentModule || moduleData) && (
-          <CompletionComponent module={currentModule || moduleData!} />
+        {currentView === 'completion' && moduleData && (
+          <CompletionComponent module={moduleData} />
         )}
         
-        {currentView === 'sorting' && (currentModule || moduleData) && (
-          <SortingComponent module={currentModule || moduleData!} />
+        {currentView === 'sorting' && moduleData && (
+          <SortingComponent module={moduleData} />
         )}
         
-        {currentView === 'matching' && (currentModule || moduleData) && (
-          <MatchingComponent module={currentModule || moduleData!} />
+        {currentView === 'matching' && moduleData && (
+          <MatchingComponent module={moduleData} />
         )}
       </main>
     </div>
