@@ -24,13 +24,36 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  // Handle different data formats
+  // Handle sorting data structure
   let exercise: SortingData = { id: '', words: [], categories: [] };
   
-  if (module?.data?.[0]?.categories) {
-    exercise = module.data[0] as SortingData;
+  if (module?.data && (module.data as any).categories) {
+    // Correct sorting data structure
+    const sortingData = module.data as any;
+    const selectedCategories = sortingData.categories.slice(0, 3); // Limit to 3 categories
+    
+    // Get words for selected categories
+    const wordsForCategories: string[] = [];
+    selectedCategories.forEach((cat: any) => {
+      const categoryWords = sortingData.data
+        .filter((item: any) => item.category === cat.category_id)
+        .map((item: any) => item.word)
+        .slice(0, 5); // Max 5 words per category
+      wordsForCategories.push(...categoryWords);
+    });
+    
+    exercise = {
+      id: 'sorting-exercise',
+      words: wordsForCategories,
+      categories: selectedCategories.map((cat: any) => ({
+        name: cat.category_show,
+        items: sortingData.data
+          .filter((item: any) => item.category === cat.category_id)
+          .map((item: any) => item.word)
+      }))
+    };
   } else if (Array.isArray(module?.data)) {
-    // Convert flashcard data to sorting format
+    // Fallback for other data formats
     const flashcardData = module.data.slice(0, 20);
     exercise = {
       id: 'converted',

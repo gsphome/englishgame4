@@ -28,8 +28,14 @@ const AppContent: React.FC = () => {
   
   // Always call useModuleData to avoid hooks rule violation
   const moduleId = currentModule?.id || DEFAULT_MODULE_ID;
+  
+  console.log('App.tsx - currentView:', currentView);
+  console.log('App.tsx - currentModule:', currentModule);
+  console.log('App.tsx - moduleId:', moduleId);
     
   const { data: moduleData, isLoading, error } = useModuleData(moduleId);
+  
+  console.log('App.tsx - moduleData:', moduleData);
   
   // Only use data when we actually need a module
   const needsModuleData = ['flashcard', 'quiz', 'completion', 'sorting', 'matching'].includes(currentView);

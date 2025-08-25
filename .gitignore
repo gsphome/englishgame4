@@ -1,5 +1,5 @@
 node_modules/
-bk/
+local/
 package-lock.json
 dist/
 .DS_Store

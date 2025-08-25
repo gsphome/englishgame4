@@ -57,25 +57,37 @@ export const useModuleData = (moduleId: string) => {
       // Filter data by categories and level
       if (module.data && Array.isArray(module.data)) {
         let filteredData = module.data;
+        console.log('useModuleData - original data length:', filteredData.length);
+        console.log('useModuleData - module learningMode:', module.learningMode);
+        console.log('useModuleData - categories filter:', categories);
+        console.log('useModuleData - level filter:', level);
         
-        // Filter by categories
-        if (categories.length > 0) {
-          filteredData = filteredData.filter((item: any) => {
-            const itemCategory = item.category || getCategoryFromId(moduleId);
-            return categories.includes(itemCategory);
-          });
+        // Skip all filtering for sorting modules
+        if (module.learningMode === 'sorting') {
+          console.log('useModuleData - skipping filters for sorting module');
+        } else {
+          // Filter by categories
+          if (categories.length > 0) {
+            console.log('useModuleData - applying category filter');
+            filteredData = filteredData.filter((item: any) => {
+              const itemCategory = item.category || getCategoryFromId(moduleId);
+              console.log('useModuleData - item category:', itemCategory, 'allowed:', categories);
+              return categories.includes(itemCategory);
+            });
+            console.log('useModuleData - after category filter:', filteredData.length);
+          }
+          
+          // Filter by level
+          if (level !== 'all') {
+            filteredData = filteredData.filter((item: any) => {
+              const itemLevel = item.level || 'b1';
+              return itemLevel.toLowerCase() === level.toLowerCase();
+            });
+          }
         }
         
-        // Filter by level
-        if (level !== 'all') {
-          filteredData = filteredData.filter((item: any) => {
-            const itemLevel = item.level || 'b1';
-            return itemLevel.toLowerCase() === level.toLowerCase();
-          });
-        }
-        
-        // Limit items based on game settings
-        if (module.learningMode) {
+        // Limit items based on game settings (but not for sorting - it needs all data)
+        if (module.learningMode && module.learningMode !== 'sorting') {
           let limit = 10; // default
           
           switch (module.learningMode) {
@@ -88,9 +100,6 @@ export const useModuleData = (moduleId: string) => {
             case 'completion':
               limit = gameSettings.completionMode.itemCount;
               break;
-            case 'sorting':
-              limit = gameSettings.sortingMode.wordCount;
-              break;
             case 'matching':
               limit = gameSettings.matchingMode.wordCount;
               break;
@@ -99,6 +108,7 @@ export const useModuleData = (moduleId: string) => {
           filteredData = filteredData.slice(0, limit);
         }
         
+        console.log('useModuleData - final data length:', filteredData.length);
         module.data = filteredData;
       }
       

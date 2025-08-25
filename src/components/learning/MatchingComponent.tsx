@@ -9,7 +9,6 @@ interface MatchingComponentProps {
 }
 
 export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
-  console.log('MatchingComponent received module:', module);
   const [leftItems, setLeftItems] = useState<string[]>([]);
   const [rightItems, setRightItems] = useState<string[]>([]);
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
@@ -91,9 +90,6 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
     }));
   };
 
-  console.log('MatchingComponent module.id:', module?.id);
-  console.log('MatchingComponent module.name:', module?.name);
-  
   const pairs = getPairs();
 
   const handleLeftClick = (item: string) => {

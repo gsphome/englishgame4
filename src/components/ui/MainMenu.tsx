@@ -11,6 +11,7 @@ export const MainMenu: React.FC = () => {
   const { setCurrentModule, setCurrentView } = useAppStore();
 
   const handleModuleClick = (module: any) => {
+    console.log('MainMenu - handleModuleClick:', module);
     setCurrentModule(module);
     setCurrentView(module.learningMode);
   };
