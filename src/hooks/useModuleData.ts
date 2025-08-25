@@ -15,10 +15,11 @@ const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
     throw new Error(`Module ${moduleId} not found`);
   }
   
-  // Then get module data
-  const dataResponse = await fetch(`/src/assets/data/${moduleId}.json`);
+  // Then get module data using the correct dataPath
+  const dataPath = moduleInfo.dataPath.replace('src/assets/data/', '');
+  const dataResponse = await fetch(`/src/assets/data/${dataPath}`);
   if (!dataResponse.ok) {
-    throw new Error(`Failed to fetch module data ${moduleId}`);
+    throw new Error(`Failed to fetch module data from ${dataPath}`);
   }
   const data = await dataResponse.json();
   

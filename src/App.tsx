@@ -27,9 +27,7 @@ const AppContent: React.FC = () => {
   const [showDashboard, setShowDashboard] = useState(false);
   
   // Always call useModuleData to avoid hooks rule violation
-  const moduleId = currentView === 'matching'
-    ? DEFAULT_MODULE_ID
-    : currentModule?.id || DEFAULT_MODULE_ID;
+  const moduleId = currentModule?.id || DEFAULT_MODULE_ID;
     
   const { data: moduleData, isLoading, error } = useModuleData(moduleId);
   

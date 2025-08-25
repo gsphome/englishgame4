@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RotateCcw, Check } from 'lucide-react';
+import { RotateCcw, Check, Info, X } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import type { LearningModule } from '../../types';
@@ -9,6 +9,7 @@ interface MatchingComponentProps {
 }
 
 export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
+  console.log('MatchingComponent received module:', module);
   const [leftItems, setLeftItems] = useState<string[]>([]);
   const [rightItems, setRightItems] = useState<string[]>([]);
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
@@ -16,12 +17,30 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   const [matches, setMatches] = useState<Record<string, string>>({});
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
+  const [showExplanation, setShowExplanation] = useState(false);
+  const [selectedTerm, setSelectedTerm] = useState<any>(null);
   const currentModuleIdRef = useRef<string | null>(null);
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
   // Initialize component when module changes
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (showExplanation) {
+        if (e.key === 'Enter' || e.key === 'Escape') {
+          setShowExplanation(false);
+        }
+      } else if (e.key === 'Escape') {
+        setCurrentView('menu');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [showExplanation]);
+
   useEffect(() => {
     if (!module?.data || !module?.id) return;
     if (currentModuleIdRef.current === module.id) return;
@@ -40,11 +59,12 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
     }
 
     if (pairs.length > 0) {
-      const left = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
-      const right = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
+      const terms = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
+      const definitions = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
       
-      setLeftItems(left);
-      setRightItems(right);
+      setLeftItems(terms);
+      setRightItems(definitions);
+
       setMatches({});
       setSelectedLeft(null);
       setSelectedRight(null);
@@ -66,11 +86,14 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
       return module.data[0].pairs;
     }
     return (module.data as any[]).map((item: any) => ({
-      left: item.en || item.term || '',
-      right: item.es || item.definition || ''
+      left: item.term || '',
+      right: item.definition || ''
     }));
   };
 
+  console.log('MatchingComponent module.id:', module?.id);
+  console.log('MatchingComponent module.name:', module?.name);
+  
   const pairs = getPairs();
 
   const handleLeftClick = (item: string) => {
@@ -129,11 +152,11 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   };
 
   const resetExercise = () => {
-    const left = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
-    const right = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
+    const terms = pairs.map((pair: { left: string; right: string }) => pair.left).sort(() => Math.random() - 0.5);
+    const definitions = pairs.map((pair: { left: string; right: string }) => pair.right).sort(() => Math.random() - 0.5);
     
-    setLeftItems(left);
-    setRightItems(right);
+    setLeftItems(terms);
+    setRightItems(definitions);
     setMatches({});
     setSelectedLeft(null);
     setSelectedRight(null);
@@ -170,33 +193,47 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">{module.name}</h2>
-        <p className="text-gray-600">Click items from both columns to match them</p>
+      {/* Progress indicator */}
+      <div className="mb-6">
+        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+          <span>Matching: {module.name}</span>
+          <span>{Object.keys(matches).length}/{pairs.length} matched</span>
+        </div>
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+          <div 
+            className="bg-pink-600 h-2 rounded-full transition-all duration-300"
+            style={{ width: `${(Object.keys(matches).length / pairs.length) * 100}%` }}
+          />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-        {/* Left Column */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Terms</h3>
-          <div className="space-y-3">
+      <div className="text-center mb-6">
+        <p className="text-gray-600 dark:text-gray-400">Click items from both columns to match them</p>
+      </div>
+
+      {/* Compact Matching Grid */}
+      <div className="max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          {/* Terms Column */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 text-center">Terms</h3>
             {leftItems.map((item, index) => {
               const isMatched = matches[item];
               const isSelected = selectedLeft === item;
               const status = getItemStatus(item, true);
               
-              let className = "w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ";
+              let className = "w-full p-3 text-sm text-left border-2 rounded-xl transition-all duration-200 font-medium ";
               
               if (showResult) {
                 className += status === 'correct' 
-                  ? 'border-green-500 bg-green-50 text-green-800'
-                  : 'border-red-500 bg-red-50 text-red-800';
+                  ? 'border-green-400 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                  : 'border-red-400 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200';
               } else if (isMatched) {
-                className += 'border-blue-500 bg-blue-50 text-blue-800 cursor-pointer';
+                className += 'border-pink-400 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 cursor-pointer';
               } else if (isSelected) {
-                className += 'border-blue-500 bg-blue-100 text-blue-900';
+                className += 'border-pink-500 bg-pink-200 dark:bg-pink-800 text-pink-900 dark:text-pink-100 shadow-md scale-105';
               } else {
-                className += 'border-gray-300 hover:border-blue-400 hover:bg-blue-50 cursor-pointer';
+                className += 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-pink-900 cursor-pointer hover:shadow-md hover:scale-102';
               }
 
               return (
@@ -205,56 +242,60 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
                   onClick={() => isMatched ? removeMatch(item) : handleLeftClick(item)}
                   className={className}
                 >
-                  <div className="flex justify-between items-center">
-                    <span>{item}</span>
-                    {isMatched && (
-                      <span className="text-sm text-gray-600">
-                        → {matches[item]}
-                      </span>
-                    )}
+                  <div className="flex items-start space-x-2">
+                    <span className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {String.fromCharCode(65 + index)}
+                    </span>
+                    <span className="truncate flex-1">{item}</span>
+                    <div className="flex items-center space-x-1">
+                      {showResult && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const termData = (module.data as any[])?.find((d: any) => d.term === item);
+                            setSelectedTerm(termData);
+                            setShowExplanation(true);
+                          }}
+                          className="flex-shrink-0 w-5 h-5 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors"
+                          title="Show explanation"
+                        >
+                          <Info className="h-3 w-3" />
+                        </button>
+                      )}
+                      {isMatched && (
+                        <span className="flex-shrink-0 w-6 h-6 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                          {rightItems.findIndex(def => matches[item] === def) + 1}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* Center - Instructions */}
-        <div className="flex items-center justify-center">
-          <div className="text-center p-6 bg-gray-50 rounded-lg">
-            <div className="text-4xl mb-4">↔️</div>
-            <p className="text-sm text-gray-600">
-              {showResult 
-                ? `${pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length}/${pairs.length} correct`
-                : `${Object.keys(matches).length}/${pairs.length} matched`
-              }
-            </p>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Definitions</h3>
-          <div className="space-y-3">
+          {/* Definitions Column */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-3 text-center">Definitions</h3>
             {rightItems.map((item, index) => {
               const isMatched = Object.values(matches).includes(item);
               const isSelected = selectedRight === item;
               const status = getItemStatus(item, false);
               
-              let className = "w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ";
+              let className = "w-full p-3 text-sm text-left border-2 rounded-xl transition-all duration-200 ";
               
               if (showResult) {
                 className += status === 'correct' 
-                  ? 'border-green-500 bg-green-50 text-green-800'
+                  ? 'border-green-400 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
                   : status === 'incorrect'
-                  ? 'border-red-500 bg-red-50 text-red-800'
-                  : 'border-gray-300 bg-gray-50 text-gray-600';
+                  ? 'border-red-400 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
+                  : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400';
               } else if (isMatched) {
-                className += 'border-blue-500 bg-blue-50 text-blue-800';
+                className += 'border-pink-400 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 opacity-60';
               } else if (isSelected) {
-                className += 'border-blue-500 bg-blue-100 text-blue-900';
+                className += 'border-pink-500 bg-pink-200 dark:bg-pink-800 text-pink-900 dark:text-pink-100 shadow-md scale-105';
               } else {
-                className += 'border-gray-300 hover:border-blue-400 hover:bg-blue-50 cursor-pointer';
+                className += 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white hover:border-pink-300 hover:bg-pink-50 dark:hover:bg-pink-900 cursor-pointer hover:shadow-md hover:scale-102';
               }
 
               return (
@@ -264,10 +305,44 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
                   disabled={isMatched}
                   className={className}
                 >
-                  {item}
+                  <div className="flex items-start space-x-2">
+                    <span className="flex-shrink-0 w-6 h-6 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                      {index + 1}
+                    </span>
+                    <span className="truncate flex-1">{item}</span>
+                    {isMatched && (
+                      <span className="flex-shrink-0 w-6 h-6 bg-blue-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
+                        {String.fromCharCode(65 + leftItems.findIndex(term => matches[term] === item))}
+                      </span>
+                    )}
+                  </div>
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Progress Indicator */}
+        <div className="text-center mb-6">
+          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">
+            <div className="flex space-x-1">
+              {Array.from({ length: pairs.length }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`w-2 h-2 rounded-full transition-colors ${
+                    i < Object.keys(matches).length
+                      ? 'bg-pink-500'
+                      : 'bg-gray-300 dark:bg-gray-600'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+              {showResult 
+                ? `${pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length}/${pairs.length} correct`
+                : `${Object.keys(matches).length}/${pairs.length}`
+              }
+            </span>
           </div>
         </div>
       </div>
@@ -309,10 +384,59 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
         </div>
       )}
 
+      {/* Explanation Modal */}
+      {showExplanation && selectedTerm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-between items-start mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {selectedTerm.term}
+                </h3>
+                <button
+                  onClick={() => setShowExplanation(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Definition:</h4>
+                  <p className="text-gray-900 dark:text-white">{selectedTerm.definition}</p>
+                </div>
+                
+                {selectedTerm.explanation && (
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Explanation:</h4>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">{selectedTerm.explanation}</p>
+                  </div>
+                )}
+                
+                {selectedTerm.term_es && (
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Spanish:</h4>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedTerm.term_es}</p>
+                  </div>
+                )}
+              </div>
+              
+              <button
+                onClick={() => setShowExplanation(false)}
+                className="w-full mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        className="w-full mt-6 px-4 py-2 bg-gray-50 border-2 border-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
       >
         Back to Menu
       </button>
