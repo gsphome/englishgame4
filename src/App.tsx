@@ -26,16 +26,21 @@ const AppContent: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
   const [showDashboard, setShowDashboard] = useState(false);
   
-  // Load module data
+  // Always call useModuleData to avoid hooks rule violation
   const moduleId = currentView === 'matching'
     ? DEFAULT_MODULE_ID
     : currentModule?.id || DEFAULT_MODULE_ID;
     
   const { data: moduleData, isLoading, error } = useModuleData(moduleId);
   
+  // Only use data when we actually need a module
+  const needsModuleData = ['flashcard', 'quiz', 'completion', 'sorting', 'matching'].includes(currentView);
+  const shouldShowLoading = needsModuleData && isLoading;
+  const shouldShowError = needsModuleData && error;
+  
 
 
-  if (isLoading) {
+  if (shouldShowLoading) {
     return (
       <div className="loading">
         <div>
@@ -46,7 +51,7 @@ const AppContent: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (shouldShowError) {
     return (
       <div className="error">
         <div>

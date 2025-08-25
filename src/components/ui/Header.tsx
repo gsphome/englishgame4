@@ -1,20 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Settings, Menu, BarChart3 } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../utils/i18n';
 import { UserProfileForm } from './UserProfileForm';
+import { AdvancedSettingsModal } from './AdvancedSettingsModal';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
   onDashboardToggle?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onDashboardToggle }) => {
+export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
   const { sessionScore, currentView, setCurrentView } = useAppStore();
   const { user, getTotalScore } = useUserStore();
+  const { theme, language } = useSettingsStore();
+  const { t } = useTranslation(language);
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
+
+  // Apply theme on mount
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   const handleMenuToggle = () => {
     setShowSideMenu(!showSideMenu);
@@ -105,55 +119,16 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onDashboardToggle 
         <UserProfileForm onClose={() => setShowProfileForm(false)} />
       )}
       
-      {showSettings && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-96 max-w-sm mx-4">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">Settings</h2>
-              <button 
-                onClick={() => setShowSettings(false)}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Theme
-                </label>
-                <select className="w-full p-2 border border-gray-300 rounded-md">
-                  <option>Light</option>
-                  <option>Dark</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Language
-                </label>
-                <select className="w-full p-2 border border-gray-300 rounded-md">
-                  <option>English</option>
-                  <option>Español</option>
-                </select>
-              </div>
-              <div className="flex justify-end space-x-2 mt-6">
-                <button 
-                  onClick={() => setShowSettings(false)}
-                  className="btn btn--primary"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <AdvancedSettingsModal 
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
+      />
       
       {showSideMenu && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowSideMenu(false)}>
           <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-50" onClick={(e) => e.stopPropagation()}>
             <div className="p-4 border-b">
-              <h2 className="text-lg font-semibold">Menu</h2>
+              <h2 className="text-lg font-semibold">{t('settings')}</h2>
             </div>
             <nav className="p-4 space-y-2">
               <button 
@@ -161,28 +136,21 @@ export const Header: React.FC<HeaderProps> = ({ onMenuToggle, onDashboardToggle 
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
               >
                 <Menu className="h-5 w-5" />
-                <span>Main Menu</span>
+                <span>{t('mainMenu')}</span>
               </button>
               <button 
                 onClick={() => { setShowSettings(true); setShowSideMenu(false); }}
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
               >
                 <Settings className="h-5 w-5" />
-                <span>Settings</span>
-              </button>
-              <button 
-                onClick={() => { onDashboardToggle?.(); setShowSideMenu(false); }}
-                className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
-              >
-                <BarChart3 className="h-5 w-5" />
-                <span>Dashboard</span>
+                <span>{t('settings')}</span>
               </button>
               <button 
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
-                onClick={() => alert('About: Advanced Learning App v2.0')}
+                onClick={() => alert('About This App\n\nThis is an advanced learning application designed to help you improve your English vocabulary and understanding through interactive exercises.\n\nDeveloped by Genil Suarez.')}
               >
                 <User className="h-5 w-5" />
-                <span>About</span>
+                <span>{t('about')}</span>
               </button>
             </nav>
           </div>

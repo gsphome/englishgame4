@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
 import type { LearningModule } from '../../types';
 
 interface QuizData {
-  id: string;
-  question: string;
+  sentence: string;
+  idiom: string;
   options: string[];
-  correct: number;
+  correct: string;
   explanation?: string;
 }
 
@@ -24,6 +25,10 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
+  const { theme } = useSettingsStore();
+  
+  const isDark = theme === 'dark';
+  const textColor = isDark ? 'white' : '#111827';
 
   const questions = (module?.data || []) as QuizData[];
   const currentQuestion = questions[currentIndex];
@@ -48,7 +53,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     setSelectedAnswer(optionIndex);
     setShowResult(true);
     
-    const isCorrect = optionIndex === currentQuestion?.correct;
+    const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
     updateSessionScore(isCorrect ? { correct: 1 } : { incorrect: 1 });
   };
 
@@ -101,25 +106,25 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       </div>
 
       {/* Question */}
-      <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-8">
-          {currentQuestion?.question || 'Loading question...'}
+      <div className="quiz-question bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-6">
+        <h2 className="text-2xl font-semibold mb-8" style={{ color: textColor }}>
+          <div dangerouslySetInnerHTML={{ __html: currentQuestion?.sentence || 'Loading question...' }} />
         </h2>
 
         {/* Options */}
-        <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
           {(currentQuestion?.options || []).map((option, index) => {
-            let buttonClass = "w-full p-4 text-left border-2 rounded-lg transition-all duration-200 ";
+            let buttonClass = "quiz-option w-full p-3 text-left border-2 rounded-lg transition-all duration-200 ";
             
             if (!showResult) {
-              buttonClass += "border-gray-200 hover:border-blue-300 hover:bg-blue-50";
+              buttonClass += "border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-900 dark:!text-white";
             } else {
-              if (index === currentQuestion?.correct) {
-                buttonClass += "border-green-500 bg-green-50 text-green-800";
-              } else if (index === selectedAnswer && index !== currentQuestion?.correct) {
-                buttonClass += "border-red-500 bg-red-50 text-red-800";
+              if (currentQuestion?.options[index] === currentQuestion?.correct) {
+                buttonClass += "quiz-option--correct border-green-500 dark:border-green-400 bg-green-50 dark:bg-green-900 text-green-800 dark:!text-white";
+              } else if (index === selectedAnswer && currentQuestion?.options[index] !== currentQuestion?.correct) {
+                buttonClass += "quiz-option--incorrect border-red-500 dark:border-red-400 bg-red-50 dark:bg-red-900 text-red-800 dark:!text-white";
               } else {
-                buttonClass += "border-gray-200 bg-gray-50 text-gray-600";
+                buttonClass += "quiz-option--disabled border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:!text-white";
               }
             }
 
@@ -132,18 +137,26 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <span className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-sm font-medium mr-4">
+                    <span 
+                      className="w-6 h-6 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-xs font-medium mr-3"
+                      style={{ color: textColor }}
+                    >
                       {index + 1}
                     </span>
-                    <span className="text-lg">{option}</span>
+                    <span 
+                      className="text-sm"
+                      style={{ color: textColor }}
+                    >
+                      {option}
+                    </span>
                   </div>
                   
                   {showResult && (
                     <div>
-                      {index === currentQuestion?.correct && (
+                      {currentQuestion?.options[index] === currentQuestion?.correct && (
                         <CheckCircle className="h-6 w-6 text-green-600" />
                       )}
-                      {index === selectedAnswer && index !== currentQuestion?.correct && (
+                      {index === selectedAnswer && currentQuestion?.options[index] !== currentQuestion?.correct && (
                         <XCircle className="h-6 w-6 text-red-600" />
                       )}
                     </div>
@@ -156,9 +169,9 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
         {/* Explanation */}
         {showResult && currentQuestion?.explanation && (
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <h4 className="font-medium text-blue-900 mb-2">Explanation:</h4>
-            <p className="text-blue-800">{currentQuestion.explanation}</p>
+          <div className="quiz-explanation mt-6 p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+            <h4 className="font-medium mb-2" style={{ color: textColor }}>Explanation:</h4>
+            <p style={{ color: textColor }}>{currentQuestion.explanation}</p>
           </div>
         )}
       </div>
@@ -177,7 +190,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       )}
 
       {!showResult && (
-        <div className="text-center text-sm text-gray-500">
+        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
           Press 1-4 to select an answer, or click on an option
         </div>
       )}
@@ -185,7 +198,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        className="w-full mt-6 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
       >
         Back to Menu
       </button>

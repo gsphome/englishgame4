@@ -8,6 +8,73 @@
   body {
     @apply bg-gray-100 font-sans;
   }
+  
+  .dark body {
+    @apply bg-gray-900 text-white;
+  }
+  
+  .dark .header {
+    @apply bg-gray-800 border-gray-700;
+  }
+  
+  .dark .menu {
+    @apply bg-gray-800;
+  }
+  
+  .dark .menu__title {
+    @apply text-white;
+  }
+  
+  .dark .btn {
+    @apply border-gray-600;
+  }
+  
+  .dark .btn--primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white;
+  }
+  
+  .dark .header__button {
+    @apply text-gray-300 hover:text-white;
+  }
+  
+  .dark .header__user-button {
+    @apply text-gray-300 hover:text-white;
+  }
+  
+  .dark .header__user-points {
+    @apply text-gray-400;
+  }
+  
+  .dark .header__title {
+    @apply text-white;
+  }
+  
+  /* Modal styles for dark mode */
+  .dark .fixed.inset-0 > div {
+    @apply bg-gray-800 text-white;
+  }
+  
+  .dark .fixed.inset-0 input,
+  .dark .fixed.inset-0 select {
+    @apply bg-gray-700 border-gray-600 text-white;
+  }
+  
+  .dark .fixed.inset-0 label {
+    @apply text-gray-300;
+  }
+  
+  /* Side menu dark mode */
+  .dark .fixed.left-0 {
+    @apply bg-gray-800 text-white;
+  }
+  
+  .dark .fixed.left-0 button:hover {
+    @apply bg-gray-700;
+  }
+  
+  .dark .fixed.left-0 h2 {
+    @apply text-white;
+  }
 }
 
 /* Module Cards - High specificity after utilities */

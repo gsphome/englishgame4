@@ -188,3 +188,138 @@
     @apply text-lg;
   }
 }
+
+/* Dark Mode Styles */
+.dark .header {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.dark .header__title {
+  @apply text-white;
+}
+
+.dark .header__button {
+  @apply text-gray-300 hover:text-white;
+}
+
+.dark .header__user-button {
+  @apply text-gray-300 hover:text-white;
+}
+
+.dark .header__user-points {
+  @apply text-gray-400;
+}
+
+.dark .menu {
+  @apply bg-gray-800;
+}
+
+.dark .menu__title {
+  @apply text-white;
+}
+
+.dark .menu__grid {
+  @apply bg-gray-700 border-gray-600;
+}
+
+.dark .search__input {
+  @apply bg-gray-700 border-gray-600 text-white;
+}
+
+.dark .btn--primary {
+  @apply bg-blue-600 hover:bg-blue-700;
+}
+
+.dark .loading {
+  @apply bg-gray-900;
+}
+
+.dark .loading__text {
+  @apply text-gray-300;
+}
+
+.dark .error {
+  @apply bg-gray-900;
+}
+
+.dark .error__message {
+  @apply text-red-400;
+}
+
+.dark .error__details {
+  @apply text-gray-300;
+}
+
+/* Quiz Component Dark Mode */
+.dark .quiz-container {
+  @apply bg-gray-800 text-white;
+}
+
+.dark .quiz-question {
+  @apply bg-gray-800 text-white;
+}
+
+.dark .quiz-option {
+  @apply border-gray-600 text-white;
+}
+
+.dark .quiz-option:hover {
+  @apply border-blue-400 bg-gray-700;
+}
+
+.dark .quiz-option--correct {
+  @apply border-green-400 bg-green-900 text-green-200;
+}
+
+.dark .quiz-option--incorrect {
+  @apply border-red-400 bg-red-900 text-red-200;
+}
+
+.dark .quiz-option--disabled {
+  @apply border-gray-600 bg-gray-700 text-gray-400;
+}
+
+.dark .quiz-explanation {
+  @apply bg-blue-900 border-blue-700 text-blue-200;
+}
+
+.dark .quiz-explanation h4 {
+  @apply text-blue-100;
+}
+
+/* Flashcard 3D Flip Effect */
+.flashcard {
+  perspective: 1000px;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 12px;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+}

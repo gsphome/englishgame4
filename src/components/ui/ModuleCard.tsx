@@ -21,7 +21,9 @@ const getIcon = (learningMode: string) => {
 };
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({ module, onClick }) => {
-  const difficultyLevel = module.level?.[0]?.toUpperCase() || 'B1';
+  const difficultyLevel = module.level && module.level.length > 0 
+    ? module.level.map(l => l.toUpperCase()).join('/') 
+    : 'B1';
   
   return (
     <button 
@@ -34,7 +36,7 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({ module, onClick }) => {
       <h3 className="module-card__title">
         {module.name}
       </h3>
-      <div className="module-card__meta">
+      <div className="module-card__meta" title={`Levels: ${difficultyLevel}`}>
         {difficultyLevel}
       </div>
     </button>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../utils/i18n';
 import type { FlashcardData, LearningModule } from '../../types';
 
 interface FlashcardComponentProps {
@@ -15,6 +17,8 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   
   const { setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
+  const { language } = useSettingsStore();
+  const { t } = useTranslation(language);
 
   const flashcards = (module?.data || []) as FlashcardData[];
   const currentCard = flashcards[currentIndex];
@@ -23,12 +27,12 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   if (!flashcards.length) {
     return (
       <div className="max-w-2xl mx-auto p-6 text-center">
-        <p className="text-gray-600 mb-4">No flashcards available</p>
+        <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No flashcards available'}</p>
         <button
           onClick={() => setCurrentView('menu')}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Back to Menu
+          {t('mainMenu')}
         </button>
       </div>
     );
@@ -62,6 +66,14 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowRight':
+          e.preventDefault();
+          handleNext();
+          break;
+        case 'ArrowLeft':
+          e.preventDefault();
+          handlePrev();
+          break;
+        case 'Enter':
         case ' ':
           e.preventDefault();
           if (isFlipped) {
@@ -69,14 +81,6 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
           } else {
             handleFlip();
           }
-          break;
-        case 'ArrowLeft':
-          e.preventDefault();
-          handlePrev();
-          break;
-        case 'Enter':
-          e.preventDefault();
-          handleFlip();
           break;
         case 'Escape':
           setCurrentView('menu');
@@ -106,54 +110,56 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
 
       {/* Flashcard */}
       <div 
-        className={`relative h-64 w-full cursor-pointer transition-transform duration-500 preserve-3d ${
-          isFlipped ? 'rotate-y-180' : ''
+        className={`flashcard relative h-64 w-full cursor-pointer ${
+          isFlipped ? 'flipped' : ''
         }`}
         onClick={handleFlip}
       >
-        {/* Front */}
-        <div className="absolute inset-0 w-full h-full backface-hidden bg-white rounded-xl shadow-lg border border-gray-200 flex flex-col justify-center items-center p-6">
-          <p className="text-2xl font-semibold text-gray-900 text-center mb-2">
-            {currentCard?.en || 'Loading...'}
-          </p>
-          {currentCard?.ipa && (
-            <p className="text-lg text-gray-500 text-center mb-4">
-              {currentCard.ipa}
+        <div className="flashcard-inner">
+          {/* Front */}
+          <div className="flashcard-front bg-white dark:bg-gray-700 shadow-lg border border-gray-200 dark:border-gray-600">
+            <p className="text-2xl font-semibold text-gray-900 dark:text-white text-center mb-2">
+              {currentCard?.en || 'Loading...'}
             </p>
-          )}
-          {currentCard?.example && (
-            <p className="text-sm text-gray-600 italic text-center">
-              "{currentCard.example}"
-            </p>
-          )}
-          <p className="text-xs text-gray-400 mt-4">Click to flip</p>
-        </div>
-
-        {/* Back */}
-        <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 bg-blue-50 rounded-xl shadow-lg border border-blue-200 flex flex-col justify-center items-center p-6">
-          <p className="text-2xl font-semibold text-gray-900 text-center mb-2">
-            {currentCard?.en || 'Loading...'}
-          </p>
-          {currentCard?.ipa && (
-            <p className="text-lg text-gray-500 text-center mb-2">
-              {currentCard.ipa}
-            </p>
-          )}
-          <p className="text-2xl font-bold text-blue-900 text-center mb-4">
-            {currentCard?.es || 'Loading...'}
-          </p>
-          {currentCard?.example && (
-            <div className="text-center">
-              <p className="text-sm text-gray-700 italic mb-1">
+            {currentCard?.ipa && (
+              <p className="text-lg text-gray-500 dark:text-gray-300 text-center mb-4">
+                {currentCard.ipa}
+              </p>
+            )}
+            {currentCard?.example && (
+              <p className="text-sm text-gray-600 dark:text-gray-400 italic text-center">
                 "{currentCard.example}"
               </p>
-              {currentCard.example_es && (
-                <p className="text-sm text-gray-600 italic">
-                  "{currentCard.example_es}"
+            )}
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-4">Click to flip</p>
+          </div>
+
+          {/* Back */}
+          <div className="flashcard-back bg-blue-50 dark:bg-blue-900 shadow-lg border border-blue-200 dark:border-blue-700">
+            <p className="text-xl font-semibold text-gray-900 dark:text-white text-center mb-2">
+              {currentCard?.en || 'Loading...'}
+            </p>
+            {currentCard?.ipa && (
+              <p className="text-md text-gray-500 dark:text-gray-300 text-center mb-2">
+                {currentCard.ipa}
+              </p>
+            )}
+            <p className="text-2xl font-bold text-blue-900 dark:text-blue-100 text-center mb-4">
+              {currentCard?.es || 'Loading...'}
+            </p>
+            {currentCard?.example && (
+              <div className="text-center">
+                <p className="text-sm text-gray-700 dark:text-gray-300 italic mb-1">
+                  "{currentCard.example}"
                 </p>
-              )}
-            </div>
-          )}
+                {currentCard.example_es && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400 italic">
+                    "{currentCard.example_es}"
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -165,7 +171,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
           className="flex items-center space-x-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           <ChevronLeft className="h-5 w-5" />
-          <span>Previous</span>
+          <span>{t('prevButton')}</span>
         </button>
 
         <button
@@ -173,14 +179,14 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
           className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <RotateCcw className="h-5 w-5" />
-          <span>Flip</span>
+          <span>{t('flipButton') || 'Flip'}</span>
         </button>
 
         <button
           onClick={handleNext}
           className="flex items-center space-x-2 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
         >
-          <span>{currentIndex === flashcards.length - 1 ? 'Finish' : 'Next'}</span>
+          <span>{currentIndex === flashcards.length - 1 ? (t('finishButton') || 'Finish') : t('nextButton')}</span>
           <ChevronRight className="h-5 w-5" />
         </button>
       </div>
@@ -190,7 +196,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         onClick={() => setCurrentView('menu')}
         className="w-full mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
       >
-        Back to Menu
+        {t('mainMenu')}
       </button>
     </div>
   );
