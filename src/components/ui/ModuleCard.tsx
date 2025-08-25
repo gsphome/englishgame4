@@ -1,4 +1,5 @@
 import React from 'react';
+import { CreditCard, HelpCircle, PenTool, BarChart3, Link } from 'lucide-react';
 import type { LearningModule } from '../../types';
 
 interface ModuleCardProps {
@@ -6,15 +7,17 @@ interface ModuleCardProps {
   onClick: () => void;
 }
 
-const getIcon = (learningMode: string): string => {
-  const icons: Record<string, string> = {
-    flashcard: '🎴',
-    quiz: '❓',
-    completion: '✍️',
-    sorting: '📊',
-    matching: '🔗'
+const getIcon = (learningMode: string) => {
+  const iconProps = { size: 20, strokeWidth: 2 };
+  
+  const icons: Record<string, JSX.Element> = {
+    flashcard: <CreditCard {...iconProps} />,
+    quiz: <HelpCircle {...iconProps} />,
+    completion: <PenTool {...iconProps} />,
+    sorting: <BarChart3 {...iconProps} />,
+    matching: <Link {...iconProps} />
   };
-  return icons[learningMode] || '📚';
+  return icons[learningMode] || <CreditCard {...iconProps} />;
 };
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({ module, onClick }) => {

@@ -12,8 +12,8 @@
 
 /* Module Cards - High specificity after utilities */
 .module-card {
-  width: 80px;
-  height: 80px;
+  width: 96px;
+  height: 96px;
   @apply p-1 rounded-lg shadow-sm text-white text-center;
   @apply flex flex-col items-center justify-center;
   @apply transition-all duration-200 hover:scale-105 hover:shadow-md;
@@ -46,11 +46,13 @@
 }
 
 .module-card__title {
-  @apply text-xs font-bold leading-tight mb-0.5 line-clamp-2 max-w-16;
+  @apply text-sm font-bold leading-tight mb-1 line-clamp-2;
+  max-width: 88px;
 }
 
 .module-card__meta {
-  @apply text-xs opacity-90 truncate max-w-16;
+  @apply text-xs opacity-90 truncate;
+  max-width: 88px;
 }
 
 @layer components {
