@@ -1,89 +1,168 @@
-# Advanced Learning App
+# English Learning App - React Version
 
-## Description
-The Advanced Learning App is an interactive web application designed to enhance English language skills through various engaging exercises. It features a modular design, dynamic content loading, and a user-friendly interface, making language learning accessible and effective.
+## 🚀 Stack Tecnológico
 
-## Features
-*   **Interactive Exercises:** Includes completion, flashcards, matching, quizzes, and sorting games to practice vocabulary, grammar, and idioms.
-*   **Modular Design:** Easily expandable with new learning modules and game types.
-*   **Dynamic Content:** Content is loaded dynamically, allowing for flexible updates and diverse learning materials.
-*   **User Authentication:** (Assuming `auth.js` implies some form of user management, even if basic)
-*   **Internationalization (i18n):** Supports multiple languages for a broader user base.
-*   **Responsive Design:** Built with Tailwind CSS for a seamless experience across various devices.
-*   **Score Tracking:** Tracks user progress.
-*   **Dark Mode:** Provides a comfortable viewing experience.
+- **React 18** + **TypeScript 5+**
+- **Vite** (Build tool + HMR)
+- **Zustand** (State management)
+- **TanStack Query** (Data fetching)
+- **Lucide React** (Icons)
+- **Tailwind CSS** (Styling)
+- **Vitest** (Testing)
 
-## Technologies Used
-*   **Frontend:** HTML5, CSS3 (Tailwind CSS), JavaScript (ES Modules)
-*   **Build/Dev Tools:**
-    *   `http-server`: For serving the application locally.
-    *   `ESLint`: For code linting and maintaining code quality.
-    *   `Jest`: For JavaScript unit testing.
-    *   `Babel`: For JavaScript transpilation.
-    *   `Playwright`: (Likely for end-to-end testing, though not explicitly used in scripts, it's a dev dependency)
+## 📋 Descripción
 
-## Project Structure
+Aplicación web interactiva diseñada para mejorar las habilidades del idioma inglés a través de varios ejercicios atractivos. Cuenta con un diseño modular, carga de contenido dinámico y una interfaz fácil de usar.
+
+## ✨ Funcionalidades
+
+- **Ejercicios Interactivos:** Incluye completion, flashcards, matching, quizzes y sorting games
+- **Diseño Modular:** Fácilmente expandible con nuevos módulos de aprendizaje
+- **Contenido Dinámico:** El contenido se carga dinámicamente desde archivos JSON
+- **Gestión de Usuario:** Sistema básico de perfiles y puntuación
+- **Diseño Responsivo:** Construido con Tailwind CSS para una experiencia fluida
+- **Seguimiento de Progreso:** Rastrea el progreso del usuario
+- **PWA:** Aplicación web progresiva instalable
+
+## 📁 Estructura del Proyecto
+
 ```
-.
-├───index.html              # Main application entry point
-├───package.json            # Project metadata and dependencies
-├───src/
-│   ├───assets/
-│   │   ├───data/           # JSON files for game content (quizzes, flashcards, etc.)
-│   │   └───images/         # Application images (e.g., logo.png)
-│   ├───css/
-│   │   └───app.css         # Custom CSS styles
-│   └───js/
-│       ├───app.js          # Main application logic
-│       ├───auth.js         # Authentication related logic
-│       ├───dataManager.js  # Handles data loading and management
-│       ├───gameManager.js  # Manages game states and logic
-│       ├───i18n.js         # Internationalization utilities
-│       ├───ui.js           # User interface rendering and manipulation
-│       ├───utils.js        # General utility functions
-│       └───components/     # Individual game components (CompletionMode, FlashcardMode, MatchingMode, QuizMode, SortingMode, etc.)
-└───... (other config files like .eslintrc.cjs, jest.config.js, etc.)
+src/
+├── components/
+│   ├── ui/              # Componentes UI reutilizables
+│   │   ├── Header.tsx
+│   │   ├── MainMenu.tsx
+│   │   ├── ModuleCard.tsx
+│   │   └── SearchBar.tsx
+│   └── learning/        # Componentes de aprendizaje
+│       ├── FlashcardComponent.tsx
+│       ├── QuizComponent.tsx
+│       ├── CompletionComponent.tsx
+│       ├── SortingComponent.tsx
+│       └── MatchingComponent.tsx
+├── stores/              # Zustand stores
+│   ├── appStore.ts
+│   └── userStore.ts
+├── hooks/               # Custom hooks
+│   ├── useModuleData.ts
+│   └── useSearch.ts
+├── types/               # TypeScript types
+├── styles/              # CSS modular
+│   └── components.css
+└── assets/              # Datos JSON y recursos
+    └── data/
 ```
 
-## Installation and Setup
+## 🛠️ Instalación y Setup
 
-To get this project up and running on your local machine, follow these steps:
+1. **Clonar el repositorio:**
+```bash
+git clone <repository_url>
+cd english-learning-app
+```
 
-1.  **Clone the repository:**
-    ```bash
-    git clone <repository_url>
-    cd english-learning-app
-    ```
+2. **Instalar dependencias:**
+```bash
+npm install
+```
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+3. **Desarrollo:**
+```bash
+npm run dev
+```
 
-## Running the Application
+4. **Build:**
+```bash
+npm run build
+```
 
-To start the local development server:
+5. **Preview:**
+```bash
+npm run preview
+```
+
+## 🧪 Testing
 
 ```bash
-npm start
-```
-This will typically open the application in your default web browser at `http://localhost:5500`.
-
-## Running Tests
-
-To execute the unit tests:
-
-```bash
+# Ejecutar tests
 npm test
-```
 
-## Code Quality
+# Coverage
+npm run test:coverage
 
-To run the linter and check for code style issues:
-
-```bash
+# Linting
 npm run lint
 ```
 
-## License
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+## 🎯 Funcionalidades Implementadas
+
+### ✅ Completado:
+- [x] Setup base con Vite + React + TypeScript
+- [x] Zustand stores (App + User)
+- [x] TanStack Query para data fetching
+- [x] Componentes UI modulares
+- [x] Todos los componentes de aprendizaje
+- [x] Sistema de búsqueda con Fuse.js
+- [x] PWA configurado
+- [x] CSS modular sin inline styles
+- [x] Tailwind CSS compilado correctamente
+
+## 🎨 Arquitectura CSS
+
+### Sistema Modular BEM:
+- **Componentes:** `.module-card`, `.header`, `.search`
+- **Elementos:** `.module-card__title`, `.header__content`
+- **Modificadores:** `.module-card--flashcard`, `.btn--primary`
+
+### Colores por Modo:
+- 🔵 **Flashcard**: Azul (`bg-blue-600`)
+- 🟢 **Quiz**: Verde (`bg-green-600`)
+- 🟣 **Completion**: Púrpura (`bg-purple-600`)
+- 🟠 **Sorting**: Naranja (`bg-orange-600`)
+- 🩷 **Matching**: Rosa (`bg-pink-600`)
+
+## 📱 PWA
+
+La aplicación está configurada como PWA con:
+- Service Worker automático
+- Cache de contenido JSON
+- Instalable en dispositivos móviles
+- Manifest configurado
+
+## 🔧 Configuración
+
+### Vite Config
+- PWA plugin configurado
+- Tailwind CSS integrado
+- TypeScript support
+- Optimizaciones de build
+
+### Tailwind CSS
+- Configuración v3 estable
+- PostCSS configurado
+- Clases compiladas correctamente
+- Sistema de componentes modular
+
+## 🚀 Demo
+
+Para probar la aplicación:
+
+1. Instalar dependencias: `npm install`
+2. Ejecutar: `npm run dev`
+3. Abrir: `http://localhost:5173`
+
+## 📊 Progreso
+
+**Estado actual:** ✅ 100% Completado
+
+- ✅ Refactorización completa a React + TypeScript
+- ✅ Arquitectura CSS modular profesional
+- ✅ Todos los componentes funcionando
+- ✅ Sistema de estado con Zustand
+- ✅ Data fetching con TanStack Query
+- ✅ PWA configurado
+- ✅ Testing setup
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - ver el archivo `LICENSE` para más detalles.

@@ -170,10 +170,6 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      {/* DEBUG: Visual indicator */}
-      <div className="bg-green-100 p-2 mb-4 text-center">
-        <p className="text-green-800">✅ MatchingComponent Loaded - {leftItems.length} items</p>
-      </div>
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-gray-900 mb-4">{module.name}</h2>
         <p className="text-gray-600">Click items from both columns to match them</p>

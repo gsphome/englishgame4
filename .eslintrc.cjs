@@ -1,24 +1,18 @@
 module.exports = {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-    jest: true,
-  },
-  extends: 'eslint:recommended',
-  parserOptions: {
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
+  root: true,
+  env: { browser: true, es2020: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:react-hooks/recommended',
+  ],
+  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react-refresh'],
   rules: {
-    'no-unused-vars': ['warn', { 'varsIgnorePattern': '^(icon|description|feedbackContainer|MESSAGES|learningModules|auth|optionsContainer)$' }]
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
+    'no-unused-vars': 'warn',
   },
-  globals: {
-    MESSAGES: 'readonly',
-    auth: 'readonly',
-    game: 'writable',
-    learningModules: 'readonly',
-    initializeGame: 'readonly',
-    resetGame: 'readonly',
-  },
-};
+}

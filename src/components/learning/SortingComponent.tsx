@@ -24,7 +24,23 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  const exercise = (module.data?.[0] || { words: [], categories: [] }) as SortingData;
+  // Handle different data formats
+  let exercise: SortingData = { id: '', words: [], categories: [] };
+  
+  if (module?.data?.[0]?.categories) {
+    exercise = module.data[0] as SortingData;
+  } else if (Array.isArray(module?.data)) {
+    // Convert flashcard data to sorting format
+    const flashcardData = module.data.slice(0, 20);
+    exercise = {
+      id: 'converted',
+      words: flashcardData.map((item: any) => item.en || ''),
+      categories: [
+        { name: 'English', items: flashcardData.map((item: any) => item.en || '') },
+        { name: 'Spanish', items: flashcardData.map((item: any) => item.es || '') }
+      ]
+    };
+  }
 
   useEffect(() => {
     if (exercise.words?.length > 0) {
@@ -34,7 +50,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       
       // Initialize empty categories
       const initialSorted: Record<string, string[]> = {};
-      exercise.categories.forEach(cat => {
+      (exercise.categories || []).forEach(cat => {
         initialSorted[cat.name] = [];
       });
       setSortedItems(initialSorted);
@@ -83,7 +99,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const checkAnswers = () => {
     let correctCategories = 0;
     
-    exercise.categories.forEach(category => {
+    (exercise.categories || []).forEach(category => {
       const userItems = sortedItems[category.name] || [];
       const correctItems = category.items;
       
@@ -96,7 +112,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       }
     });
     
-    const isAllCorrect = correctCategories === exercise.categories.length;
+    const isAllCorrect = correctCategories === (exercise.categories?.length || 0);
     updateSessionScore(isAllCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
   };
@@ -106,7 +122,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
     setAvailableWords(shuffled);
     
     const initialSorted: Record<string, string[]> = {};
-    exercise.categories.forEach(cat => {
+    (exercise.categories || []).forEach(cat => {
       initialSorted[cat.name] = [];
     });
     setSortedItems(initialSorted);
@@ -135,9 +151,9 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Available Words</h3>
         <div className="min-h-[80px] p-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
           <div className="flex flex-wrap gap-2">
-            {availableWords.map((word) => (
+            {availableWords.map((word, index) => (
               <div
-                key={word}
+                key={`available-${index}-${word}`}
                 draggable
                 onDragStart={(e) => handleDragStart(e, word)}
                 className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg cursor-move hover:bg-blue-200 transition-colors select-none"
@@ -154,7 +170,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
 
       {/* Categories */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {exercise.categories.map((category) => {
+        {(exercise.categories || []).map((category) => {
           const userItems = sortedItems[category.name] || [];
           const isCorrect = showResult && 
             userItems.length === category.items.length &&
@@ -186,9 +202,9 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
               </h4>
               
               <div className="space-y-2">
-                {userItems.map((word) => (
+                {userItems.map((word, index) => (
                   <div
-                    key={word}
+                    key={`${category.name}-${index}-${word}`}
                     onClick={() => handleRemoveFromCategory(word, category.name)}
                     className={`px-3 py-2 rounded-lg text-center cursor-pointer transition-colors ${
                       showResult

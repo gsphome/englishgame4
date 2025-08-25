@@ -11,6 +11,8 @@ import { MatchingComponent } from './components/learning/MatchingComponent';
 import { useAppStore } from './stores/appStore';
 import { useModuleData } from './hooks/useModuleData';
 
+const DEFAULT_MODULE_ID = 'flashcard-ielts-general';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -24,32 +26,21 @@ const AppContent: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
   const [showDashboard, setShowDashboard] = useState(false);
   
-  // Fix incorrect module ID
-  const moduleId = currentModule?.id === 'matching-vocabulary-c1' 
-    ? 'matching-vocabulary-c1' 
-    : currentModule?.id || 'flashcard-ielts-general';
+  // Load module data
+  const moduleId = currentView === 'matching'
+    ? DEFAULT_MODULE_ID
+    : currentModule?.id || DEFAULT_MODULE_ID;
     
-  // Load module data when needed
   const { data: moduleData, isLoading, error } = useModuleData(moduleId);
   
-  // DEBUG
-  console.log('🔍 App.tsx DEBUG:', {
-    currentView,
-    currentModuleId: currentModule?.id,
-    correctedModuleId: moduleId,
-    hasModuleData: !!moduleData,
-    isLoading,
-    error: !!error,
-    errorDetails: error,
-    showDashboard
-  });
+
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+      <div className="loading">
+        <div>
+          <div className="loading__spinner"></div>
+          <p className="loading__text">Loading...</p>
         </div>
       </div>
     );
@@ -57,13 +48,13 @@ const AppContent: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">Error loading module: {currentModule?.id}</p>
-          <p className="text-sm text-gray-600 mb-4">{error.message}</p>
+      <div className="error">
+        <div>
+          <p className="error__message">Error loading module: {moduleId}</p>
+          <p className="error__details">{error.message}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            className="btn btn--primary"
           >
             Retry
           </button>
@@ -73,47 +64,24 @@ const AppContent: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="layout-container">
       <Header 
         onMenuToggle={() => setShowDashboard(!showDashboard)}
         onDashboardToggle={() => setShowDashboard(!showDashboard)}
       />
       
-      <main className="container mx-auto px-4 py-8">
+      <main className="layout-main">
         {showDashboard ? (
           <Dashboard />
-        ) : currentView === 'menu' ? (
-          <MainMenu />
-        ) : null}
-        
-        {currentView === 'flashcard' && moduleData && (
-          <FlashcardComponent module={moduleData} />
-        )}
-        
-        {currentView === 'quiz' && moduleData && (
-          <QuizComponent module={moduleData} />
-        )}
-        
-        {currentView === 'completion' && moduleData && (
-          <CompletionComponent module={moduleData} />
-        )}
-        
-        {currentView === 'sorting' && moduleData && (
-          <SortingComponent module={moduleData} />
-        )}
-        
-        {currentView === 'matching' && moduleData && (
-          <MatchingComponent module={moduleData} />
-        )}
-        
-        {/* DEBUG: Show what's happening */}
-        {currentView !== 'menu' && !showDashboard && (
-          <div className="fixed top-20 right-4 bg-yellow-100 p-2 text-xs border rounded">
-            <p>View: {currentView}</p>
-            <p>Module: {currentModule?.id || 'none'}</p>
-            <p>Data: {moduleData ? '✅' : '❌'}</p>
-            <p>Loading: {isLoading ? '⏳' : '✅'}</p>
-          </div>
+        ) : (
+          <>
+            {currentView === 'menu' && <MainMenu />}
+            {currentView === 'flashcard' && moduleData && <FlashcardComponent module={moduleData} />}
+            {currentView === 'quiz' && moduleData && <QuizComponent module={moduleData} />}
+            {currentView === 'completion' && moduleData && <CompletionComponent module={moduleData} />}
+            {currentView === 'sorting' && moduleData && <SortingComponent module={moduleData} />}
+            {currentView === 'matching' && moduleData && <MatchingComponent module={moduleData} />}
+          </>
         )}
       </main>
     </div>

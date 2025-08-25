@@ -17,63 +17,67 @@ export const MainMenu: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="menu">
+        <div className="loading">
+          <div>
+            <div className="loading__spinner"></div>
+            <p className="loading__text">Loading modules...</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center py-12">
-        <p className="text-red-600 mb-4">Error loading modules</p>
-        <button 
-          onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Retry
-        </button>
+      <div className="menu">
+        <div className="error">
+          <p className="error__message">Error loading modules</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="btn btn--primary"
+          >
+            Try Again
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          English Learning App
-        </h1>
-        <p className="text-xl text-gray-600 mb-8">
-          Choose a learning module to get started
-        </p>
-        
-        <div className="max-w-md mx-auto mb-8">
-          <SearchBar 
-            query={query}
-            onQueryChange={setQuery}
-            placeholder="Search modules, categories, or topics..."
-          />
-        </div>
+    <div className="menu">
+      <h1 className="menu__title">
+        Advanced Learning App
+      </h1>
+      
+      <div className="menu__search">
+        <SearchBar 
+          query={query}
+          onQueryChange={setQuery}
+          placeholder="Search modules, categories, or topics..."
+        />
       </div>
 
       {results.length === 0 && query ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No modules found for "{query}"</p>
+        <div className="menu__no-results">
+          <p className="menu__no-results-text">No modules found for "{query}"</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {results.map((module) => (
-            <ModuleCard
-              key={module.id}
-              module={module}
-              onClick={() => handleModuleClick(module)}
-            />
-          ))}
+        <div className="menu__grid">
+          <div className="menu__grid-container">
+            {results.map((module) => (
+              <ModuleCard
+                key={module.id}
+                module={module}
+                onClick={() => handleModuleClick(module)}
+              />
+            ))}
+          </div>
         </div>
       )}
 
-      {query && (
-        <div className="mt-8 text-center text-sm text-gray-500">
+      {query && results.length > 0 && (
+        <div className="menu__results-count">
           Showing {results.length} of {modules.length} modules
         </div>
       )}

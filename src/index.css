@@ -1,42 +1,82 @@
+@import './styles/components.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom 3D flip styles */
-.preserve-3d {
-  transform-style: preserve-3d;
-}
-
-.backface-hidden {
-  backface-visibility: hidden;
-}
-
-.rotate-y-180 {
-  transform: rotateY(180deg);
-}
-
-/* Loading animation */
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+@layer base {
+  body {
+    @apply bg-gray-100 font-sans;
   }
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
-}
-
-/* Line clamp utilities */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+@layer components {
+  .app-header {
+    @apply bg-white border-b border-gray-200 shadow-sm;
+  }
+  
+  .main-container {
+    @apply max-w-4xl mx-auto my-4 bg-white p-8 rounded-lg shadow-sm;
+  }
+  
+  .module-grid {
+    @apply bg-gray-50 rounded-xl p-2 border-2 border-gray-200 max-w-3xl mx-auto;
+  }
+  
+  .search-input {
+    @apply w-full px-3 py-2 pl-10 pr-10 border border-gray-300 rounded-md text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  }
+  
+  .btn-primary {
+    @apply bg-blue-600 text-white px-3 py-1.5 rounded-md text-sm font-medium hover:bg-blue-700 transition-colors;
+  }
+  
+  .header-content {
+    @apply max-w-4xl mx-auto px-8 py-4 flex justify-between items-center;
+  }
+  
+  .header-title {
+    @apply text-xl font-bold text-gray-900;
+  }
+  
+  /* Module Cards - Tailwind @apply */
+  .module-card {
+    @apply w-16 h-16 p-1 rounded-lg shadow-sm text-white text-center;
+    @apply flex flex-col items-center justify-center;
+    @apply transition-all duration-200 hover:scale-105 hover:shadow-md;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+    @apply bg-gray-600 hover:bg-gray-700;
+  }
+  
+  .module-card--flashcard {
+    @apply bg-blue-600 hover:bg-blue-700;
+  }
+  
+  .module-card--quiz {
+    @apply bg-green-600 hover:bg-green-700;
+  }
+  
+  .module-card--completion {
+    @apply bg-purple-600 hover:bg-purple-700;
+  }
+  
+  .module-card--sorting {
+    @apply bg-orange-600 hover:bg-orange-700;
+  }
+  
+  .module-card--matching {
+    @apply bg-pink-600 hover:bg-pink-700;
+  }
+  
+  .module-card__icon {
+    @apply text-base mb-0.5;
+  }
+  
+  .module-card__title {
+    @apply text-xs font-bold leading-tight mb-0.5 line-clamp-2 max-w-16;
+  }
+  
+  .module-card__meta {
+    @apply text-xs opacity-90 truncate max-w-16;
+  }
 }

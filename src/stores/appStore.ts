@@ -30,7 +30,11 @@ export const useAppStore = create<AppStore>()(
       // Actions
       setCurrentModule: (module) => set({ currentModule: module }),
       
-      setCurrentView: (view) => set({ currentView: view }),
+      setCurrentView: (view) => set((state) => ({ 
+        currentView: view,
+        // Clear currentModule when going back to menu
+        currentModule: view === 'menu' ? null : state.currentModule
+      })),
       
       updateSessionScore: (scoreUpdate) => set((state) => {
         const newScore = { ...state.sessionScore, ...scoreUpdate };
