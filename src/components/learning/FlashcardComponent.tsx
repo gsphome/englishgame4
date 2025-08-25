@@ -194,7 +194,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+        className="w-full mt-4 px-4 py-2 bg-gray-50 border-2 border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 hover:border-gray-300 transition-all duration-200 shadow-sm hover:shadow-md"
       >
         {t('mainMenu')}
       </button>

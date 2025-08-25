@@ -2,9 +2,13 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { Trophy, Target, Clock, TrendingUp } from 'lucide-react';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../utils/i18n';
 
 export const Dashboard: React.FC = () => {
   const { userScores, getTotalScore } = useUserStore();
+  const { theme, language } = useSettingsStore();
+  const { t } = useTranslation(language);
 
   // Mock data for demo
   const progressData = [
@@ -27,7 +31,7 @@ export const Dashboard: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto space-y-6">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Learning Dashboard</h2>
+      <h2 className="text-3xl font-bold mb-8" style={{ color: theme === 'dark' ? 'white' : '#111827' }}>{t('learningDashboard') || 'Learning Dashboard'}</h2>
       
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -35,7 +39,7 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center">
             <Trophy className="h-8 w-8 text-yellow-500 mr-3" />
             <div>
-              <p className="text-sm text-gray-600">Total Score</p>
+              <p className="text-sm text-gray-600">{t('totalScore') || 'Total Score'}</p>
               <p className="text-2xl font-bold text-gray-900">{totalScore}</p>
             </div>
           </div>
@@ -45,7 +49,7 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center">
             <Target className="h-8 w-8 text-blue-500 mr-3" />
             <div>
-              <p className="text-sm text-gray-600">Avg Score</p>
+              <p className="text-sm text-gray-600">{t('avgScore') || 'Avg Score'}</p>
               <p className="text-2xl font-bold text-gray-900">{avgScore}%</p>
             </div>
           </div>
@@ -55,7 +59,7 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center">
             <Clock className="h-8 w-8 text-green-500 mr-3" />
             <div>
-              <p className="text-sm text-gray-600">Total Attempts</p>
+              <p className="text-sm text-gray-600">{t('totalAttempts') || 'Total Attempts'}</p>
               <p className="text-2xl font-bold text-gray-900">{totalAttempts}</p>
             </div>
           </div>
@@ -65,7 +69,7 @@ export const Dashboard: React.FC = () => {
           <div className="flex items-center">
             <TrendingUp className="h-8 w-8 text-purple-500 mr-3" />
             <div>
-              <p className="text-sm text-gray-600">Modules</p>
+              <p className="text-sm text-gray-600">{t('modules') || 'Modules'}</p>
               <p className="text-2xl font-bold text-gray-900">{moduleData.length}</p>
             </div>
           </div>
@@ -76,7 +80,7 @@ export const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Progress Chart */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Over Time</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('progressOverTime') || 'Progress Over Time'}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={progressData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -90,7 +94,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Module Performance */}
         <div className="bg-white p-6 rounded-lg shadow-lg">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Module Performance</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('modulePerformance') || 'Module Performance'}</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={moduleData}>
               <CartesianGrid strokeDasharray="3 3" />

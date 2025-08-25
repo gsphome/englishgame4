@@ -198,7 +198,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+        className="w-full mt-6 px-4 py-2 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
       >
         Back to Menu
       </button>

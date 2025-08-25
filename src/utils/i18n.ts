@@ -55,7 +55,24 @@ export const translations = {
     prevButton: 'Previous',
     flipButton: 'Flip',
     finishButton: 'Finish',
-    noDataAvailable: 'No data available'
+    noDataAvailable: 'No data available',
+    
+    // User Profile
+    userProfile: 'User Profile',
+    name: 'Name',
+    enterName: 'Enter your name',
+    englishLevel: 'English Level',
+    preferences: 'Preferences',
+    saveProfile: 'Save Profile',
+    
+    // Dashboard
+    learningDashboard: 'Learning Dashboard',
+    totalScore: 'Total Score',
+    avgScore: 'Avg Score',
+    totalAttempts: 'Total Attempts',
+    modules: 'Modules',
+    progressOverTime: 'Progress Over Time',
+    modulePerformance: 'Module Performance'
   },
   es: {
     // General
@@ -113,7 +130,24 @@ export const translations = {
     prevButton: 'Anterior',
     flipButton: 'Voltear',
     finishButton: 'Terminar',
-    noDataAvailable: 'No hay datos disponibles'
+    noDataAvailable: 'No hay datos disponibles',
+    
+    // User Profile
+    userProfile: 'Perfil de Usuario',
+    name: 'Nombre',
+    enterName: 'Ingresa tu nombre',
+    englishLevel: 'Nivel de Inglés',
+    preferences: 'Preferencias',
+    saveProfile: 'Guardar Perfil',
+    
+    // Dashboard
+    learningDashboard: 'Panel de Aprendizaje',
+    totalScore: 'Puntuación Total',
+    avgScore: 'Puntuación Promedio',
+    totalAttempts: 'Intentos Totales',
+    modules: 'Módulos',
+    progressOverTime: 'Progreso en el Tiempo',
+    modulePerformance: 'Rendimiento por Módulo'
   }
 };
 

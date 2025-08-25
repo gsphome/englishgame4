@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Save, User } from 'lucide-react';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
+import { useTranslation } from '../../utils/i18n';
 
 const profileSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -25,6 +27,8 @@ interface UserProfileFormProps {
 
 export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => {
   const { user, setUser } = useUserStore();
+  const { language } = useSettingsStore();
+  const { t } = useTranslation(language);
   
   const { register, handleSubmit, formState: { errors } } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
@@ -59,12 +63,12 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
               <User className="h-6 w-6 text-blue-600" />
-              <h2 className="text-2xl font-bold text-gray-900">User Profile</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('userProfile') || 'User Profile'}</h2>
             </div>
             <button
               onClick={onClose}
@@ -78,12 +82,12 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
             {/* Basic Info */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Name *
+                {t('name') || 'Name'} *
               </label>
               <input
                 {...register('name')}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter your name"
+                placeholder={t('enterName') || 'Enter your name'}
               />
               {errors.name && (
                 <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -92,7 +96,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                English Level *
+                {t('englishLevel') || 'English Level'} *
               </label>
               <select
                 {...register('level')}
@@ -106,7 +110,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
 
             {/* Preferences */}
             <div className="border-t pt-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Preferences</h3>
+              <h3 className="text-lg font-medium text-gray-900 mb-4">{t('preferences') || 'Preferences'}</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -194,14 +198,14 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
                 onClick={onClose}
                 className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Cancel
+                {t('cancel')}
               </button>
               <button
                 type="submit"
                 className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Save className="h-4 w-4" />
-                <span>Save Profile</span>
+                <span>{t('saveProfile') || 'Save Profile'}</span>
               </button>
             </div>
           </form>
