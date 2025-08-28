@@ -56,6 +56,7 @@ export const useAppStore = create<AppStore>()(
       name: 'app-storage',
       partialize: (state) => ({ 
         currentView: state.currentView,
+        currentModule: state.currentModule,
         sessionScore: state.sessionScore 
       })
     }

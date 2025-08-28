@@ -25,84 +25,8 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
 
-  // Handle sorting data structure
-  let exercise: SortingData = { id: '', words: [], categories: [] };
+  const [exercise, setExercise] = useState<SortingData>({ id: '', words: [], categories: [] });
   
-  console.log('SortingComponent - module.data:', module.data);
-  console.log('SortingComponent - typeof module.data:', typeof module.data);
-  console.log('SortingComponent - Array.isArray(module.data):', Array.isArray(module.data));
-  console.log('SortingComponent - has data property:', module.data && 'data' in module.data);
-  
-  if (module?.data && Array.isArray(module.data)) {
-    // Check if it's sorting data (has category property)
-    const firstItem = module.data[0];
-    if (firstItem && 'category' in firstItem && 'word' in firstItem) {
-      // Sorting data - extract unique categories
-      const uniqueCategories = [...new Set(module.data.map((item: any) => item.category))];
-      const shuffledCategories = uniqueCategories.sort(() => Math.random() - 0.5);
-      const selectedCategories = shuffledCategories.slice(0, 3); // Random 3 categories
-      
-      // Get wordCount from settings
-      const { gameSettings } = useSettingsStore.getState();
-      const wordsPerCategory = gameSettings.sortingMode.wordCount;
-      const wordsForCategories: string[] = [];
-      
-      const categories = selectedCategories.map(categoryId => {
-        const categoryWords = (module.data || [])
-          .filter((item: any) => item.category === categoryId)
-          .map((item: any) => item.word)
-          .slice(0, wordsPerCategory);
-        
-        wordsForCategories.push(...categoryWords);
-        
-        return {
-          name: categoryId.charAt(0).toUpperCase() + categoryId.slice(1),
-          items: categoryWords
-        };
-      });
-      
-      exercise = {
-        id: 'sorting-exercise',
-        words: wordsForCategories,
-        categories
-      };
-    } else {
-      // Flashcard data - convert to sorting format
-      const dataArray = module.data.slice(0, 20);
-      exercise = {
-        id: 'converted',
-        words: dataArray.map((item: any) => item.word || item.en || ''),
-        categories: [
-          { name: 'Words', items: dataArray.map((item: any) => item.word || item.en || '') }
-        ]
-      };
-    }
-  } else if (module?.data && typeof module.data === 'object' && 'data' in module.data) {
-    // Sorting data structure with categories
-    const sortingData = module.data as any;
-    const selectedCategories = sortingData.categories || []; // Use all categories
-    
-    // Get words for selected categories
-    const wordsForCategories: string[] = [];
-    selectedCategories.forEach((cat: any) => {
-      const categoryWords = sortingData.data
-        .filter((item: any) => item.category === cat.category_id)
-        .map((item: any) => item.word)
-        .slice(0, 3); // Max 3 words per category for manageable gameplay
-      wordsForCategories.push(...categoryWords);
-    });
-    
-    exercise = {
-      id: 'sorting-exercise',
-      words: wordsForCategories,
-      categories: selectedCategories.map((cat: any) => ({
-        name: cat.category_show,
-        items: sortingData.data
-          .filter((item: any) => item.category === cat.category_id)
-          .map((item: any) => item.word)
-      }))
-    };
-  }
 
   // Keyboard navigation
   useEffect(() => {
@@ -117,14 +41,50 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   }, []);
 
   useEffect(() => {
-    if (exercise.words?.length > 0) {
-      // Initialize with shuffled words
-      const shuffled = [...exercise.words].sort(() => Math.random() - 0.5);
+    let newExercise: SortingData = { id: '', words: [], categories: [] };
+    
+    if (module?.data && Array.isArray(module.data)) {
+      const firstItem = module.data[0];
+      if (firstItem && 'category' in firstItem && 'word' in firstItem) {
+        const uniqueCategories = [...new Set(module.data.map((item: any) => item.category))];
+        const shuffledCategories = uniqueCategories.sort(() => Math.random() - 0.5);
+        const selectedCategories = shuffledCategories.slice(0, 3);
+        
+        const { gameSettings } = useSettingsStore.getState();
+        const wordsPerCategory = gameSettings.sortingMode.wordCount;
+        console.log('SortingComponent - wordsPerCategory from settings:', wordsPerCategory);
+        const wordsForCategories: string[] = [];
+        
+        const categories = selectedCategories.map(categoryId => {
+          const categoryWords = (module.data || [])
+            .filter((item: any) => item.category === categoryId)
+            .map((item: any) => item.word)
+            .slice(0, wordsPerCategory);
+          
+          wordsForCategories.push(...categoryWords);
+          
+          return {
+            name: categoryId.charAt(0).toUpperCase() + categoryId.slice(1),
+            items: categoryWords
+          };
+        });
+        
+        newExercise = {
+          id: 'sorting-exercise',
+          words: wordsForCategories,
+          categories
+        };
+      }
+    }
+    
+    setExercise(newExercise);
+    
+    if (newExercise.words?.length > 0) {
+      const shuffled = [...newExercise.words].sort(() => Math.random() - 0.5);
       setAvailableWords(shuffled);
       
-      // Initialize empty categories
       const initialSorted: Record<string, string[]> = {};
-      (exercise.categories || []).forEach(cat => {
+      (newExercise.categories || []).forEach(cat => {
         initialSorted[cat.name] = [];
       });
       setSortedItems(initialSorted);
@@ -151,7 +111,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
     // Add to category
     setSortedItems(prev => ({
       ...prev,
-      [categoryName]: [...prev[categoryName], draggedItem]
+      [categoryName]: [...(prev[categoryName] || []), draggedItem]
     }));
     
     setDraggedItem(null);
@@ -163,7 +123,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
     // Remove from category
     setSortedItems(prev => ({
       ...prev,
-      [categoryName]: prev[categoryName].filter(w => w !== word)
+      [categoryName]: (prev[categoryName] || []).filter(w => w !== word)
     }));
     
     // Add back to available words

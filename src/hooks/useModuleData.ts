@@ -57,24 +57,16 @@ export const useModuleData = (moduleId: string) => {
       // Filter data by categories and level
       if (module.data && Array.isArray(module.data)) {
         let filteredData = module.data;
-        console.log('useModuleData - original data length:', filteredData.length);
-        console.log('useModuleData - module learningMode:', module.learningMode);
-        console.log('useModuleData - categories filter:', categories);
-        console.log('useModuleData - level filter:', level);
-        
         // Skip all filtering for sorting modules
         if (module.learningMode === 'sorting') {
-          console.log('useModuleData - skipping filters for sorting module');
+          // No filtering for sorting
         } else {
           // Filter by categories
           if (categories.length > 0) {
-            console.log('useModuleData - applying category filter');
             filteredData = filteredData.filter((item: any) => {
               const itemCategory = item.category || getCategoryFromId(moduleId);
-              console.log('useModuleData - item category:', itemCategory, 'allowed:', categories);
               return categories.includes(itemCategory);
             });
-            console.log('useModuleData - after category filter:', filteredData.length);
           }
           
           // Filter by level
@@ -108,7 +100,6 @@ export const useModuleData = (moduleId: string) => {
           filteredData = filteredData.slice(0, limit);
         }
         
-        console.log('useModuleData - final data length:', filteredData.length);
         module.data = filteredData;
       }
       
