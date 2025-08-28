@@ -1,0 +1,31 @@
+{
+  "id": "sorting-demo",
+  "name": "Sort Words by Category",
+  "description": "Drag words into the correct categories",
+  "learningMode": "sorting",
+  "level": "beginner",
+  "category": "Vocabulary",
+  "tags": ["vocabulary", "sorting", "categories"],
+  "estimatedTime": 5,
+  "difficulty": 2,
+  "data": [
+    {
+      "id": "s1",
+      "words": ["apple", "car", "dog", "banana", "bus", "cat", "orange", "train", "bird", "grape"],
+      "categories": [
+        {
+          "name": "Fruits",
+          "items": ["apple", "banana", "orange", "grape"]
+        },
+        {
+          "name": "Transportation",
+          "items": ["car", "bus", "train"]
+        },
+        {
+          "name": "Animals",
+          "items": ["dog", "cat", "bird"]
+        }
+      ]
+    }
+  ]
+}
