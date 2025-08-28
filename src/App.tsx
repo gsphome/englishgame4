@@ -35,6 +35,9 @@ const AppContent: React.FC = () => {
     
   const { data: moduleData, isLoading, error } = useModuleData(moduleId);
   
+  // Use fetched moduleData (which has the actual data) if available, otherwise use currentModule
+  const actualModuleData = moduleData || currentModule;
+  
   console.log('App.tsx - moduleData:', moduleData);
   
   // Only use data when we actually need a module
@@ -85,11 +88,11 @@ const AppContent: React.FC = () => {
         ) : (
           <>
             {currentView === 'menu' && <MainMenu />}
-            {currentView === 'flashcard' && moduleData && <FlashcardComponent module={moduleData} />}
-            {currentView === 'quiz' && moduleData && <QuizComponent module={moduleData} />}
-            {currentView === 'completion' && moduleData && <CompletionComponent module={moduleData} />}
-            {currentView === 'sorting' && moduleData && <SortingComponent module={moduleData} />}
-            {currentView === 'matching' && moduleData && <MatchingComponent module={moduleData} />}
+            {currentView === 'flashcard' && actualModuleData && <FlashcardComponent module={actualModuleData} />}
+            {currentView === 'quiz' && actualModuleData && <QuizComponent module={actualModuleData} />}
+            {currentView === 'completion' && actualModuleData && <CompletionComponent module={actualModuleData} />}
+            {currentView === 'sorting' && actualModuleData && <SortingComponent module={actualModuleData} />}
+            {currentView === 'matching' && actualModuleData && <MatchingComponent module={actualModuleData} />}
           </>
         )}
       </main>

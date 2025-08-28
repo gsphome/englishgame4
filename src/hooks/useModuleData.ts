@@ -4,7 +4,7 @@ import type { LearningModule } from '../types';
 
 const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
   // First get module metadata
-  const modulesResponse = await fetch('/src/assets/data/learningModules.json');
+  const modulesResponse = await fetch('./src/assets/data/learningModules.json');
   if (!modulesResponse.ok) {
     throw new Error('Failed to fetch modules list');
   }
@@ -16,8 +16,8 @@ const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
   }
   
   // Then get module data using the correct dataPath
-  const dataPath = moduleInfo.dataPath.replace('src/assets/data/', '');
-  const dataResponse = await fetch(`/src/assets/data/${dataPath}`);
+  const dataPath = moduleInfo.dataPath?.replace('src/assets/data/', '') || '';
+  const dataResponse = await fetch(`./src/assets/data/${dataPath}`);
   if (!dataResponse.ok) {
     throw new Error(`Failed to fetch module data from ${dataPath}`);
   }
@@ -33,7 +33,7 @@ const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
 };
 
 const fetchAllModules = async (): Promise<LearningModule[]> => {
-  const response = await fetch('/src/assets/data/learningModules.json');
+  const response = await fetch('./src/assets/data/learningModules.json');
   if (!response.ok) {
     throw new Error('Failed to fetch modules list');
   }

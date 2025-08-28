@@ -76,7 +76,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
     
     // Split sentence by blank marker (______)
     const parts = currentExercise.sentence.split('______');
-    const elements = [];
+    const elements: JSX.Element[] = [];
     
     parts.forEach((part, index) => {
       // Add text part
@@ -120,7 +120,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
       }
     });
     
-    return elements;
+    return <>{elements}</>;
   };
 
   useEffect(() => {

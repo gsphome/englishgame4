@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RotateCcw, Check } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useSettingsStore } from '../../stores/settingsStore';
 import type { LearningModule } from '../../types';
 
 interface SortingData {
@@ -27,10 +28,59 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   // Handle sorting data structure
   let exercise: SortingData = { id: '', words: [], categories: [] };
   
-  if (module?.data && (module.data as any).categories) {
-    // Correct sorting data structure
+  console.log('SortingComponent - module.data:', module.data);
+  console.log('SortingComponent - typeof module.data:', typeof module.data);
+  console.log('SortingComponent - Array.isArray(module.data):', Array.isArray(module.data));
+  console.log('SortingComponent - has data property:', module.data && 'data' in module.data);
+  
+  if (module?.data && Array.isArray(module.data)) {
+    // Check if it's sorting data (has category property)
+    const firstItem = module.data[0];
+    if (firstItem && 'category' in firstItem && 'word' in firstItem) {
+      // Sorting data - extract unique categories
+      const uniqueCategories = [...new Set(module.data.map((item: any) => item.category))];
+      const shuffledCategories = uniqueCategories.sort(() => Math.random() - 0.5);
+      const selectedCategories = shuffledCategories.slice(0, 3); // Random 3 categories
+      
+      // Get wordCount from settings
+      const { gameSettings } = useSettingsStore.getState();
+      const wordsPerCategory = gameSettings.sortingMode.wordCount;
+      const wordsForCategories: string[] = [];
+      
+      const categories = selectedCategories.map(categoryId => {
+        const categoryWords = (module.data || [])
+          .filter((item: any) => item.category === categoryId)
+          .map((item: any) => item.word)
+          .slice(0, wordsPerCategory);
+        
+        wordsForCategories.push(...categoryWords);
+        
+        return {
+          name: categoryId.charAt(0).toUpperCase() + categoryId.slice(1),
+          items: categoryWords
+        };
+      });
+      
+      exercise = {
+        id: 'sorting-exercise',
+        words: wordsForCategories,
+        categories
+      };
+    } else {
+      // Flashcard data - convert to sorting format
+      const dataArray = module.data.slice(0, 20);
+      exercise = {
+        id: 'converted',
+        words: dataArray.map((item: any) => item.word || item.en || ''),
+        categories: [
+          { name: 'Words', items: dataArray.map((item: any) => item.word || item.en || '') }
+        ]
+      };
+    }
+  } else if (module?.data && typeof module.data === 'object' && 'data' in module.data) {
+    // Sorting data structure with categories
     const sortingData = module.data as any;
-    const selectedCategories = sortingData.categories.slice(0, 3); // Limit to 3 categories
+    const selectedCategories = sortingData.categories || []; // Use all categories
     
     // Get words for selected categories
     const wordsForCategories: string[] = [];
@@ -38,7 +88,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       const categoryWords = sortingData.data
         .filter((item: any) => item.category === cat.category_id)
         .map((item: any) => item.word)
-        .slice(0, 5); // Max 5 words per category
+        .slice(0, 3); // Max 3 words per category for manageable gameplay
       wordsForCategories.push(...categoryWords);
     });
     
@@ -51,17 +101,6 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
           .filter((item: any) => item.category === cat.category_id)
           .map((item: any) => item.word)
       }))
-    };
-  } else if (Array.isArray(module?.data)) {
-    // Fallback for other data formats
-    const flashcardData = module.data.slice(0, 20);
-    exercise = {
-      id: 'converted',
-      words: flashcardData.map((item: any) => item.en || ''),
-      categories: [
-        { name: 'English', items: flashcardData.map((item: any) => item.en || '') },
-        { name: 'Spanish', items: flashcardData.map((item: any) => item.es || '') }
-      ]
     };
   }
 

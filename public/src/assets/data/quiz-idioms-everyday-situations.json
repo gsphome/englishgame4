@@ -1,0 +1,282 @@
+[
+    {
+        "sentence": "It was raining <span class=\"font-bold text-blue-500\">cats and dogs</span> all night.",
+        "idiom": "cats and dogs",
+        "options": ["raining heavily", "raining lightly", "raining animals", "raining intermittently"],
+        "correct": "raining heavily",
+        "explanation": "The idiom 'raining cats and dogs' means it's raining very heavily."
+    },
+    {
+        "sentence": "I'm feeling a bit <span class=\"font-bold text-blue-500\">under the weather</span> today.",
+        "idiom": "under the weather",
+        "options": ["feeling sick", "feeling happy", "feeling cold", "feeling tired"],
+        "correct": "feeling sick",
+        "explanation": "The idiom 'under the weather' means feeling slightly unwell or ill."
+    },
+    {
+        "sentence": "Don't <span class=\"font-bold text-blue-500\">beat around the bush</span>, just tell me what happened.",
+        "idiom": "beat around the bush",
+        "options": ["avoid the main topic", "speak directly", "hit a bush", "talk loudly"],
+        "correct": "avoid the main topic",
+        "explanation": "To 'beat around the bush' means to avoid coming to the point."
+    },
+    {
+        "sentence": "Learning English is a <span class=\"font-bold text-blue-500\">piece of cake</span> for her.",
+        "idiom": "piece of cake",
+        "options": ["very easy", "very difficult", "a type of dessert", "a small portion"],
+        "correct": "very easy",
+        "explanation": "If something is a 'piece of cake', it is very easy to do."
+    },
+    {
+        "sentence": "Let's <span class=\"font-bold text-blue-500\">call it a day</span>, I'm exhausted.",
+        "idiom": "call it a day",
+        "options": ["stop working for the day", "make a phone call", "start a new day", "go for a walk"],
+        "correct": "stop working for the day",
+        "explanation": "To 'call it a day' means to stop working on something for the rest of the day."
+    },
+    {
+        "sentence": "She accidentally <span class=\"font-bold text-blue-500\">spilled the beans</span> about the surprise party.",
+        "idiom": "spilled the beans",
+        "options": ["revealed a secret", "dropped some food", "cleaned up a mess", "cooked a meal"],
+        "correct": "revealed a secret",
+        "explanation": "To 'spill the beans' means to reveal a secret or disclose confidential information."
+    },
+    {
+        "sentence": "Watching horror movies is <span class=\"font-bold text-blue-500\">not my cup of tea</span>.",
+        "idiom": "not my cup of tea",
+        "options": ["not something I enjoy", "my favorite drink", "something I do often", "a type of tea"],
+        "correct": "not something I enjoy",
+        "explanation": "If something is 'not your cup of tea', it is not something you like or are interested in."
+    },
+    {
+        "sentence": "You're <span class=\"font-bold text-blue-500\">barking up the wrong tree</span> if you think I stole your pen.",
+        "idiom": "barking up the wrong tree",
+        "options": ["pursuing a mistaken course of action", "climbing a tree", "making a loud noise", "looking in the right place"],
+        "correct": "pursuing a mistaken course of action",
+        "explanation": "To be 'barking up the wrong tree' means to be pursuing a mistaken course of action or making a wrong assumption."
+    },
+    {
+        "sentence": "Don't <span class=\"font-bold text-blue-500\">cry over spilled milk</span>, it's just a small mistake.",
+        "idiom": "cry over spilled milk",
+        "options": ["regret something that cannot be undone", "be upset about a minor accident", "clean up a mess", "express sadness"],
+        "correct": "regret something that cannot be undone",
+        "explanation": "To 'cry over spilled milk' means to be upset about something that has already happened and cannot be changed."
+    },
+    {
+        "sentence": "He's got a <span class=\"font-bold text-blue-500\">bee in his bonnet</span> about healthy eating.",
+        "idiom": "bee in his bonnet",
+        "options": ["an obsession or fixation", "an insect in his hat", "a buzzing sound", "a new idea"],
+        "correct": "an obsession or fixation",
+        "explanation": "To have a 'bee in your bonnet' means to be preoccupied or obsessed with something."
+    },
+    {
+        "sentence": "Are you <span class=\"font-bold text-blue-500\">pulling my leg</span> or is that true?",
+        "idiom": "pulling my leg",
+        "options": ["joking or teasing me", "helping me walk", "hurting my leg", "telling me a secret"],
+        "correct": "joking or teasing me",
+        "explanation": "To 'pull someone's leg' means to tease or joke with them, often by telling them something untrue."
+    },
+    {
+        "sentence": "Working from home gives me <span class=\"font-bold text-blue-500\">the best of both worlds</span>.",
+        "idiom": "the best of both worlds",
+        "options": ["all the advantages", "a difficult choice", "a confusing situation", "a new experience"],
+        "correct": "all the advantages",
+        "explanation": "To have 'the best of both worlds' means to enjoy the advantages of two different things at the same time."
+    },
+    {
+        "sentence": "He had a <span class=\"font-bold text-blue-500\">frog in his throat</span> during his speech.",
+        "idiom": "frog in his throat",
+        "options": ["difficulty speaking due to hoarseness", "a pet frog", "a sore throat", "a sudden cough"],
+        "correct": "difficulty speaking due to hoarseness",
+        "explanation": "To have a 'frog in your throat' means to have a hoarse voice or difficulty speaking clearly."
+    },
+    {
+        "sentence": "She always has her <span class=\"font-bold text-blue-500\">head in the clouds</span>.",
+        "idiom": "head in the clouds",
+        "options": ["daydreaming or unrealistic", "thinking clearly", "looking at the sky", "feeling dizzy"],
+        "correct": "daydreaming or unrealistic",
+        "explanation": "To have your 'head in the clouds' means to be daydreaming, unrealistic, or impractical."
+    },
+    {
+        "sentence": "Losing that job was a <span class=\"font-bold text-blue-500\">blessing in disguise</span>.",
+        "idiom": "blessing in disguise",
+        "options": ["a good thing that seemed bad at first", "a hidden problem", "a fortunate event", "a difficult situation"],
+        "correct": "a good thing that seemed bad at first",
+        "explanation": "A 'blessing in disguise' is something that seems bad or unlucky at first but results in something good happening later."
+    },
+    {
+        "sentence": "I think he's got a <span class=\"font-bold text-blue-500\">screw loose</span>, he acts so strangely.",
+        "idiom": "screw loose",
+        "options": ["slightly crazy or eccentric", "a missing part", "a loose bolt", "a clever idea"],
+        "correct": "slightly crazy or eccentric",
+        "explanation": "To have a 'screw loose' means to be slightly crazy or eccentric."
+    },
+    {
+        "sentence": "Their argument was just a <span class=\"font-bold text-blue-500\">storm in a teacup</span>.",
+        "idiom": "storm in a teacup",
+        "options": ["a lot of fuss about something unimportant", "a serious problem", "a sudden weather change", "a small drink"],
+        "correct": "a lot of fuss about something unimportant",
+        "explanation": "A 'storm in a teacup' refers to a lot of anger or worry about something unimportant."
+    },
+    {
+        "sentence": "He has <span class=\"font-bold text-blue-500\">two left feet</span> when he tries to dance.",
+        "idiom": "two left feet",
+        "options": ["clumsy or awkward at dancing", "missing a foot", "wearing two left shoes", "a good dancer"],
+        "correct": "clumsy or awkward at dancing",
+        "explanation": "To have 'two left feet' means to be clumsy or awkward, especially when dancing."
+    },
+    {
+        "sentence": "She always <span class=\"font-bold text-blue-500\">gets cold feet</span> before a big presentation.",
+        "idiom": "gets cold feet",
+        "options": ["becomes nervous or afraid", "feels cold in her feet", "gets sick", "runs away"],
+        "correct": "becomes nervous or afraid",
+        "explanation": "To 'get cold feet' means to become nervous or afraid to do something you had planned."
+    },
+    {
+        "sentence": "I'm so hungry I could <span class=\"font-bold text-blue-500\">eat a horse</span>.",
+        "idiom": "eat a horse",
+        "options": ["eat a lot of food", "eat an animal", "feel sick", "go to sleep"],
+        "correct": "eat a lot of food",
+        "explanation": "To 'eat a horse' means to be extremely hungry."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">pulling my leg</span>, so I never know when he's serious.",
+        "idiom": "pulling my leg",
+        "options": ["joking with me", "hurting me", "helping me", "ignoring me"],
+        "correct": "joking with me",
+        "explanation": "To 'pull someone's leg' means to tease or joke with them."
+    },
+    {
+        "sentence": "Don't worry, it's <span class=\"font-bold text-blue-500\">not rocket science</span>.",
+        "idiom": "not rocket science",
+        "options": ["not difficult to understand", "very complicated", "a scientific experiment", "a space mission"],
+        "correct": "not difficult to understand",
+        "explanation": "If something is 'not rocket science', it means it's not difficult to understand or do."
+    },
+    {
+        "sentence": "She passed the exam <span class=\"font-bold text-blue-500\">with flying colors</span>.",
+        "idiom": "with flying colors",
+        "options": ["very easily and successfully", "with colorful flags", "with great difficulty", "with a lot of help"],
+        "correct": "very easily and successfully",
+        "explanation": "To pass 'with flying colors' means to pass very easily and successfully."
+    },
+    {
+        "sentence": "He's been <span class=\"font-bold text-blue-500\">burning the midnight oil</span> to finish his project.",
+        "idiom": "burning the midnight oil",
+        "options": ["working late into the night", "wasting electricity", "setting things on fire", "sleeping soundly"],
+        "correct": "working late into the night",
+        "explanation": "To 'burn the midnight oil' means to work or study late into the night."
+    },
+    {
+        "sentence": "I'm <span class=\"font-bold text-blue-500\">all ears</span>, tell me what happened.",
+        "idiom": "all ears",
+        "options": ["eager to listen", "having big ears", "ignoring you", "feeling tired"],
+        "correct": "eager to listen",
+        "explanation": "To be 'all ears' means to be eager to hear what someone has to say."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">on cloud nine</span> when he's with her.",
+        "idiom": "on cloud nine",
+        "options": ["extremely happy", "flying in an airplane", "feeling sad", "confused"],
+        "correct": "extremely happy",
+        "explanation": "To be 'on cloud nine' means to be extremely happy."
+    },
+    {
+        "sentence": "Don't <span class=\"font-bold text-blue-500\">jump to conclusions</span>.",
+        "idiom": "jump to conclusions",
+        "options": ["make a decision too quickly", "jump high", "think carefully", "avoid making decisions"],
+        "correct": "make a decision too quickly",
+        "explanation": "To 'jump to conclusions' means to make a decision or judgment too quickly without having all the facts."
+    },
+    {
+        "sentence": "It's time to <span class=\"font-bold text-blue-500\">face the music</span>.",
+        "idiom": "face the music",
+        "options": ["accept the consequences", "listen to music", "avoid a problem", "sing a song"],
+        "correct": "accept the consequences",
+        "explanation": "To 'face the music' means to accept the unpleasant consequences of one's actions."
+    },
+    {
+        "sentence": "He's a bit of a <span class=\"font-bold text-blue-500\">couch potato</span>.",
+        "idiom": "couch potato",
+        "options": ["a lazy person who watches a lot of TV", "a vegetable on the sofa", "an active person", "a good cook"],
+        "correct": "a lazy person who watches a lot of TV",
+        "explanation": "A 'couch potato' is a person who spends a lot of time sitting or lying on a couch, watching television."
+    },
+    {
+        "sentence": "She's got a <span class=\"font-bold text-blue-500\">green thumb</span>.",
+        "idiom": "green thumb",
+        "options": ["a natural talent for gardening", "a green finger", "a bad habit", "a lucky charm"],
+        "correct": "a natural talent for gardening",
+        "explanation": "To have a 'green thumb' means to be good at gardening."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">in hot water</span>.",
+        "idiom": "in hot water",
+        "options": ["in trouble", "taking a bath", "feeling warm", "in a good situation"],
+        "correct": "in trouble",
+        "explanation": "To be 'in hot water' means to be in trouble."
+    },
+    {
+        "sentence": "That's a <span class=\"font-bold text-blue-500\">drop in the ocean</span>.",
+        "idiom": "drop in the ocean",
+        "options": ["a very small amount compared to what is needed", "a drop of water", "a large quantity", "a significant contribution"],
+        "correct": "a very small amount compared to what is needed",
+        "explanation": "A 'drop in the ocean' means a very small amount compared with what is needed or expected."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">hitting the books</span> before an exam.",
+        "idiom": "hitting the books",
+        "options": ["studying hard", "hitting actual books", "playing a game", "reading casually"],
+        "correct": "studying hard",
+        "explanation": "To 'hit the books' means to study hard."
+    },
+    {
+        "sentence": "She's got a <span class=\"font-bold text-blue-500\">sweet tooth</span>.",
+        "idiom": "sweet tooth",
+        "options": ["a strong liking for sweet foods", "a sweet taste in her mouth", "a healthy diet", "a dental problem"],
+        "correct": "a strong liking for sweet foods",
+        "explanation": "To have a 'sweet tooth' means to have a strong liking for sweet foods."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">on the ball</span>.",
+        "idiom": "on the ball",
+        "options": ["alert and competent", "playing soccer", "distracted", "making mistakes"],
+        "correct": "alert and competent",
+        "explanation": "To be 'on the ball' means to be alert, quick to understand, and competent."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">on the fence</span> about making decisions.",
+        "idiom": "on the fence",
+        "options": ["undecided", "enthusiastic", "clumsy", "confident"],
+        "correct": "undecided",
+        "explanation": "To be 'on the fence' means to be undecided or neutral about something."
+    },
+    {
+        "sentence": "She decided to <span class=\"font-bold text-blue-500\">take a rain check</span> on our dinner invitation.",
+        "idiom": "take a rain check",
+        "options": ["accept the invitation", "postpone to a later date", "decline politely", "ask for more details"],
+        "correct": "postpone to a later date",
+        "explanation": "To 'take a rain check' means to decline an offer or invitation but suggest that it could be accepted at a later time."
+    },  
+    {
+        "sentence": "She's always <span class=\"font-bold text-blue-500\">playing devil's advocate</span> in discussions.",
+        "idiom": "playing devil's advocate",
+        "options": ["supporting an idea", "arguing against an idea for the sake of argument", "agreeing with everyone", "avoiding conflict"],
+        "correct": "arguing against an idea for the sake of argument",
+        "explanation": "To 'play devil's advocate' means to argue against an idea or plan that a lot of people support, in order to make people think about the issue in a different way."
+    },
+    {
+        "sentence": "He's always <span class=\"font-bold text-blue-500\">on the tip of my tongue</span>, but I can't remember his name.",
+        "idiom": "on the tip of my tongue",
+        "options": ["easy to remember", "about to be said or remembered", "difficult to pronounce", "a secret"],
+        "correct": "about to be said or remembered",
+        "explanation": "If something is 'on the tip of your tongue', you are sure that you know it but you cannot remember it."
+    },
+    {
+        "sentence": "The new project is a <span class=\"font-bold text-blue-500\">hot potato</span> for the company.",
+        "idiom": "hot potato",
+        "options": ["an easy task", "a controversial or difficult issue", "a popular idea", "a delicious meal"],
+        "correct": "a controversial or difficult issue",
+        "explanation": "A 'hot potato' is a controversial or difficult issue that is awkward to deal with."
+    }
+]
