@@ -215,7 +215,7 @@
   
   .menu__grid {
     @apply max-w-sm overflow-y-auto;
-    max-height: 330px;
+    max-height: 330px; /* 3 filas para móvil */
   }
   
   .header__content {
@@ -224,6 +224,13 @@
   
   .header__title {
     @apply text-lg;
+  }
+}
+
+@media (min-width: 641px) {
+  .menu__grid {
+    @apply overflow-y-auto;
+    max-height: 440px; /* 4 filas para desktop */
   }
 }
 
