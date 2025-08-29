@@ -51,8 +51,8 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         const selectedCategories = shuffledCategories.slice(0, 3);
         
         const { gameSettings } = useSettingsStore.getState();
-        const wordsPerCategory = gameSettings.sortingMode.wordCount;
-        console.log('SortingComponent - wordsPerCategory from settings:', wordsPerCategory);
+        const totalWords = gameSettings.sortingMode.wordCount;
+        const wordsPerCategory = Math.ceil(totalWords / 3);
         const wordsForCategories: string[] = [];
         
         const categories = selectedCategories.map(categoryId => {
@@ -69,11 +69,13 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
           };
         });
         
+        // Limit total words to settings value
         newExercise = {
           id: 'sorting-exercise',
-          words: wordsForCategories,
+          words: wordsForCategories.slice(0, totalWords),
           categories
         };
+
       }
     }
     
