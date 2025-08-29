@@ -1,11 +1,15 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
-import { Trophy, Target, Clock, TrendingUp } from 'lucide-react';
+import { Trophy, Target, Clock, TrendingUp, X } from 'lucide-react';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
 
-export const Dashboard: React.FC = () => {
+interface DashboardProps {
+  onClose: () => void;
+}
+
+export const Dashboard: React.FC<DashboardProps> = ({ onClose }) => {
   const { userScores, getTotalScore } = useUserStore();
   const { theme, language } = useSettingsStore();
   const { t } = useTranslation(language);
@@ -30,7 +34,15 @@ export const Dashboard: React.FC = () => {
   const avgScore = moduleData.length > 0 ? Math.round(moduleData.reduce((sum, m) => sum + m.score, 0) / moduleData.length) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-6 relative">
+      {/* Floating Close Button */}
+      <button
+        onClick={onClose}
+        className="fixed top-4 right-4 z-50 w-10 h-10 bg-white hover:bg-red-50 border border-gray-200 hover:border-red-200 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+        title="Close Dashboard"
+      >
+        <X className="h-5 w-5 text-gray-400 group-hover:text-red-500 transition-colors duration-200" />
+      </button>
       <h2 className="text-3xl font-bold mb-8" style={{ color: theme === 'dark' ? 'white' : '#111827' }}>{t('learningDashboard') || 'Learning Dashboard'}</h2>
       
       {/* Stats Cards */}

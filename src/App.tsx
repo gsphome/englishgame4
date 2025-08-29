@@ -100,7 +100,7 @@ const AppContent: React.FC = () => {
       
       <main className="layout-main">
         {showDashboard ? (
-          <Dashboard />
+          <Dashboard onClose={() => setShowDashboard(false)} />
         ) : (
           <>
             {currentView === 'menu' && <MainMenu />}
