@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
+import { shuffleArray } from '../../utils/randomUtils';
 import type { FlashcardData, LearningModule } from '../../types';
 
 interface FlashcardComponentProps {
@@ -20,11 +21,17 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   const { language } = useSettingsStore();
   const { t } = useTranslation(language);
 
-  const flashcards = (module?.data || []) as FlashcardData[];
-  const currentCard = flashcards[currentIndex];
+  // Generate new random set each time component mounts
+  const randomizedFlashcards = useMemo(() => {
+    if (!module?.data) return [];
+    const allFlashcards = module.data as FlashcardData[];
+    return shuffleArray(allFlashcards);
+  }, [module?.data, module?.id, startTime]);
+  
+  const currentCard = randomizedFlashcards[currentIndex];
 
   // Early return if no data
-  if (!flashcards.length) {
+  if (!randomizedFlashcards.length) {
     return (
       <div className="max-w-2xl mx-auto p-6 text-center">
         <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No flashcards available'}</p>
@@ -39,13 +46,13 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   }
 
   const handleNext = () => {
-    if (currentIndex < flashcards.length - 1) {
+    if (currentIndex < randomizedFlashcards.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setIsFlipped(false);
     } else {
       // End of flashcards
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-      updateUserScore(module.id, flashcards.length, timeSpent);
+      updateUserScore(module.id, randomizedFlashcards.length, timeSpent);
       setCurrentView('menu');
     }
   };
@@ -99,13 +106,13 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
           <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            {currentIndex + 1}/{flashcards.length}
+            {currentIndex + 1}/{randomizedFlashcards.length}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
             className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / flashcards.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / randomizedFlashcards.length) * 100}%` }}
           />
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
@@ -190,7 +197,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         <button
           onClick={handleNext}
           className="p-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-          title={currentIndex === flashcards.length - 1 ? 'Finish' : 'Next (→)'}
+          title={currentIndex === randomizedFlashcards.length - 1 ? 'Finish' : 'Next (→)'}
         >
           <ChevronRight className="h-5 w-5" />
         </button>

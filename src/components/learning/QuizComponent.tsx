@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { shuffleArray } from '../../utils/randomUtils';
 import type { LearningModule } from '../../types';
 
 interface QuizData {
@@ -23,6 +24,26 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
   
+  // Randomize questions and options once per component mount
+  const randomizedQuestions = useMemo(() => {
+    if (!module?.data) return [];
+    
+    const questions = module.data as QuizData[];
+    const shuffledQuestions = shuffleArray(questions);
+    
+    // Randomize options for each question
+    return shuffledQuestions.map(question => {
+      if (!question.options || !question.correct) return question;
+      
+      const shuffledOptions = shuffleArray([...question.options]);
+      
+      return {
+        ...question,
+        options: shuffledOptions
+      };
+    });
+  }, [module?.data, module?.id]);
+  
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { theme } = useSettingsStore();
@@ -30,11 +51,10 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const isDark = theme === 'dark';
   const textColor = isDark ? 'white' : '#111827';
 
-  const questions = (module?.data || []) as QuizData[];
-  const currentQuestion = questions[currentIndex];
+  const currentQuestion = randomizedQuestions[currentIndex];
 
   // Early return if no data
-  if (!questions.length) {
+  if (!randomizedQuestions.length) {
     return (
       <div className="max-w-3xl mx-auto p-6 text-center">
         <p className="text-gray-600 mb-4">No quiz questions available</p>
@@ -58,7 +78,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   };
 
   const handleNext = () => {
-    if (currentIndex < questions.length - 1) {
+    if (currentIndex < randomizedQuestions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedAnswer(null);
       setShowResult(false);
@@ -96,13 +116,13 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
           <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            {currentIndex + 1}/{questions.length}
+            {currentIndex + 1}/{randomizedQuestions.length}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
             className="bg-green-600 h-1.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / randomizedQuestions.length) * 100}%` }}
           />
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
@@ -188,7 +208,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
             onClick={handleNext}
             className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
           >
-            <span>{currentIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}</span>
+            <span>{currentIndex === randomizedQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         </div>

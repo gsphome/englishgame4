@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Check, X, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
+import { shuffleArray } from '../../utils/randomUtils';
 import type { LearningModule } from '../../types';
 
 interface CompletionData {
@@ -28,11 +29,16 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   const { language } = useSettingsStore();
   const { t } = useTranslation(language);
 
-  const exercises = (module?.data || []) as CompletionData[];
-  const currentExercise = exercises[currentIndex];
+  // Randomize exercises once per component mount
+  const randomizedExercises = useMemo(() => {
+    if (!module?.data) return [];
+    return shuffleArray(module.data as CompletionData[]);
+  }, [module?.data, module?.id]);
+  
+  const currentExercise = randomizedExercises[currentIndex];
 
   // Early return if no data
-  if (!exercises.length) {
+  if (!randomizedExercises.length) {
     return (
       <div className="max-w-4xl mx-auto p-6 text-center">
         <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No completion exercises available'}</p>
@@ -58,7 +64,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   };
 
   const handleNext = () => {
-    if (currentIndex < exercises.length - 1) {
+    if (currentIndex < randomizedExercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setAnswer('');
       setShowResult(false);
@@ -149,13 +155,13 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
           <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            {currentIndex + 1}/{exercises.length}
+            {currentIndex + 1}/{randomizedExercises.length}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
             className="bg-purple-600 h-1.5 rounded-full transition-all duration-300"
-            style={{ width: `${((currentIndex + 1) / exercises.length) * 100}%` }}
+            style={{ width: `${((currentIndex + 1) / randomizedExercises.length) * 100}%` }}
           />
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
@@ -232,7 +238,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
             onClick={handleNext}
             className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
-            <span>{currentIndex === exercises.length - 1 ? 'Finish' : 'Next'}</span>
+            <span>{currentIndex === randomizedExercises.length - 1 ? 'Finish' : 'Next'}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         )}
