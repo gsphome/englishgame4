@@ -143,26 +143,31 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   const hasAnswer = answer.trim().length > 0;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      {/* Progress */}
-      <div className="mb-8">
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-          <span>Exercise {currentIndex + 1} of {exercises.length}</span>
-          <span>{module.name}</span>
+    <div className="max-w-4xl mx-auto p-3 sm:p-6">
+      {/* Compact header with progress */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            {currentIndex + 1}/{exercises.length}
+          </span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
-            className="bg-purple-600 h-2 rounded-full transition-all duration-300"
+            className="bg-purple-600 h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / exercises.length) * 100}%` }}
           />
         </div>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          {showResult ? 'Press Enter for next exercise' : 'Fill the blank and press Enter'}
+        </p>
       </div>
 
       {/* Exercise */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-6">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-          Complete the sentence by filling in the blank:
-        </h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-4">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          Complete the sentence:
+        </h3>
 
         {currentExercise?.tip && (
           <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900 border-l-4 border-blue-400 rounded-r-lg">
@@ -211,40 +216,34 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
         )}
       </div>
 
-      {/* Controls */}
-      <div className="flex justify-center space-x-4">
+      {/* Compact controls */}
+      <div className="flex justify-center">
         {!showResult ? (
           <button
             onClick={checkAnswer}
             disabled={!hasAnswer}
-            className="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
           >
-            <Check className="h-5 w-5" />
+            <Check className="h-4 w-4" />
             <span>Check Answer</span>
           </button>
         ) : (
           <button
             onClick={handleNext}
-            className="flex items-center space-x-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
           >
-            <span>{currentIndex === exercises.length - 1 ? t('finishButton') || 'Finish' : t('nextButton')}</span>
-            <ArrowRight className="h-5 w-5" />
+            <span>{currentIndex === exercises.length - 1 ? 'Finish' : 'Next'}</span>
+            <ArrowRight className="h-4 w-4" />
           </button>
         )}
       </div>
 
-      {!showResult && (
-        <div className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
-          Fill the blank and press Enter or click Check Answer
-        </div>
-      )}
-
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-50 border-2 border-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
       >
-        {t('mainMenu')}
+        Back to Menu
       </button>
     </div>
   );

@@ -188,23 +188,24 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      {/* Progress indicator */}
-      <div className="mb-6">
-        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
-          <span>Matching: {module.name}</span>
-          <span>{Object.keys(matches).length}/{pairs.length} matched</span>
+    <div className="max-w-6xl mx-auto p-3 sm:p-6">
+      {/* Compact header */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            {Object.keys(matches).length}/{pairs.length} matched
+          </span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
-            className="bg-pink-600 h-2 rounded-full transition-all duration-300"
+            className="bg-pink-600 h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${(Object.keys(matches).length / pairs.length) * 100}%` }}
           />
         </div>
-      </div>
-
-      <div className="text-center mb-6">
-        <p className="text-gray-600 dark:text-gray-400">Click items from both columns to match them</p>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          {allMatched ? 'All matched! Check your answers' : 'Click items from both columns to match them'}
+        </p>
       </div>
 
       {/* Compact Matching Grid */}
@@ -343,42 +344,36 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="flex justify-center space-x-4">
+      {/* Compact controls */}
+      <div className="flex justify-center items-center space-x-2">
         {!showResult ? (
           <>
             <button
               onClick={resetExercise}
-              className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className="p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              title="Reset"
             >
-              <RotateCcw className="h-5 w-5" />
-              <span>Reset</span>
+              <RotateCcw className="h-4 w-4" />
             </button>
             
             <button
               onClick={checkAnswers}
               disabled={!allMatched}
-              className="flex items-center space-x-2 px-6 py-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
             >
-              <Check className="h-5 w-5" />
+              <Check className="h-4 w-4" />
               <span>Check Matches</span>
             </button>
           </>
         ) : (
           <button
             onClick={finishExercise}
-            className="px-6 py-3 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm"
           >
-            Finish Exercise
+            <span>Finish Exercise</span>
           </button>
         )}
       </div>
-
-      {!showResult && !allMatched && (
-        <div className="text-center text-sm text-gray-500 mt-4">
-          Match all pairs to check your answers
-        </div>
-      )}
 
       {/* Explanation Modal */}
       {showExplanation && selectedTerm && (
@@ -432,7 +427,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-50 border-2 border-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
       >
         Back to Menu
       </button>

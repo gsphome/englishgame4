@@ -11,6 +11,12 @@ export const MainMenu: React.FC = () => {
   const { setCurrentModule, setCurrentView } = useAppStore();
 
   const handleModuleClick = (module: any) => {
+    // Save scroll position before changing view
+    const gridElement = document.querySelector('.menu__grid');
+    if (gridElement) {
+      sessionStorage.setItem('menuGridScrollPosition', gridElement.scrollTop.toString());
+    }
+    
     setCurrentModule(module);
     setCurrentView(module.learningMode);
   };

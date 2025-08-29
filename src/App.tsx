@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Header } from './components/ui/Header';
 import { MainMenu } from './components/ui/MainMenu';
@@ -25,6 +25,28 @@ const queryClient = new QueryClient({
 const AppContent: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
   const [showDashboard, setShowDashboard] = useState(false);
+  
+  // Restore scroll position when returning to menu
+  useEffect(() => {
+    const prevView = sessionStorage.getItem('prevView') || 'menu';
+    sessionStorage.setItem('prevView', currentView);
+    
+    if (currentView === 'menu' && prevView !== 'menu') {
+      const savedScroll = sessionStorage.getItem('menuGridScrollPosition');
+      if (savedScroll) {
+        const scrollPos = parseInt(savedScroll, 10);
+        const waitForGrid = () => {
+          const gridElement = document.querySelector('.menu__grid');
+          if (gridElement) {
+            gridElement.scrollTop = scrollPos;
+          } else {
+            setTimeout(waitForGrid, 50);
+          }
+        };
+        setTimeout(waitForGrid, 0);
+      }
+    }
+  }, [currentView]);
   
   // Always call useModuleData to avoid hooks rule violation
   const moduleId = currentModule?.id || DEFAULT_MODULE_ID;

@@ -40,13 +40,19 @@
 
 @media (max-width: 420px) {
   .header__title {
-    @apply text-sm;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 360px) {
   .header__title {
-    @apply text-xs;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 350px) {
+  .header__title {
+    display: none; /* Ocultar título en pantallas pequeñas */
   }
 }
 
@@ -85,6 +91,17 @@
 
 .menu__grid {
   @apply bg-gray-50 rounded-xl p-2 border-2 border-gray-200 max-w-3xl mx-auto;
+}
+
+/* Optimización para modo web - contenedor más compacto */
+@media (min-width: 640px) {
+  .menu__grid {
+    @apply max-w-2xl; /* Reducido de 3xl (768px) a 2xl (672px) */
+  }
+  
+  .menu__grid-container {
+    @apply gap-2; /* Reducido de gap-3 (12px) a gap-2 (8px) */
+  }
 }
 
 .menu__grid-container {
@@ -253,16 +270,12 @@
   .header__content {
     @apply px-4 py-3;
   }
-  
-  .header__title {
-    @apply text-lg;
-  }
 }
 
 @media (min-width: 641px) {
   .menu__grid {
     @apply overflow-y-auto;
-    max-height: 430px; /* Reducido 10px */
+    max-height: 440px; /* Agregado 10px más para modo web */
   }
 }
 

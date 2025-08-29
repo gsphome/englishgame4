@@ -90,26 +90,31 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   }, [showResult, currentQuestion]);
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      {/* Progress */}
-      <div className="mb-8">
-        <div className="flex justify-between text-sm text-gray-600 mb-2">
-          <span>Question {currentIndex + 1} of {questions.length}</span>
-          <span>{module.name}</span>
+    <div className="max-w-3xl mx-auto p-3 sm:p-6">
+      {/* Compact header with progress */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            {currentIndex + 1}/{questions.length}
+          </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-1.5">
           <div 
-            className="bg-green-600 h-2 rounded-full transition-all duration-300"
+            className="bg-green-600 h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
           />
         </div>
+        <p className="text-xs text-gray-500 mt-2 text-center">
+          {showResult ? 'Press Enter for next question' : 'Press 1-4 to select or click an option'}
+        </p>
       </div>
 
       {/* Question */}
-      <div className="quiz-question bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 mb-6">
-        <h2 className="text-2xl font-semibold mb-8" style={{ color: textColor }}>
+      <div className="quiz-question bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-4">
+        <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6" style={{ color: textColor }}>
           <div dangerouslySetInnerHTML={{ __html: currentQuestion?.sentence || 'Loading question...' }} />
-        </h2>
+        </h3>
 
         {/* Options */}
         <div className="grid grid-cols-2 gap-4">
@@ -176,29 +181,23 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         )}
       </div>
 
-      {/* Controls */}
+      {/* Compact controls */}
       {showResult && (
         <div className="flex justify-center">
           <button
             onClick={handleNext}
-            className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
           >
             <span>{currentIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}</span>
-            <ArrowRight className="h-5 w-5" />
+            <ArrowRight className="h-4 w-4" />
           </button>
-        </div>
-      )}
-
-      {!showResult && (
-        <div className="text-center text-sm text-gray-500 dark:text-gray-400">
-          Press 1-4 to select an answer, or click on an option
         </div>
       )}
 
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-50 dark:bg-gray-700 border-2 border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
       >
         Back to Menu
       </button>

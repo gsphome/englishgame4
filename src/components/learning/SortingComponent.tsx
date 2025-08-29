@@ -70,10 +70,18 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         });
         
         // Limit total words to settings value
+        const finalWords = wordsForCategories.slice(0, totalWords);
+        
+        // Update categories to only include words that are actually available
+        const updatedCategories = categories.map(category => ({
+          ...category,
+          items: category.items.filter(word => finalWords.includes(word))
+        }));
+        
         newExercise = {
           id: 'sorting-exercise',
-          words: wordsForCategories.slice(0, totalWords),
-          categories
+          words: finalWords,
+          categories: updatedCategories
         };
 
       }
@@ -177,14 +185,22 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
 
   return (
     <div className="max-w-6xl mx-auto p-3 sm:p-6">
-      <div className="text-center mb-6 sm:mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">{module.name}</h2>
-        <p className="text-sm sm:text-base text-gray-600">Drag and drop words into the correct categories</p>
+      {/* Compact header */}
+      <div className="mb-4">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+            {availableWords.length} words left
+          </span>
+        </div>
+        <p className="text-xs text-gray-500 text-center">
+          {allWordsSorted ? 'All words sorted! Check your answers' : 'Drag and drop words into categories'}
+        </p>
       </div>
 
       {/* Available Words */}
-      <div className="mb-6 sm:mb-8">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Available Words</h3>
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-gray-700 mb-2">Available Words</h3>
         <div className="min-h-[80px] p-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
           <div className="flex flex-wrap gap-2">
             {availableWords.map((word, index) => (
@@ -205,7 +221,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       </div>
 
       {/* Categories */}
-      <div className="grid grid-cols-3 gap-1 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
+      <div className="grid grid-cols-3 gap-1 sm:gap-4 lg:gap-6 mb-4">
         {(exercise.categories || []).map((category) => {
           const userItems = sortedItems[category.name] || [];
           const isCorrect = showResult && 
@@ -265,47 +281,41 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         })}
       </div>
 
-      {/* Controls */}
-      <div className="flex justify-center space-x-2 sm:space-x-4">
+      {/* Compact controls */}
+      <div className="flex justify-center items-center space-x-2">
         {!showResult ? (
           <>
             <button
               onClick={resetExercise}
-              className="flex items-center space-x-1 sm:space-x-2 px-3 py-2 sm:px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
+              className="p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              title="Reset"
             >
-              <RotateCcw className="h-4 w-4 sm:h-5 sm:w-5" />
-              <span>Reset</span>
+              <RotateCcw className="h-4 w-4" />
             </button>
             
             <button
               onClick={checkAnswers}
               disabled={!allWordsSorted}
-              className="flex items-center space-x-1 sm:space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
+              className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
             >
-              <Check className="h-4 w-4 sm:h-5 sm:w-5" />
+              <Check className="h-4 w-4" />
               <span>Check Answers</span>
             </button>
           </>
         ) : (
           <button
             onClick={finishExercise}
-            className="px-4 py-2 sm:px-6 sm:py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm sm:text-base"
+            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm"
           >
-            Finish Exercise
+            <span>Finish Exercise</span>
           </button>
         )}
       </div>
 
-      {!showResult && !allWordsSorted && (
-        <div className="text-center text-sm text-gray-500 mt-4">
-          Sort all words into categories to check your answers
-        </div>
-      )}
-
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-6 px-4 py-2 bg-gray-50 border-2 border-gray-200 dark:bg-gray-700 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-300 dark:hover:border-gray-500 transition-all duration-200 shadow-sm hover:shadow-md"
+        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
       >
         Back to Menu
       </button>
