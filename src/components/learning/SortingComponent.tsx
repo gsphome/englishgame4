@@ -176,15 +176,15 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
   const allWordsSorted = availableWords.length === 0;
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-4">{module.name}</h2>
-        <p className="text-gray-600">Drag and drop words into the correct categories</p>
+    <div className="max-w-6xl mx-auto p-3 sm:p-6">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2 sm:mb-4">{module.name}</h2>
+        <p className="text-sm sm:text-base text-gray-600">Drag and drop words into the correct categories</p>
       </div>
 
       {/* Available Words */}
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Available Words</h3>
+      <div className="mb-6 sm:mb-8">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Available Words</h3>
         <div className="min-h-[80px] p-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
           <div className="flex flex-wrap gap-2">
             {availableWords.map((word, index) => (
@@ -192,7 +192,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
                 key={`available-${index}-${word}`}
                 draggable
                 onDragStart={(e) => handleDragStart(e, word)}
-                className="px-3 py-2 bg-blue-100 text-blue-800 rounded-lg cursor-move hover:bg-blue-200 transition-colors select-none"
+                className="px-2 py-1 sm:px-3 sm:py-2 bg-blue-100 text-blue-800 rounded-lg cursor-move hover:bg-blue-200 transition-colors select-none text-xs sm:text-sm"
               >
                 {word}
               </div>
@@ -205,7 +205,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       </div>
 
       {/* Categories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-3 gap-1 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
         {(exercise.categories || []).map((category) => {
           const userItems = sortedItems[category.name] || [];
           const isCorrect = showResult && 
@@ -218,7 +218,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
               key={category.name}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, category.name)}
-              className={`p-4 border-2 border-dashed rounded-lg min-h-[200px] ${
+              className={`p-1 sm:p-4 border-2 border-dashed rounded-lg min-h-[140px] sm:min-h-[200px] ${
                 showResult
                   ? isCorrect
                     ? 'border-green-400 bg-green-50'
@@ -228,7 +228,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
                   : 'border-gray-300 bg-gray-50 hover:border-blue-400'
               }`}
             >
-              <h4 className="font-semibold text-gray-900 mb-3 text-center">
+              <h4 className="font-semibold text-gray-900 mb-2 sm:mb-3 text-center text-sm sm:text-base">
                 {category.name}
                 {showResult && (
                   <span className={`ml-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
@@ -242,7 +242,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
                   <div
                     key={`${category.name}-${index}-${word}`}
                     onClick={() => handleRemoveFromCategory(word, category.name)}
-                    className={`px-3 py-2 rounded-lg text-center cursor-pointer transition-colors ${
+                    className={`px-1 py-1 sm:px-3 sm:py-2 rounded text-center cursor-pointer transition-colors text-xs sm:text-sm ${
                       showResult
                         ? category.items.includes(word)
                           ? 'bg-green-200 text-green-800'
@@ -266,30 +266,30 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       </div>
 
       {/* Controls */}
-      <div className="flex justify-center space-x-4">
+      <div className="flex justify-center space-x-2 sm:space-x-4">
         {!showResult ? (
           <>
             <button
               onClick={resetExercise}
-              className="flex items-center space-x-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              className="flex items-center space-x-1 sm:space-x-2 px-3 py-2 sm:px-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm sm:text-base"
             >
-              <RotateCcw className="h-5 w-5" />
+              <RotateCcw className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>Reset</span>
             </button>
             
             <button
               onClick={checkAnswers}
               disabled={!allWordsSorted}
-              className="flex items-center space-x-2 px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="flex items-center space-x-1 sm:space-x-2 px-4 py-2 sm:px-6 sm:py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base"
             >
-              <Check className="h-5 w-5" />
+              <Check className="h-4 w-4 sm:h-5 sm:w-5" />
               <span>Check Answers</span>
             </button>
           </>
         ) : (
           <button
             onClick={finishExercise}
-            className="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors"
+            className="px-4 py-2 sm:px-6 sm:py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm sm:text-base"
           >
             Finish Exercise
           </button>

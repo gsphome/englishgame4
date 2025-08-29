@@ -60,7 +60,44 @@
 }
 
 .menu__grid-container {
-  @apply grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 place-items-center;
+  @apply grid gap-3 place-items-center;
+}
+
+/* Custom breakpoints - All responsive grid columns */
+@media (max-width: 259px) {
+  .menu__grid-container {
+    @apply grid-cols-1;
+  }
+}
+
+@media (min-width: 260px) and (max-width: 349px) {
+  .menu__grid-container {
+    @apply grid-cols-2;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 639px) {
+  .menu__grid-container {
+    @apply grid-cols-3;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 679px) {
+  .menu__grid-container {
+    @apply grid-cols-4;
+  }
+}
+
+@media (min-width: 680px) and (max-width: 1023px) {
+  .menu__grid-container {
+    @apply grid-cols-5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .menu__grid-container {
+    @apply grid-cols-6;
+  }
 }
 
 .menu__no-results {
@@ -177,7 +214,8 @@
   }
   
   .menu__grid {
-    @apply max-w-sm max-h-72 overflow-y-auto;
+    @apply max-w-sm overflow-y-auto;
+    max-height: 330px;
   }
   
   .header__content {
