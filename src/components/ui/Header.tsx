@@ -93,7 +93,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
               className="btn btn--primary"
             >
               <User className="btn--icon h-4 w-4" />
-              Login
+              <span className="hidden sm:inline">Login</span>
             </button>
           )}
           

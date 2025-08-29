@@ -12,6 +12,7 @@
 
 .header__content {
   @apply max-w-4xl mx-auto px-8 py-4 flex justify-between items-center;
+  min-width: 0; /* Allow flex items to shrink */
 }
 
 .header__left {
@@ -19,7 +20,34 @@
 }
 
 .header__title {
-  @apply text-xl font-bold text-gray-900;
+  @apply text-xl font-bold text-gray-900 whitespace-nowrap;
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* Responsive title sizing - more aggressive breakpoints */
+@media (max-width: 600px) {
+  .header__title {
+    @apply text-lg;
+  }
+}
+
+@media (max-width: 500px) {
+  .header__title {
+    @apply text-base;
+  }
+}
+
+@media (max-width: 420px) {
+  .header__title {
+    @apply text-sm;
+  }
+}
+
+@media (max-width: 360px) {
+  .header__title {
+    @apply text-xs;
+  }
 }
 
 .header__score {
@@ -44,7 +72,7 @@
 
 /* Main Menu */
 .menu {
-  @apply max-w-4xl mx-auto my-4 bg-white p-8 rounded-lg shadow-sm;
+  @apply max-w-4xl mx-auto my-2 bg-white pt-4 pb-6 px-4 rounded-lg shadow-sm;
 }
 
 .menu__title {
@@ -52,7 +80,7 @@
 }
 
 .menu__search {
-  @apply max-w-md mx-auto mb-6;
+  @apply max-w-sm mx-auto mb-4;
 }
 
 .menu__grid {
@@ -210,12 +238,16 @@
 /* Responsive */
 @media (max-width: 640px) {
   .menu {
-    @apply mx-2 my-2 p-4;
+    @apply mx-1 my-1 pt-3 pb-4 px-3;
+  }
+  
+  .menu__search {
+    @apply mb-3;
   }
   
   .menu__grid {
     @apply max-w-sm overflow-y-auto;
-    max-height: 330px; /* 3 filas para móvil */
+    max-height: 330px; /* Reducido 10px */
   }
   
   .header__content {
@@ -230,7 +262,14 @@
 @media (min-width: 641px) {
   .menu__grid {
     @apply overflow-y-auto;
-    max-height: 440px; /* 4 filas para desktop */
+    max-height: 430px; /* Reducido 10px */
+  }
+}
+
+/* Ajuste específico para 2-3 columnas que se ven cortadas */
+@media (min-width: 260px) and (max-width: 639px) {
+  .menu__grid {
+    max-height: 330px; /* Aumentado 2px más para 3er botón completo */
   }
 }
 

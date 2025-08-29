@@ -46,10 +46,6 @@ export const MainMenu: React.FC = () => {
 
   return (
     <div className="menu">
-      <h1 className="menu__title">
-        Advanced Learning App
-      </h1>
-      
       <div className="menu__search">
         <SearchBar 
           query={query}
