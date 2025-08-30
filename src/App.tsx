@@ -10,6 +10,7 @@ import { SortingComponent } from './components/learning/SortingComponent';
 import { MatchingComponent } from './components/learning/MatchingComponent';
 import { useAppStore } from './stores/appStore';
 import { useModuleData } from './hooks/useModuleData';
+import { useMaxLimits } from './hooks/useMaxLimits';
 
 const DEFAULT_MODULE_ID = 'flashcard-ielts-general';
 
@@ -25,6 +26,9 @@ const queryClient = new QueryClient({
 const AppContent: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
   const [showDashboard, setShowDashboard] = useState(false);
+  
+  // Calculate max limits based on available data
+  useMaxLimits();
   
   // Restore scroll position when returning to menu
   useEffect(() => {

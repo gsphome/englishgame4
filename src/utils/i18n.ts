@@ -43,6 +43,7 @@ export const translations = {
     quizMode: 'Quiz Questions',
     completionMode: 'Completion Items',
     sortingMode: 'Sorting Items',
+    sortingCategories: 'Sorting Categories',
     matchingMode: 'Matching Pairs',
     
     // Sections
@@ -118,6 +119,7 @@ export const translations = {
     quizMode: 'Preguntas de Quiz',
     completionMode: 'Items de Completar',
     sortingMode: 'Items de Ordenar',
+    sortingCategories: 'Categorías de Ordenar',
     matchingMode: 'Pares de Matching',
     
     // Sections

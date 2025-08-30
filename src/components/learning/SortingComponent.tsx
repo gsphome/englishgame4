@@ -48,11 +48,11 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       if (firstItem && 'category' in firstItem && 'word' in firstItem) {
         const uniqueCategories = [...new Set(module.data.map((item: any) => item.category))];
         const shuffledCategories = uniqueCategories.sort(() => Math.random() - 0.5);
-        const selectedCategories = shuffledCategories.slice(0, 3);
-        
         const { gameSettings } = useSettingsStore.getState();
         const totalWords = gameSettings.sortingMode.wordCount;
-        const wordsPerCategory = Math.ceil(totalWords / 3);
+        const categoryCount = gameSettings.sortingMode.categoryCount || 3;
+        const selectedCategories = shuffledCategories.slice(0, categoryCount);
+        const wordsPerCategory = Math.ceil(totalWords / categoryCount);
         const wordsForCategories: string[] = [];
         
         const categories = selectedCategories.map(categoryId => {
@@ -188,34 +188,34 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       {/* Compact header */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
-          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{module.name}</h2>
+          <span className="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
             {availableWords.length} words left
           </span>
         </div>
-        <p className="text-xs text-gray-500 text-center">
+        <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
           {allWordsSorted ? 'All words sorted! Check your answers' : 'Drag and drop words into categories'}
         </p>
       </div>
 
       {/* Available Words */}
       <div className="mb-4">
-        <h3 className="text-sm font-medium text-gray-700 mb-2">Available Words</h3>
-        <div className="min-h-[80px] p-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Available Words</h3>
+        <div className="min-h-[80px] p-4 bg-gray-50 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
           <div className="flex flex-wrap gap-2">
             {availableWords.map((word, index) => (
               <div
                 key={`available-${index}-${word}`}
                 draggable
                 onDragStart={(e) => handleDragStart(e, word)}
-                className="px-2 py-1 sm:px-3 sm:py-2 bg-blue-100 text-blue-800 rounded-lg cursor-move hover:bg-blue-200 transition-colors select-none text-xs sm:text-sm"
+                className="px-2 py-1 sm:px-3 sm:py-2 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-lg cursor-move hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors select-none text-xs sm:text-sm"
               >
                 {word}
               </div>
             ))}
           </div>
           {availableWords.length === 0 && (
-            <p className="text-gray-500 text-center">All words have been sorted!</p>
+            <p className="text-gray-500 dark:text-gray-400 text-center">All words have been sorted!</p>
           )}
         </div>
       </div>
@@ -237,17 +237,17 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
               className={`p-1 sm:p-4 border-2 border-dashed rounded-lg min-h-[140px] sm:min-h-[200px] ${
                 showResult
                   ? isCorrect
-                    ? 'border-green-400 bg-green-50'
+                    ? 'border-green-400 dark:border-green-500 bg-green-50 dark:bg-green-900'
                     : hasErrors
-                    ? 'border-red-400 bg-red-50'
-                    : 'border-gray-300 bg-gray-50'
-                  : 'border-gray-300 bg-gray-50 hover:border-blue-400'
+                    ? 'border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900'
+                    : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800'
+                  : 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:border-blue-400 dark:hover:border-blue-500'
               }`}
             >
-              <h4 className="font-semibold text-gray-900 mb-2 sm:mb-3 text-center text-sm sm:text-base">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 text-center text-sm sm:text-base">
                 {category.name}
                 {showResult && (
-                  <span className={`ml-2 ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                  <span className={`ml-2 ${isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
                     {isCorrect ? '✓' : '✗'}
                   </span>
                 )}
@@ -261,9 +261,9 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
                     className={`px-1 py-1 sm:px-3 sm:py-2 rounded text-center cursor-pointer transition-colors text-xs sm:text-sm ${
                       showResult
                         ? category.items.includes(word)
-                          ? 'bg-green-200 text-green-800'
-                          : 'bg-red-200 text-red-800'
-                        : 'bg-white border border-gray-200 hover:bg-gray-100'
+                          ? 'bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200'
+                          : 'bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200'
+                        : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 text-gray-900 dark:text-white'
                     }`}
                   >
                     {word}
@@ -272,8 +272,8 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
               </div>
 
               {showResult && hasErrors && (
-                <div className="mt-3 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs">
-                  <strong>Correct items:</strong> {category.items.join(', ')}
+                <div className="mt-3 p-2 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded text-xs">
+                  <strong className="text-yellow-800 dark:text-yellow-200">Correct items:</strong> <span className="text-yellow-700 dark:text-yellow-300">{category.items.join(', ')}</span>
                 </div>
               )}
             </div>
@@ -315,7 +315,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
       {/* Back to menu */}
       <button
         onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
+        className="w-full mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
       >
         Back to Menu
       </button>

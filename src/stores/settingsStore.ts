@@ -5,8 +5,17 @@ export interface GameSettings {
   flashcardMode: { wordCount: number };
   quizMode: { questionCount: number };
   completionMode: { itemCount: number };
-  sortingMode: { wordCount: number };
+  sortingMode: { wordCount: number; categoryCount: number };
   matchingMode: { wordCount: number };
+}
+
+export interface MaxLimits {
+  flashcard: number;
+  quiz: number;
+  completion: number;
+  sorting: number;
+  matching: number;
+  maxCategories: number;
 }
 
 export interface SettingsState {
@@ -21,12 +30,16 @@ export interface SettingsState {
   // Game Settings
   gameSettings: GameSettings;
   
+  // Max limits based on available data
+  maxLimits: MaxLimits;
+  
   // Actions
   setTheme: (theme: 'light' | 'dark') => void;
   setLanguage: (language: 'en' | 'es') => void;
   setLevel: (level: string) => void;
   setCategories: (categories: string[]) => void;
   setGameSetting: (mode: keyof GameSettings, setting: string, value: number) => void;
+  updateMaxLimits: (limits: MaxLimits) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -41,8 +54,17 @@ export const useSettingsStore = create<SettingsState>()(
         flashcardMode: { wordCount: 10 },
         quizMode: { questionCount: 10 },
         completionMode: { itemCount: 10 },
-        sortingMode: { wordCount: 5 },
+        sortingMode: { wordCount: 5, categoryCount: 3 },
         matchingMode: { wordCount: 6 }
+      },
+      
+      maxLimits: {
+        flashcard: 50,
+        quiz: 50,
+        completion: 50,
+        sorting: 50,
+        matching: 50,
+        maxCategories: 10
       },
       
       // Actions
@@ -73,7 +95,9 @@ export const useSettingsStore = create<SettingsState>()(
             }
           }
         });
-      }
+      },
+      
+      updateMaxLimits: (limits) => set({ maxLimits: limits })
     }),
     {
       name: 'settings-storage'

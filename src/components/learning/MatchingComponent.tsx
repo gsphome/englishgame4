@@ -246,18 +246,18 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
                     <span className="truncate flex-1">{item}</span>
                     <div className="flex items-center space-x-1">
                       {showResult && (
-                        <button
+                        <div
                           onClick={(e) => {
                             e.stopPropagation();
                             const termData = (module.data as any[])?.find((d: any) => d.term === item);
                             setSelectedTerm(termData);
                             setShowExplanation(true);
                           }}
-                          className="flex-shrink-0 w-5 h-5 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors"
+                          className="flex-shrink-0 w-5 h-5 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center justify-center transition-colors cursor-pointer"
                           title="Show explanation"
                         >
                           <Info className="h-3 w-3" />
-                        </button>
+                        </div>
                       )}
                       {isMatched && (
                         <span className="flex-shrink-0 w-6 h-6 bg-pink-500 text-white text-xs font-bold rounded-full flex items-center justify-center">
@@ -377,16 +377,20 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
 
       {/* Explanation Modal */}
       {showExplanation && selectedTerm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-black dark:bg-opacity-80 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:!bg-slate-800 border-0 dark:border dark:!border-slate-600 rounded-xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <h3 
+                  className="text-lg font-semibold text-gray-900"
+                  style={{ color: document.documentElement.classList.contains('dark') ? '#ffffff' : undefined }}
+                >
                   {selectedTerm.term}
                 </h3>
                 <button
                   onClick={() => setShowExplanation(false)}
-                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="text-gray-400 hover:text-gray-600 transition-colors"
+                  style={{ color: document.documentElement.classList.contains('dark') ? '#d1d5db' : undefined }}
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -394,28 +398,58 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
               
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Definition:</h4>
-                  <p className="text-gray-900 dark:text-white">{selectedTerm.definition}</p>
+                  <h4 
+                    className="text-sm font-medium text-gray-700 mb-1"
+                    style={{ color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : undefined }}
+                  >
+                    Definition:
+                  </h4>
+                  <p 
+                    className="text-gray-900"
+                    style={{ color: document.documentElement.classList.contains('dark') ? '#ffffff' : undefined }}
+                  >
+                    {selectedTerm.definition}
+                  </p>
                 </div>
                 
                 {selectedTerm.explanation && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Explanation:</h4>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">{selectedTerm.explanation}</p>
+                    <h4 
+                      className="text-sm font-medium text-gray-700 mb-1"
+                      style={{ color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : undefined }}
+                    >
+                      Explanation:
+                    </h4>
+                    <p 
+                      className="text-gray-600 text-sm"
+                      style={{ color: document.documentElement.classList.contains('dark') ? '#ffffff' : undefined }}
+                    >
+                      {selectedTerm.explanation}
+                    </p>
                   </div>
                 )}
                 
                 {selectedTerm.term_es && (
                   <div>
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Spanish:</h4>
-                    <p className="text-gray-900 dark:text-white font-medium">{selectedTerm.term_es}</p>
+                    <h4 
+                      className="text-sm font-medium text-gray-700 mb-1"
+                      style={{ color: document.documentElement.classList.contains('dark') ? '#e5e7eb' : undefined }}
+                    >
+                      Spanish:
+                    </h4>
+                    <p 
+                      className="text-gray-900 font-medium"
+                      style={{ color: document.documentElement.classList.contains('dark') ? '#ffffff' : undefined }}
+                    >
+                      {selectedTerm.term_es}
+                    </p>
                   </div>
                 )}
               </div>
               
               <button
                 onClick={() => setShowExplanation(false)}
-                className="w-full mt-6 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="w-full mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 dark:!bg-blue-600 dark:hover:!bg-blue-500 text-white rounded-lg transition-colors"
               >
                 Close
               </button>

@@ -69,21 +69,51 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
   };
 
   const handleCategoryChange = (category: string, checked: boolean) => {
+    let newCategories;
     if (checked) {
-      setLocalCategories([...localCategories, category]);
+      newCategories = [...localCategories, category];
     } else {
-      setLocalCategories(localCategories.filter(c => c !== category));
+      newCategories = localCategories.filter(c => c !== category);
     }
+    
+    // UX: If no categories selected, auto-select all for consistency
+    if (newCategories.length === 0) {
+      newCategories = [...allCategories];
+    }
+    
+    setLocalCategories(newCategories);
   };
 
-  const handleGameSettingChange = (mode: string, setting: string, value: number) => {
+  const handleGameSettingChange = (mode: string, setting: string, value: string) => {
+    // Parse and validate the value
+    const numValue = parseInt(value) || 0;
+    const validValue = Math.max(1, Math.min(50, numValue)); // Clamp between 1-50
+    
     setLocalGameSettings({
       ...localGameSettings,
       [mode]: {
         ...localGameSettings[mode as keyof typeof localGameSettings],
-        [setting]: value
+        [setting]: validValue
       }
     });
+  };
+  
+  const handleInputBlur = (mode: string, setting: string, currentValue: number) => {
+    // Ensure valid value on blur
+    let min = 1;
+    let max = 50;
+    
+    // Special validation for categoryCount
+    if (setting === 'categoryCount') {
+      min = 2;
+      max = 10; // Will be updated with actual max from data
+    }
+    
+    if (isNaN(currentValue) || currentValue < min) {
+      handleGameSettingChange(mode, setting, min.toString());
+    } else if (currentValue > max) {
+      handleGameSettingChange(mode, setting, max.toString());
+    }
   };
 
   if (!isOpen) return null;
@@ -98,9 +128,9 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 w-96 max-w-sm mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold dark:text-white">{t('settings')}</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-3 w-80 max-w-sm mx-4 max-h-[85vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-3">
+          <h2 className="text-base font-semibold dark:text-white">{t('settings')}</h2>
           <button 
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
@@ -109,13 +139,13 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
           </button>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-2">
           {/* General Settings */}
           <div>
-            <h3 className="text-sm font-semibold mb-3 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
+            <h3 className="text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
               {t('generalSettings')}
             </h3>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded p-3 space-y-3">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('theme')}</label>
                 <select 
@@ -164,17 +194,18 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
 
           {/* Game Settings */}
           <div>
-            <h3 className="text-sm font-semibold mb-3 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
+            <h3 className="text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
               {t('itemSettings')}
             </h3>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded p-3 space-y-3">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('flashcardMode')}</label>
                 <input 
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
-                  value={localGameSettings.flashcardMode.wordCount}
-                  onChange={(e) => handleGameSettingChange('flashcardMode', 'wordCount', parseInt(e.target.value))}
+                  value={localGameSettings.flashcardMode.wordCount || ''}
+                  onChange={(e) => handleGameSettingChange('flashcardMode', 'wordCount', e.target.value)}
+                  onBlur={() => handleInputBlur('flashcardMode', 'wordCount', localGameSettings.flashcardMode.wordCount)}
                   min="1"
                   max="50"
                   disabled={!isEditMode}
@@ -186,8 +217,9 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 <input 
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
-                  value={localGameSettings.quizMode.questionCount}
-                  onChange={(e) => handleGameSettingChange('quizMode', 'questionCount', parseInt(e.target.value))}
+                  value={localGameSettings.quizMode.questionCount || ''}
+                  onChange={(e) => handleGameSettingChange('quizMode', 'questionCount', e.target.value)}
+                  onBlur={() => handleInputBlur('quizMode', 'questionCount', localGameSettings.quizMode.questionCount)}
                   min="1"
                   max="50"
                   disabled={!isEditMode}
@@ -199,8 +231,9 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 <input 
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
-                  value={localGameSettings.completionMode.itemCount}
-                  onChange={(e) => handleGameSettingChange('completionMode', 'itemCount', parseInt(e.target.value))}
+                  value={localGameSettings.completionMode.itemCount || ''}
+                  onChange={(e) => handleGameSettingChange('completionMode', 'itemCount', e.target.value)}
+                  onBlur={() => handleInputBlur('completionMode', 'itemCount', localGameSettings.completionMode.itemCount)}
                   min="1"
                   max="50"
                   disabled={!isEditMode}
@@ -212,10 +245,25 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 <input 
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
-                  value={localGameSettings.sortingMode.wordCount}
-                  onChange={(e) => handleGameSettingChange('sortingMode', 'wordCount', parseInt(e.target.value))}
+                  value={localGameSettings.sortingMode.wordCount || ''}
+                  onChange={(e) => handleGameSettingChange('sortingMode', 'wordCount', e.target.value)}
+                  onBlur={() => handleInputBlur('sortingMode', 'wordCount', localGameSettings.sortingMode.wordCount)}
                   min="1"
                   max="50"
+                  disabled={!isEditMode}
+                />
+              </div>
+              
+              <div className="flex justify-between items-center">
+                <label className="text-sm" style={{ color: labelColor }}>{t('sortingCategories')}</label>
+                <input 
+                  type="number"
+                  className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
+                  value={localGameSettings.sortingMode.categoryCount || ''}
+                  onChange={(e) => handleGameSettingChange('sortingMode', 'categoryCount', e.target.value)}
+                  onBlur={() => handleInputBlur('sortingMode', 'categoryCount', localGameSettings.sortingMode.categoryCount)}
+                  min="2"
+                  max="10"
                   disabled={!isEditMode}
                 />
               </div>
@@ -225,8 +273,9 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 <input 
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
-                  value={localGameSettings.matchingMode.wordCount}
-                  onChange={(e) => handleGameSettingChange('matchingMode', 'wordCount', parseInt(e.target.value))}
+                  value={localGameSettings.matchingMode.wordCount || ''}
+                  onChange={(e) => handleGameSettingChange('matchingMode', 'wordCount', e.target.value)}
+                  onBlur={() => handleInputBlur('matchingMode', 'wordCount', localGameSettings.matchingMode.wordCount)}
                   min="1"
                   max="50"
                   disabled={!isEditMode}
@@ -237,10 +286,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
 
           {/* Categories */}
           <div>
-            <h3 className="text-sm font-semibold mb-3 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
+            <h3 className="text-xs font-semibold mb-2 uppercase tracking-wide" style={{ color: theme === 'dark' ? 'white' : '#6B7280' }}>
               {t('categorySettings')}
             </h3>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded p-3 space-y-2">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-1">
               {allCategories.map(category => (
                 <div key={category} className="flex items-center space-x-2">
                   <input 
@@ -265,7 +314,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end space-x-2 mt-4">
+        <div className="flex justify-end space-x-2 mt-3">
           {!isEditMode ? (
             <button 
               onClick={handleEdit}
