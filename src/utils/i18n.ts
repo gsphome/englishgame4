@@ -73,7 +73,16 @@ export const translations = {
     totalAttempts: 'Total Attempts',
     modules: 'Modules',
     progressOverTime: 'Progress Over Time',
-    modulePerformance: 'Module Performance'
+    modulePerformance: 'Module Performance',
+    
+    // Score Display
+    session: 'Session',
+    total: 'Total',
+    correct: 'Correct',
+    incorrect: 'Incorrect',
+    accuracy: 'Accuracy',
+    statistics: 'Statistics',
+    bestStreak: 'Best Streak'
   },
   es: {
     // General
@@ -149,7 +158,16 @@ export const translations = {
     totalAttempts: 'Intentos Totales',
     modules: 'Módulos',
     progressOverTime: 'Progreso en el Tiempo',
-    modulePerformance: 'Rendimiento por Módulo'
+    modulePerformance: 'Rendimiento por Módulo',
+    
+    // Score Display
+    session: 'Sesión',
+    total: 'Total',
+    correct: 'Correctas',
+    incorrect: 'Incorrectas',
+    accuracy: 'Precisión',
+    statistics: 'Estadísticas',
+    bestStreak: 'Mejor Racha'
   }
 };
 

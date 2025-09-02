@@ -232,24 +232,155 @@
 }
 
 /* Score Display */
+.header__score {
+  @apply flex items-center space-x-4 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg border;
+}
+
+.score__session {
+  @apply flex items-center space-x-1 text-sm;
+}
+
+.score__global {
+  @apply flex items-center space-x-1 text-sm border-l border-gray-300 dark:border-gray-600 pl-4;
+}
+
+.score__label {
+  @apply text-gray-500 dark:text-gray-400 font-medium;
+}
+
 .score__correct {
-  @apply text-green-600 font-medium;
+  @apply text-green-600 dark:text-green-400 font-bold;
 }
 
 .score__separator {
-  @apply text-gray-400;
+  @apply text-gray-400 dark:text-gray-500;
 }
 
 .score__incorrect {
-  @apply text-red-500 font-medium;
+  @apply text-red-500 dark:text-red-400 font-bold;
 }
 
 .score__total {
-  @apply text-gray-600;
+  @apply text-gray-600 dark:text-gray-300;
 }
 
 .score__accuracy {
-  @apply text-gray-600 ml-2;
+  @apply text-blue-600 dark:text-blue-400 font-medium ml-1;
+}
+
+.score__total-points {
+  @apply text-purple-600 dark:text-purple-400 font-bold text-lg;
+}
+
+.score__points-label {
+  @apply text-purple-500 dark:text-purple-400 text-xs font-medium;
+}
+
+/* Advanced Score Display */
+.score-display {
+  @apply flex items-center space-x-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 px-4 py-2 rounded-xl border border-blue-200 dark:border-gray-600 shadow-sm;
+}
+
+.score-display__session,
+.score-display__global {
+  @apply flex flex-col items-center space-y-1;
+}
+
+.score-display__global {
+  @apply border-l border-blue-200 dark:border-gray-600 pl-4;
+}
+
+.score-display__label {
+  @apply flex items-center space-x-1 text-xs font-medium text-gray-600 dark:text-gray-300;
+}
+
+.score-display__icon {
+  @apply text-sm;
+}
+
+.score-display__values {
+  @apply flex items-center space-x-1 text-sm font-bold;
+}
+
+.score-display__correct {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.score-display__separator {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+.score-display__incorrect {
+  @apply text-red-500 dark:text-red-400;
+}
+
+.score-display__accuracy {
+  @apply flex items-center space-x-1 ml-2 px-2 py-1 bg-white dark:bg-gray-800 rounded-full border;
+}
+
+.score-display__total-points {
+  @apply text-purple-600 dark:text-purple-400 text-lg font-bold;
+}
+
+.score-display__points-label {
+  @apply text-purple-500 dark:text-purple-400 text-xs;
+}
+
+.score-display__level {
+  @apply flex flex-col items-center space-y-1 ml-2;
+}
+
+.score-display__level-text {
+  @apply text-xs font-bold text-orange-600 dark:text-orange-400;
+}
+
+.score-display__progress-bar {
+  @apply w-12 h-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden;
+}
+
+.score-display__progress-fill {
+  @apply h-full bg-gradient-to-r from-orange-400 to-yellow-400 transition-all duration-300;
+}
+
+/* Score Display Tooltip */
+.score-display {
+  @apply relative;
+}
+
+.score-display__tooltip {
+  @apply absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50;
+}
+
+.score-display__tooltip-content {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4 min-w-64;
+}
+
+.score-display__tooltip-title {
+  @apply text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 text-center;
+}
+
+.score-display__tooltip-stats {
+  @apply space-y-2 mb-3;
+}
+
+.score-display__tooltip-stat {
+  @apply flex justify-between items-center text-sm;
+}
+
+.score-display__tooltip-label {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.score-display__tooltip-value {
+  @apply font-bold text-gray-800 dark:text-gray-200;
+}
+
+.score-display__tooltip-progress {
+  @apply border-t border-gray-200 dark:border-gray-600 pt-3;
+}
+
+.score-display__tooltip-progress-text {
+  @apply text-xs text-center text-gray-500 dark:text-gray-400 font-medium;
 }
 
 /* Responsive */

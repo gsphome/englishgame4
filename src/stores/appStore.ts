@@ -28,7 +28,13 @@ export const useAppStore = create<AppStore>()(
       error: null,
 
       // Actions
-      setCurrentModule: (module) => set({ currentModule: module }),
+      setCurrentModule: (module) => set((state) => ({
+        currentModule: module,
+        // Reset session score when starting a new module
+        sessionScore: module && module.id !== state.currentModule?.id 
+          ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
+          : state.sessionScore
+      })),
       
       setCurrentView: (view) => set((state) => ({ 
         currentView: view,
@@ -49,7 +55,8 @@ export const useAppStore = create<AppStore>()(
       
       resetSession: () => set({
         sessionScore: { correct: 0, incorrect: 0, total: 0, accuracy: 0 },
-        error: null
+        error: null,
+        currentModule: null
       })
     }),
     {

@@ -49,5 +49,13 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
+  },
+  build: {
+    sourcemap: true
+  },
+  server: {
+    port: 5173,
+    host: true,
+    open: false
   }
 })

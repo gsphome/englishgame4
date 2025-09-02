@@ -6,6 +6,7 @@ import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
 import { UserProfileForm } from './UserProfileForm';
 import { AdvancedSettingsModal } from './AdvancedSettingsModal';
+import { ScoreDisplay } from './ScoreDisplay';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -13,7 +14,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
-  const { sessionScore, currentView, setCurrentView } = useAppStore();
+  const { currentView, setCurrentView } = useAppStore();
   const { user, getTotalScore } = useUserStore();
   const { theme, language } = useSettingsStore();
   const { t } = useTranslation(language);
@@ -60,20 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
           </h1>
         </div>
 
-        {currentView !== 'menu' && (
-          <div className="header__score">
-            <span className="score__correct">{sessionScore.correct}</span>
-            <span className="score__separator">/</span>
-            <span className="score__incorrect">{sessionScore.incorrect}</span>
-            <span className="score__separator">/</span>
-            <span className="score__total">{sessionScore.total}</span>
-            {sessionScore.total > 0 && (
-              <span className="score__accuracy">
-                ({sessionScore.accuracy.toFixed(1)}%)
-              </span>
-            )}
-          </div>
-        )}
+        {currentView !== 'menu' && <ScoreDisplay />}
 
         <div className="header__right">
           {user ? (
@@ -96,16 +84,16 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
               <span className="hidden sm:inline">Login</span>
             </button>
           )}
-          
-          <button 
+
+          <button
             onClick={onDashboardToggle}
             className="header__button"
             title="Dashboard"
           >
             <BarChart3 className="h-5 w-5" />
           </button>
-          
-          <button 
+
+          <button
             onClick={handleSettings}
             className="header__button"
             title="Settings"
@@ -114,16 +102,16 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
           </button>
         </div>
       </div>
-      
+
       {showProfileForm && (
         <UserProfileForm onClose={() => setShowProfileForm(false)} />
       )}
-      
-      <AdvancedSettingsModal 
+
+      <AdvancedSettingsModal
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
       />
-      
+
       {showSideMenu && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setShowSideMenu(false)}>
           <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-lg z-50" onClick={(e) => e.stopPropagation()}>
@@ -131,21 +119,21 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
               <h2 className="text-lg font-semibold">{t('settings')}</h2>
             </div>
             <nav className="p-4 space-y-2">
-              <button 
+              <button
                 onClick={handleGoToMenu}
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
               >
                 <Menu className="h-5 w-5" />
                 <span>{t('mainMenu')}</span>
               </button>
-              <button 
+              <button
                 onClick={() => { setShowSettings(true); setShowSideMenu(false); }}
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
               >
                 <Settings className="h-5 w-5" />
                 <span>{t('settings')}</span>
               </button>
-              <button 
+              <button
                 className="w-full text-left p-3 hover:bg-gray-100 rounded-md flex items-center space-x-3"
                 onClick={() => alert('About This App\n\nThis is an advanced learning application designed to help you improve your English vocabulary and understanding through interactive exercises.\n\nDeveloped by Genil Suarez.')}
               >
