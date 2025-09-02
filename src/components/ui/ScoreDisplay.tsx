@@ -14,6 +14,12 @@ export const ScoreDisplay: React.FC = () => {
 
   // Get global stats
   const globalStats = getGlobalStats();
+
+  // Debug logging (remove in production)
+  React.useEffect(() => {
+    console.log('ScoreDisplay - sessionScore:', sessionScore);
+    console.log('ScoreDisplay - globalStats:', globalStats);
+  }, [sessionScore, globalStats]);
   
   // Get performance indicator
   const getPerformanceIcon = (accuracy: number) => {

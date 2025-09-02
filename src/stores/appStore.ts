@@ -28,13 +28,17 @@ export const useAppStore = create<AppStore>()(
       error: null,
 
       // Actions
-      setCurrentModule: (module) => set((state) => ({
-        currentModule: module,
-        // Reset session score when starting a new module
-        sessionScore: module && module.id !== state.currentModule?.id 
-          ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
-          : state.sessionScore
-      })),
+      setCurrentModule: (module) => set((state) => {
+        // Always reset session score when setting a new module
+        const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
+        
+        return {
+          currentModule: module,
+          sessionScore: shouldResetScore 
+            ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
+            : state.sessionScore
+        };
+      }),
       
       setCurrentView: (view) => set((state) => ({ 
         currentView: view,
@@ -53,18 +57,34 @@ export const useAppStore = create<AppStore>()(
       
       setError: (error) => set({ error }),
       
-      resetSession: () => set({
-        sessionScore: { correct: 0, incorrect: 0, total: 0, accuracy: 0 },
-        error: null,
-        currentModule: null
-      })
+      resetSession: () => {
+        // Clear any persisted sessionScore from localStorage
+        const stored = localStorage.getItem('app-storage');
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (parsed.state && parsed.state.sessionScore) {
+              delete parsed.state.sessionScore;
+              localStorage.setItem('app-storage', JSON.stringify(parsed));
+            }
+          } catch (e) {
+            console.warn('Error cleaning sessionScore from localStorage:', e);
+          }
+        }
+        
+        return set({
+          sessionScore: { correct: 0, incorrect: 0, total: 0, accuracy: 0 },
+          error: null,
+          currentModule: null
+        });
+      }
     }),
     {
       name: 'app-storage',
       partialize: (state) => ({ 
         currentView: state.currentView,
-        currentModule: state.currentModule,
-        sessionScore: state.sessionScore 
+        currentModule: state.currentModule
+        // sessionScore should NOT be persisted - it's session-only data
       })
     }
   )
