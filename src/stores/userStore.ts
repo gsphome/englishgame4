@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { logDebug } from '../utils/logger';
 import type { User, ModuleScore } from '../types';
 
 interface UserStore {
@@ -62,10 +63,10 @@ export const useUserStore = create<UserStore>()(
         const { userScores } = get();
         const scores = Object.values(userScores);
         
-        console.log('🏪 UserStore - getGlobalStats called:', {
+        logDebug('getGlobalStats called', {
           userScores,
           scoresArray: scores
-        });
+        }, 'UserStore');
         
         if (scores.length === 0) {
           const emptyStats = {
@@ -77,7 +78,7 @@ export const useUserStore = create<UserStore>()(
             level: 1,
             progressToNextLevel: 0
           };
-          console.log('🏪 UserStore - Returning empty stats:', emptyStats);
+          logDebug('Returning empty stats', emptyStats, 'UserStore');
           return emptyStats;
         }
 
@@ -116,7 +117,7 @@ export const useUserStore = create<UserStore>()(
           progressToNextLevel
         };
         
-        console.log('🏪 UserStore - Calculated global stats:', globalStats);
+        logDebug('Calculated global stats', globalStats, 'UserStore');
         return globalStats;
       }
     }),

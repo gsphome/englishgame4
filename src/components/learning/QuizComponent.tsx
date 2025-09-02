@@ -4,6 +4,8 @@ import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { shuffleArray } from '../../utils/randomUtils';
+import { createSanitizedHTML } from '../../utils/htmlSanitizer';
+import { logDebug } from '../../utils/logger';
 import type { LearningModule } from '../../types';
 
 interface QuizData {
@@ -76,20 +78,20 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
     const scoreUpdate = isCorrect ? { correct: 1 } : { incorrect: 1 };
 
-    console.log('🎯 QuizComponent - Answer selected:', {
+    logDebug('Answer selected', {
       optionIndex,
       selectedOption: currentQuestion?.options[optionIndex],
       correctAnswer: currentQuestion?.correct,
       isCorrect,
       scoreUpdate
-    });
+    }, 'QuizComponent');
 
     updateSessionScore(scoreUpdate);
 
     // Log the state after update
     setTimeout(() => {
       const { sessionScore } = useAppStore.getState();
-      console.log('🎯 QuizComponent - Score after update:', sessionScore);
+      logDebug('Score after update', sessionScore, 'QuizComponent');
     }, 100);
   };
 
@@ -149,7 +151,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       {/* Question */}
       <div className="quiz-question bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-4">
         <h3 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6" style={{ color: textColor }}>
-          <div dangerouslySetInnerHTML={{ __html: currentQuestion?.sentence || 'Loading question...' }} />
+          <div dangerouslySetInnerHTML={createSanitizedHTML(currentQuestion?.sentence || 'Loading question...')} />
         </h3>
 
         {/* Options */}

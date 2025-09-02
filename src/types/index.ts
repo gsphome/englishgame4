@@ -61,6 +61,7 @@ export interface AppState {
   currentModule: LearningModule | null;
   currentView: 'menu' | 'flashcard' | 'quiz' | 'completion' | 'sorting' | 'matching';
   sessionScore: SessionScore;
+  globalScore: SessionScore;
   isLoading: boolean;
   error: string | null;
 }

@@ -15,6 +15,7 @@ try {
     </React.StrictMode>
   );
 } catch (error) {
+  // Use basic console.error for critical initialization errors
   console.error('Failed to initialize React app:', error);
   document.body.innerHTML = '<div style="padding: 20px; color: red;">Failed to load application. Please refresh the page.</div>';
 }

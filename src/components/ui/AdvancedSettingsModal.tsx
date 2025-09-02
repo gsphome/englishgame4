@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
+import { validateNumber, validateGameSettings, sanitizeString, globalRateLimiter } from '../../utils/inputValidation';
+import { logWarn } from '../../utils/logger';
 
 interface AdvancedSettingsModalProps {
   isOpen: boolean;
@@ -9,15 +11,15 @@ interface AdvancedSettingsModalProps {
 }
 
 export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ isOpen, onClose }) => {
-  const { 
+  const {
     theme, language, level, categories, gameSettings,
-    setTheme, setLanguage, setLevel, setCategories, setGameSetting 
+    setTheme, setLanguage, setLevel, setCategories, setGameSetting
   } = useSettingsStore();
-  
+
   const { t } = useTranslation(language);
   const labelColor = '#000000'; // Negro para fondo blanco
   const [isEditMode, setIsEditMode] = useState(false);
-  
+
   // Local state for editing
   const [localTheme, setLocalTheme] = useState(theme);
   const [localLanguage, setLocalLanguage] = useState(language);
@@ -42,19 +44,22 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
   };
 
   const handleSave = () => {
+    // Validate all settings before saving
+    const validatedSettings = validateGameSettings(localGameSettings);
+
     // Apply all changes
     setTheme(localTheme);
     setLanguage(localLanguage);
     setLevel(localLevel);
     setCategories(localCategories);
-    
-    // Apply game settings
-    Object.entries(localGameSettings).forEach(([mode, settings]) => {
-      Object.entries(settings).forEach(([setting, value]) => {
+
+    // Apply validated game settings
+    Object.entries(validatedSettings).forEach(([mode, settings]) => {
+      Object.entries(settings as Record<string, unknown>).forEach(([setting, value]) => {
         setGameSetting(mode as any, setting, value as number);
       });
     });
-    
+
     setIsEditMode(false);
   };
 
@@ -75,20 +80,35 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
     } else {
       newCategories = localCategories.filter(c => c !== category);
     }
-    
+
     // UX: If no categories selected, auto-select all for consistency
     if (newCategories.length === 0) {
       newCategories = [...allCategories];
     }
-    
+
     setLocalCategories(newCategories);
   };
 
   const handleGameSettingChange = (mode: string, setting: string, value: string) => {
-    // Parse and validate the value
-    const numValue = parseInt(value) || 0;
-    const validValue = Math.max(1, Math.min(50, numValue)); // Clamp between 1-50
-    
+    // Rate limiting for rapid changes
+    if (!globalRateLimiter.isAllowed(`settings-${mode}-${setting}`)) {
+      logWarn('Rate limit exceeded for settings change', { mode, setting }, 'AdvancedSettingsModal');
+      return;
+    }
+
+    // Sanitize and validate input
+    const sanitizedValue = sanitizeString(value, 10);
+    let min = 1;
+    let max = 50;
+
+    // Special validation for categoryCount
+    if (setting === 'categoryCount') {
+      min = 2;
+      max = 10;
+    }
+
+    const validValue = validateNumber(sanitizedValue, min, max, min);
+
     setLocalGameSettings({
       ...localGameSettings,
       [mode]: {
@@ -97,18 +117,18 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
       }
     });
   };
-  
+
   const handleInputBlur = (mode: string, setting: string, currentValue: number) => {
     // Ensure valid value on blur
     let min = 1;
     let max = 50;
-    
+
     // Special validation for categoryCount
     if (setting === 'categoryCount') {
       min = 2;
       max = 10; // Will be updated with actual max from data
     }
-    
+
     if (isNaN(currentValue) || currentValue < min) {
       handleGameSettingChange(mode, setting, min.toString());
     } else if (currentValue > max) {
@@ -131,7 +151,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
       <div className="bg-white dark:bg-gray-800 rounded-lg p-3 w-80 max-w-sm mx-4 max-h-[85vh] overflow-y-auto">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-base font-semibold dark:text-white">{t('settings')}</h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
           >
@@ -148,7 +168,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('theme')}</label>
-                <select 
+                <select
                   className="w-28 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localTheme}
                   onChange={(e) => setLocalTheme(e.target.value as 'light' | 'dark')}
@@ -158,10 +178,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   <option value="dark">{t('dark')}</option>
                 </select>
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('language')}</label>
-                <select 
+                <select
                   className="w-28 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localLanguage}
                   onChange={(e) => setLocalLanguage(e.target.value as 'en' | 'es')}
@@ -171,10 +191,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   <option value="es">{t('spanish')}</option>
                 </select>
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('level')}</label>
-                <select 
+                <select
                   className="w-28 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localLevel}
                   onChange={(e) => setLocalLevel(e.target.value as any)}
@@ -200,7 +220,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('flashcardMode')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.flashcardMode.wordCount || ''}
@@ -211,10 +231,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   disabled={!isEditMode}
                 />
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('quizMode')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.quizMode.questionCount || ''}
@@ -225,10 +245,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   disabled={!isEditMode}
                 />
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('completionMode')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.completionMode.itemCount || ''}
@@ -239,10 +259,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   disabled={!isEditMode}
                 />
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('sortingMode')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.sortingMode.wordCount || ''}
@@ -253,10 +273,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   disabled={!isEditMode}
                 />
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('sortingCategories')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.sortingMode.categoryCount || ''}
@@ -267,10 +287,10 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                   disabled={!isEditMode}
                 />
               </div>
-              
+
               <div className="flex justify-between items-center">
                 <label className="text-sm" style={{ color: labelColor }}>{t('matchingMode')}</label>
-                <input 
+                <input
                   type="number"
                   className="w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white"
                   value={localGameSettings.matchingMode.wordCount || ''}
@@ -292,7 +312,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <div className="bg-gray-50 dark:bg-gray-700 rounded p-2 space-y-1">
               {allCategories.map(category => (
                 <div key={category} className="flex items-center space-x-2">
-                  <input 
+                  <input
                     type="checkbox"
                     id={category}
                     checked={localCategories.includes(category)}
@@ -300,7 +320,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                     disabled={!isEditMode}
                     className="rounded"
                   />
-                  <label 
+                  <label
                     htmlFor={category}
                     className="text-sm flex-1"
                     style={{ color: labelColor }}
@@ -316,7 +336,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
         {/* Buttons */}
         <div className="flex justify-end space-x-2 mt-3">
           {!isEditMode ? (
-            <button 
+            <button
               onClick={handleEdit}
               className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded text-sm"
             >
@@ -324,13 +344,13 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             </button>
           ) : (
             <>
-              <button 
+              <button
                 onClick={handleCancel}
                 className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded text-sm"
               >
                 {t('cancel')}
               </button>
-              <button 
+              <button
                 onClick={handleSave}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm"
               >

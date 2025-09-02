@@ -14,7 +14,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
-  const { currentView, setCurrentView } = useAppStore();
+  const { setCurrentView } = useAppStore();
   const { user, getTotalScore } = useUserStore();
   const { theme, language } = useSettingsStore();
   const { t } = useTranslation(language);
@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
 
   const handleSettings = () => {
     setShowSettings(!showSettings);
-    console.log('Settings clicked');
+    // Settings clicked - no logging needed for UI interactions
   };
 
   return (
@@ -61,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
           </h1>
         </div>
 
-        {currentView !== 'menu' && <ScoreDisplay />}
+        <ScoreDisplay />
 
         <div className="header__right">
           {user ? (

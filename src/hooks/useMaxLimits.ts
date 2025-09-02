@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useSettingsStore } from '../stores/settingsStore';
+import { secureJsonFetch, validateUrl } from '../utils/secureHttp';
+import { logWarn, logError } from '../utils/logger';
 import type { MaxLimits } from '../stores/settingsStore';
 
 /**
@@ -12,9 +14,8 @@ export const useMaxLimits = () => {
     const calculateMaxLimits = async (): Promise<MaxLimits> => {
       try {
         // Fetch all modules
-        const modulesResponse = await fetch('./src/assets/data/learningModules.json');
-        if (!modulesResponse.ok) throw new Error('Failed to fetch modules');
-        const modules = await modulesResponse.json();
+        const modulesUrl = validateUrl('./src/assets/data/learningModules.json');
+        const modules = await secureJsonFetch(modulesUrl);
 
         const limits: MaxLimits = {
           flashcard: 0,
@@ -33,10 +34,8 @@ export const useMaxLimits = () => {
 
           try {
             const dataPath = module.dataPath.replace('src/assets/data/', '');
-            const dataResponse = await fetch(`./src/assets/data/${dataPath}`);
-            if (!dataResponse.ok) continue;
-            
-            const data = await dataResponse.json();
+            const dataUrl = validateUrl(`./src/assets/data/${dataPath}`);
+            const data = await secureJsonFetch(dataUrl);
             const items = data.data || data;
             
             if (Array.isArray(items)) {
@@ -71,7 +70,7 @@ export const useMaxLimits = () => {
               }
             }
           } catch (error) {
-            console.warn(`Failed to load data for module ${module.id}:`, error);
+            logWarn(`Failed to load data for module ${module.id}`, { error: error instanceof Error ? error.message : String(error) }, 'useMaxLimits');
           }
         }
 
@@ -80,7 +79,7 @@ export const useMaxLimits = () => {
         
         return limits;
       } catch (error) {
-        console.error('Failed to calculate max limits:', error);
+        logError('Failed to calculate max limits', { error: error instanceof Error ? error.message : String(error) }, 'useMaxLimits');
         // Return default limits if calculation fails
         return {
           flashcard: 50,
