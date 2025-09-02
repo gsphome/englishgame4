@@ -23,31 +23,31 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
   const [startTime] = useState(Date.now());
-  
+
   // Randomize questions and options once per component mount
   const randomizedQuestions = useMemo(() => {
     if (!module?.data) return [];
-    
+
     const questions = module.data as QuizData[];
     const shuffledQuestions = shuffleArray(questions);
-    
+
     // Randomize options for each question
     return shuffledQuestions.map(question => {
       if (!question.options || !question.correct) return question;
-      
+
       const shuffledOptions = shuffleArray([...question.options]);
-      
+
       return {
         ...question,
         options: shuffledOptions
       };
     });
   }, [module?.data, module?.id]);
-  
+
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { theme } = useSettingsStore();
-  
+
   const isDark = theme === 'dark';
   const textColor = isDark ? 'white' : '#111827';
 
@@ -72,10 +72,10 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     if (showResult) return;
     setSelectedAnswer(optionIndex);
     setShowResult(true);
-    
+
     const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
     const scoreUpdate = isCorrect ? { correct: 1 } : { incorrect: 1 };
-    
+
     console.log('🎯 QuizComponent - Answer selected:', {
       optionIndex,
       selectedOption: currentQuestion?.options[optionIndex],
@@ -83,9 +83,9 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       isCorrect,
       scoreUpdate
     });
-    
+
     updateSessionScore(scoreUpdate);
-    
+
     // Log the state after update
     setTimeout(() => {
       const { sessionScore } = useAppStore.getState();
@@ -136,7 +136,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
-          <div 
+          <div
             className="bg-green-600 h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / randomizedQuestions.length) * 100}%` }}
           />
@@ -156,7 +156,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         <div className="grid grid-cols-2 gap-4">
           {(currentQuestion?.options || []).map((option, index) => {
             let buttonClass = "quiz-option w-full p-3 text-left border-2 rounded-lg transition-all duration-200 ";
-            
+
             if (!showResult) {
               buttonClass += "border-gray-200 dark:border-gray-600 hover:border-blue-300 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-gray-700 text-gray-900 dark:!text-white";
             } else {
@@ -178,20 +178,20 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <span 
+                    <span
                       className="w-6 h-6 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-xs font-medium mr-3"
                       style={{ color: textColor }}
                     >
                       {index + 1}
                     </span>
-                    <span 
+                    <span
                       className="text-sm"
                       style={{ color: textColor }}
                     >
                       {option}
                     </span>
                   </div>
-                  
+
                   {showResult && (
                     <div>
                       {currentQuestion?.options[index] === currentQuestion?.correct && (

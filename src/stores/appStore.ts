@@ -63,11 +63,19 @@ export const useAppStore = create<AppStore>()(
           scoreUpdate,
         });
         
-        const newScore = { ...state.sessionScore, ...scoreUpdate };
+        // INCREMENT the values instead of replacing them
+        const newScore = { ...state.sessionScore };
+        if (scoreUpdate.correct) {
+          newScore.correct += scoreUpdate.correct;
+        }
+        if (scoreUpdate.incorrect) {
+          newScore.incorrect += scoreUpdate.incorrect;
+        }
+        
         newScore.total = newScore.correct + newScore.incorrect;
         newScore.accuracy = newScore.total > 0 ? (newScore.correct / newScore.total) * 100 : 0;
         
-        console.log('🏪 AppStore - New score calculated:', newScore);
+        console.log('🏪 AppStore - New score calculated (INCREMENTED):', newScore);
         
         return { sessionScore: newScore };
       }),
