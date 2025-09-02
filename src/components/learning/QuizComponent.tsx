@@ -74,7 +74,23 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     setShowResult(true);
     
     const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
-    updateSessionScore(isCorrect ? { correct: 1 } : { incorrect: 1 });
+    const scoreUpdate = isCorrect ? { correct: 1 } : { incorrect: 1 };
+    
+    console.log('🎯 QuizComponent - Answer selected:', {
+      optionIndex,
+      selectedOption: currentQuestion?.options[optionIndex],
+      correctAnswer: currentQuestion?.correct,
+      isCorrect,
+      scoreUpdate
+    });
+    
+    updateSessionScore(scoreUpdate);
+    
+    // Log the state after update
+    setTimeout(() => {
+      const { sessionScore } = useAppStore.getState();
+      console.log('🎯 QuizComponent - Score after update:', sessionScore);
+    }, 100);
   };
 
   const handleNext = () => {

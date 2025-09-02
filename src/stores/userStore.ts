@@ -62,8 +62,13 @@ export const useUserStore = create<UserStore>()(
         const { userScores } = get();
         const scores = Object.values(userScores);
         
+        console.log('🏪 UserStore - getGlobalStats called:', {
+          userScores,
+          scoresArray: scores
+        });
+        
         if (scores.length === 0) {
-          return {
+          const emptyStats = {
             totalScore: 0,
             avgScore: 0,
             totalAttempts: 0,
@@ -72,6 +77,8 @@ export const useUserStore = create<UserStore>()(
             level: 1,
             progressToNextLevel: 0
           };
+          console.log('🏪 UserStore - Returning empty stats:', emptyStats);
+          return emptyStats;
         }
 
         const totalScore = scores.reduce((sum, score) => sum + score.bestScore, 0);
@@ -99,7 +106,7 @@ export const useUserStore = create<UserStore>()(
           }
         }
 
-        return {
+        const globalStats = {
           totalScore,
           avgScore,
           totalAttempts,
@@ -108,6 +115,9 @@ export const useUserStore = create<UserStore>()(
           level,
           progressToNextLevel
         };
+        
+        console.log('🏪 UserStore - Calculated global stats:', globalStats);
+        return globalStats;
       }
     }),
     {

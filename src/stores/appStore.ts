@@ -32,11 +32,22 @@ export const useAppStore = create<AppStore>()(
         // Always reset session score when setting a new module
         const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
         
+        console.log('🏪 AppStore - setCurrentModule called:', {
+          newModule: module?.id,
+          currentModule: state.currentModule?.id,
+          shouldResetScore,
+          currentSessionScore: state.sessionScore
+        });
+        
+        const newSessionScore = shouldResetScore 
+          ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
+          : state.sessionScore;
+          
+        console.log('🏪 AppStore - Setting sessionScore to:', newSessionScore);
+        
         return {
           currentModule: module,
-          sessionScore: shouldResetScore 
-            ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
-            : state.sessionScore
+          sessionScore: newSessionScore
         };
       }),
       
@@ -47,9 +58,17 @@ export const useAppStore = create<AppStore>()(
       })),
       
       updateSessionScore: (scoreUpdate) => set((state) => {
+        console.log('🏪 AppStore - updateSessionScore called:', {
+          currentScore: state.sessionScore,
+          scoreUpdate,
+        });
+        
         const newScore = { ...state.sessionScore, ...scoreUpdate };
         newScore.total = newScore.correct + newScore.incorrect;
         newScore.accuracy = newScore.total > 0 ? (newScore.correct / newScore.total) * 100 : 0;
+        
+        console.log('🏪 AppStore - New score calculated:', newScore);
+        
         return { sessionScore: newScore };
       }),
       

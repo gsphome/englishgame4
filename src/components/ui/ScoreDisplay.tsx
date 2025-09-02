@@ -26,7 +26,7 @@ export const ScoreDisplay: React.FC = () => {
       <div className="text-xs text-gray-500">
         Debug: {renderKey}
       </div>
-      
+
       {/* Simple Session Score */}
       <div className="flex items-center space-x-2">
         <span className="text-sm font-medium">🎯 Session:</span>
