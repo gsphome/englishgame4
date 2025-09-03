@@ -3,6 +3,8 @@ import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useToast } from '../../hooks/useToast';
+import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
 import { createSanitizedHTML } from '../../utils/htmlSanitizer';
 import { logDebug } from '../../utils/logger';
@@ -49,6 +51,8 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { theme } = useSettingsStore();
+  const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
+  const { /* clearGameToasts */ } = useLearningCleanup();
 
   const isDark = theme === 'dark';
   const textColor = isDark ? 'white' : '#111827';
@@ -78,6 +82,13 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
     const scoreUpdate = isCorrect ? { correct: 1 } : { incorrect: 1 };
 
+    // Show toast notification for answer feedback
+    if (isCorrect) {
+      showCorrectAnswer();
+    } else {
+      showIncorrectAnswer(currentQuestion?.correct || 'No disponible');
+    }
+
     logDebug('Answer selected', {
       optionIndex,
       selectedOption: currentQuestion?.options[optionIndex],
@@ -104,6 +115,11 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
       const { sessionScore } = useAppStore.getState();
       const finalScore = Math.round((sessionScore.correct / sessionScore.total) * 100);
+      
+      // Show completion toast with achievement
+      const accuracy = sessionScore.accuracy;
+      showModuleCompleted(module.name, finalScore, accuracy);
+      
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }
@@ -133,8 +149,8 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
-          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            {currentIndex + 1}/{randomizedQuestions.length}
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full" style={{ minWidth: '60px', textAlign: 'center' }}>
+            {randomizedQuestions.length > 0 ? `${currentIndex + 1}/${randomizedQuestions.length}` : '...'}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">

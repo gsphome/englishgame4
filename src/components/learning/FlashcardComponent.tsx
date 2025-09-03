@@ -4,6 +4,7 @@ import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
+import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
 import type { FlashcardData, LearningModule } from '../../types';
 
@@ -20,6 +21,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   const { updateUserScore } = useUserStore();
   const { language } = useSettingsStore();
   const { t } = useTranslation(language);
+  const { /* clearGameToasts */ } = useLearningCleanup();
 
   // Generate new random set each time component mounts
   const randomizedFlashcards = useMemo(() => {

@@ -4,6 +4,7 @@ import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
+import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
 import type { LearningModule } from '../../types';
 
@@ -28,6 +29,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const { updateUserScore } = useUserStore();
   const { language } = useSettingsStore();
   const { t } = useTranslation(language);
+  const { /* clearGameToasts */ } = useLearningCleanup();
 
   // Randomize exercises once per component mount
   const randomizedExercises = useMemo(() => {
@@ -163,8 +165,8 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900">{module.name}</h2>
-          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
-            {currentIndex + 1}/{randomizedExercises.length}
+          <span className="text-sm font-medium text-gray-600 bg-gray-100 px-3 py-1 rounded-full" style={{ minWidth: '60px', textAlign: 'center' }}>
+            {randomizedExercises.length > 0 ? `${currentIndex + 1}/${randomizedExercises.length}` : '...'}
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">

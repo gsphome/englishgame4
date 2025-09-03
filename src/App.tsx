@@ -3,9 +3,11 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Header } from './components/ui/Header';
 import { MainMenu } from './components/ui/MainMenu';
 import { Dashboard } from './components/ui/Dashboard';
+import { ToastContainer } from './components/ui/ToastContainer';
 import { useAppStore } from './stores/appStore';
 import { useModuleData } from './hooks/useModuleData';
 import { useMaxLimits } from './hooks/useMaxLimits';
+import { toast } from './stores/toastStore';
 
 // Lazy load learning components
 const FlashcardComponent = lazy(() => import('./components/learning/FlashcardComponent'));
@@ -42,10 +44,34 @@ const AppContent: React.FC = () => {
   // Calculate max limits based on available data
   useMaxLimits();
 
-  // Restore scroll position when returning to menu
+  // Restore scroll position when returning to menu and clean up toasts
   useEffect(() => {
     const prevView = sessionStorage.getItem('prevView') || 'menu';
     sessionStorage.setItem('prevView', currentView);
+
+    // Clear game-related toasts immediately when changing views
+    if (currentView !== prevView) {
+      const learningModes = ['flashcard', 'quiz', 'completion', 'sorting', 'matching'];
+      
+      // Clear ALL toasts from learning modes when exiting them
+      if (learningModes.includes(prevView)) {
+        // Immediate cleanup for smooth transition
+        toast.clearGameToasts();
+      }
+      
+      // Also clear when entering a learning mode (clean slate)
+      if (learningModes.includes(currentView)) {
+        toast.clearGameToasts();
+      }
+      
+      // Special case: when going to menu from any learning mode
+      if (currentView === 'menu' && learningModes.includes(prevView)) {
+        // Extra cleanup to ensure no lingering toasts
+        setTimeout(() => {
+          toast.clearGameToasts();
+        }, 50);
+      }
+    }
 
     if (currentView === 'menu' && prevView !== 'menu') {
       const savedScroll = sessionStorage.getItem('menuGridScrollPosition');
@@ -130,6 +156,9 @@ const AppContent: React.FC = () => {
           </>
         )}
       </main>
+
+      {/* Toast Notifications */}
+      <ToastContainer />
     </div>
   );
 };

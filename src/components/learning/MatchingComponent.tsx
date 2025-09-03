@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RotateCcw, Check, Info, X } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import type { LearningModule } from '../../types';
 
 interface MatchingComponentProps {
@@ -22,6 +23,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
+  const { /* clearGameToasts */ } = useLearningCleanup();
 
   // Initialize component when module changes
   // Keyboard navigation

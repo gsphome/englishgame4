@@ -3,6 +3,7 @@ import { RotateCcw, Check } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import type { LearningModule } from '../../types';
 
 interface SortingData {
@@ -24,6 +25,7 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
+  const { /* clearGameToasts */ } = useLearningCleanup();
 
   const [exercise, setExercise] = useState<SortingData>({ id: '', words: [], categories: [] });
   

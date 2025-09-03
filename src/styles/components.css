@@ -49,23 +49,43 @@
   @apply text-xs text-gray-500;
 }
 
-/* Header Redesigned - Nueva implementación optimizada */
+/* Header Redesigned - Nueva implementación optimizada con contexto adaptativo */
 .header-redesigned {
   @apply bg-white border-b border-gray-200 shadow-sm;
   @apply sticky top-0 z-40;
+  @apply transition-all duration-300 ease-out;
 }
 
 .header-redesigned__container {
-  @apply max-w-6xl mx-auto px-3 sm:px-6 py-3;
+  @apply mx-auto px-4 sm:px-6 py-3;
   @apply flex items-center justify-between;
-  @apply gap-4;
-  min-height: 64px;
+  @apply gap-3 sm:gap-4;
+  height: 64px; /* Altura fija en lugar de min-height */
+  min-width: 320px; /* Ancho mínimo para prevenir colapso */
+  @apply transition-all duration-300 ease-out;
+}
+
+/* Header Mode: Menu Principal - Layout amplio */
+.header-redesigned--menu .header-redesigned__container {
+  @apply max-w-6xl; /* Ancho completo para menú principal */
+}
+
+/* Header Mode: Learning - Layout compacto y centrado */
+.header-redesigned--learning .header-redesigned__container {
+  @apply max-w-4xl; /* Ancho reducido para modos de aprendizaje */
 }
 
 /* Left Section */
 .header-redesigned__left {
-  @apply flex items-center gap-3;
+  @apply flex items-center gap-2 sm:gap-3;
   @apply flex-shrink-0;
+  min-width: 120px; /* Ancho mínimo garantizado */
+  @apply transition-all duration-300 ease-out;
+}
+
+/* Left Section - Learning Mode: Más compacto */
+.header-redesigned--learning .header-redesigned__left {
+  min-width: 100px;
 }
 
 .header-redesigned__menu-btn {
@@ -92,26 +112,47 @@
 /* Center Section */
 .header-redesigned__center {
   @apply flex-1 flex justify-center;
+  @apply mx-2;
+  min-width: 200px; /* Ancho mínimo para el score display */
+  @apply transition-all duration-300 ease-out;
+}
+
+/* Center Section - Menu Mode: Más espacio para información completa */
+.header-redesigned--menu .header-redesigned__center {
   @apply max-w-md;
+}
+
+/* Center Section - Learning Mode: Más compacto y centrado */
+.header-redesigned--learning .header-redesigned__center {
+  @apply max-w-sm;
 }
 
 /* Right Section - Unified Control Area */
 .header-redesigned__right {
-  @apply flex items-center gap-4;
+  @apply flex items-center gap-2 sm:gap-3;
   @apply flex-shrink-0;
+  min-width: 140px; /* Ancho mínimo garantizado */
+  @apply transition-all duration-300 ease-out;
+}
+
+/* Right Section - Learning Mode: Más compacto */
+.header-redesigned--learning .header-redesigned__right {
+  min-width: 120px;
 }
 
 /* User Section */
 .header-redesigned__user-section {
   @apply flex items-center;
+  @apply flex-shrink-0;
 }
 
 .header-redesigned__user-btn {
-  @apply flex items-center gap-2 px-3 py-2 rounded-lg;
+  @apply flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg;
   @apply text-gray-700 hover:text-gray-900 hover:bg-gray-50;
   @apply transition-all duration-200;
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
   @apply border border-transparent hover:border-gray-200;
+  min-width: 44px; /* Ancho mínimo para el botón de usuario */
 }
 
 .header-redesigned__avatar {
@@ -145,61 +186,148 @@
   @apply border border-gray-200 dark:border-gray-600;
   @apply rounded-xl px-1 py-1;
   @apply shadow-sm;
+  min-width: 80px; /* Ancho mínimo para los controles */
 }
 
 .header-redesigned__control-group {
-  @apply flex items-center gap-0;
+  @apply flex items-center gap-0.5;
 }
 
 .header-redesigned__control-btn {
-  @apply p-2.5 rounded-lg;
+  @apply p-2 sm:p-2.5 rounded-lg;
   @apply text-gray-600 hover:text-gray-900 hover:bg-white;
   @apply dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700;
   @apply transition-all duration-200;
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
   @apply border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
   @apply shadow-sm hover:shadow-md;
+  min-width: 36px; /* Ancho mínimo para cada botón */
+  min-height: 36px; /* Altura mínima para cada botón */
 }
 
-/* Responsive Design */
+/* Responsive Design - Mejorado para mejor espaciado */
 @media (max-width: 640px) {
   .header-redesigned__container {
-    @apply px-3 py-2 gap-2;
-    min-height: 56px;
+    @apply px-3 py-2;
+    gap: 8px; /* Gap fijo más generoso */
+    height: 56px;
   }
   
   .header-redesigned__center {
     @apply max-w-none;
+    min-width: 160px; /* Reducido para móviles */
+  }
+  
+  .header-redesigned__left {
+    min-width: 100px; /* Reducido para móviles */
+  }
+  
+  .header-redesigned__right {
+    min-width: 120px; /* Reducido para móviles */
+  }
+  
+  /* Learning Mode - Mobile: Aún más compacto */
+  .header-redesigned--learning .header-redesigned__center {
+    min-width: 140px;
+  }
+  
+  .header-redesigned--learning .header-redesigned__left {
+    min-width: 80px;
+  }
+  
+  .header-redesigned--learning .header-redesigned__right {
+    min-width: 100px;
+  }
+  
+  .header-redesigned--learning .score-display-compact {
+    max-width: 180px;
   }
   
   .header-redesigned__user-btn {
     @apply px-2 py-2;
+    min-width: 40px;
   }
   
   .header-redesigned__avatar {
     @apply w-7 h-7;
   }
   
-  .header-redesigned__actions {
-    @apply gap-0;
+  .header-redesigned__control-panel {
+    min-width: 72px;
   }
   
-  .header-redesigned__action-btn {
-    @apply p-1.5;
+  .header-redesigned__control-btn {
+    min-width: 32px;
+    min-height: 32px;
   }
 }
 
 @media (max-width: 480px) {
   .header-redesigned__container {
-    @apply gap-1;
+    gap: 6px; /* Gap aún más compacto pero respirable */
+    @apply px-2;
   }
   
   .header-redesigned__left {
-    @apply gap-2;
+    @apply gap-1;
+    min-width: 80px;
   }
   
   .header-redesigned__right {
-    @apply gap-2;
+    @apply gap-1;
+    min-width: 100px;
+  }
+  
+  .header-redesigned__center {
+    min-width: 140px;
+  }
+  
+  .header-redesigned__brand {
+    @apply gap-1;
+  }
+  
+  .header-redesigned__control-panel {
+    @apply bg-transparent border-0 shadow-none px-0 py-0;
+    min-width: 68px;
+  }
+  
+  .header-redesigned__control-group {
+    @apply gap-1;
+  }
+  
+  .header-redesigned__control-btn {
+    @apply bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
+
+/* Breakpoint específico para pantallas muy pequeñas */
+@media (max-width: 360px) {
+  .header-redesigned__container {
+    gap: 4px;
+    @apply px-1;
+  }
+  
+  .header-redesigned__left {
+    min-width: 70px;
+  }
+  
+  .header-redesigned__center {
+    min-width: 120px;
+  }
+  
+  .header-redesigned__right {
+    min-width: 90px;
+  }
+  
+  .header-redesigned__user-btn {
+    @apply px-1;
+    min-width: 36px;
+  }
+  
+  .header-redesigned__username {
+    @apply hidden; /* Ocultar nombre en pantallas muy pequeñas */
   }
 }
 
@@ -277,11 +405,11 @@
 }
 
 .menu__no-results-text {
-  @apply text-gray-500;
+  @apply text-gray-700 dark:text-gray-300;
 }
 
 .menu__results-count {
-  @apply mt-4 text-center text-sm text-gray-500;
+  @apply mt-4 text-center text-sm text-gray-700 dark:text-gray-300;
 }
 
 /* Search */
@@ -294,11 +422,12 @@
 }
 
 .search__icon-svg {
-  @apply h-4 w-4 text-gray-400;
+  @apply h-4 w-4 text-gray-500 dark:text-gray-400;
 }
 
 .search__input {
-  @apply w-full px-3 py-2 pl-10 pr-10 border border-gray-300 rounded-md text-sm bg-white;
+  @apply w-full px-3 py-2 pl-10 pr-10 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700;
+  @apply text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400;
   @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
 }
 
@@ -307,7 +436,7 @@
 }
 
 .search__clear-icon {
-  @apply h-4 w-4 text-gray-400 hover:text-gray-600;
+  @apply h-4 w-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
 }
 
 /* Buttons */
@@ -338,12 +467,12 @@
 }
 
 .loading__text {
-  @apply text-gray-600;
+  @apply text-gray-700 dark:text-gray-300;
 }
 
 /* Error States */
 .error {
-  @apply min-h-screen bg-gray-50 flex items-center justify-center;
+  @apply min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center;
 }
 
 .error > div {
@@ -351,11 +480,11 @@
 }
 
 .error__message {
-  @apply text-red-600 mb-4 font-semibold;
+  @apply text-red-700 dark:text-red-400 mb-4 font-semibold;
 }
 
 .error__details {
-  @apply text-sm text-gray-600 mb-4;
+  @apply text-sm text-gray-700 dark:text-gray-300 mb-4;
 }
 
 /* Score Display */
@@ -469,13 +598,32 @@
   @apply h-full bg-gradient-to-r from-orange-400 to-yellow-400 transition-all duration-300;
 }
 
-/* Score Display Compact - Nueva implementación optimizada */
+/* Score Display Compact - Nueva implementación optimizada con mejor contraste */
 .score-display-compact {
   @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700;
   @apply border border-blue-200 dark:border-gray-600;
-  @apply rounded-xl px-3 py-2;
+  @apply rounded-xl px-2 sm:px-3 py-1.5 sm:py-2;
   @apply shadow-sm;
-  @apply transition-all duration-200;
+  @apply transition-all duration-300 ease-out;
+  height: 36px; /* Altura más compacta */
+  min-width: 160px; /* Ancho mínimo garantizado */
+  max-width: 280px; /* Ancho máximo para no dominar el header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Score Display en modo Learning - Más compacto y centrado */
+.header-redesigned--learning .score-display-compact {
+  @apply bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-700 dark:to-gray-600;
+  @apply border-green-200 dark:border-gray-500;
+  max-width: 220px; /* Más compacto en modo learning */
+  @apply shadow-md; /* Sombra más prominente para destacar la sesión */
+}
+
+/* Score Display en modo Menu - Layout completo */
+.header-redesigned--menu .score-display-compact {
+  max-width: 280px; /* Espacio completo en menú principal */
 }
 
 .score-display-compact__session {
@@ -499,48 +647,68 @@
 }
 
 .score-display-compact__correct {
-  @apply text-green-600 dark:text-green-400;
+  @apply text-green-700 dark:text-green-400;
 }
 
 .score-display-compact__separator {
-  @apply text-gray-400 dark:text-gray-500;
+  @apply text-gray-600 dark:text-gray-400;
 }
 
 .score-display-compact__incorrect {
-  @apply text-red-500 dark:text-red-400;
+  @apply text-red-600 dark:text-red-400;
 }
 
 .score-display-compact__accuracy {
-  @apply text-xs font-medium text-blue-600 dark:text-blue-400;
+  @apply text-xs font-medium text-blue-700 dark:text-blue-300;
   @apply bg-white dark:bg-gray-800 px-2 py-1 rounded-full;
   @apply border border-blue-200 dark:border-gray-600;
 }
 
 .score-display-compact__divider {
-  @apply w-px h-6 bg-gray-300 dark:bg-gray-600;
+  @apply w-px h-6 bg-gray-400 dark:bg-gray-500;
 }
 
 .score-display-compact__level {
-  @apply flex flex-col items-center gap-1;
+  @apply flex items-center gap-1.5;
+  @apply flex-shrink-0;
 }
 
 .score-display-compact__level-badge {
-  @apply text-xs font-bold text-orange-600 dark:text-orange-400;
-  @apply bg-orange-100 dark:bg-orange-900 px-2 py-0.5 rounded-full;
+  @apply text-xs font-bold text-orange-700 dark:text-orange-300;
+  @apply bg-orange-100 dark:bg-orange-900 px-1.5 py-0.5 rounded-full;
+  @apply border border-orange-200 dark:border-orange-700;
+  @apply flex-shrink-0;
+  min-width: 28px; /* Ancho mínimo para el badge */
+  text-align: center;
 }
 
 .score-display-compact__points {
-  @apply text-sm font-bold text-purple-600 dark:text-purple-400;
+  @apply text-xs font-bold text-purple-700 dark:text-purple-300;
+  @apply flex-shrink-0;
+  min-width: 24px; /* Ancho mínimo para los puntos */
+}
+
+.score-display-compact__progress-bar {
+  @apply w-8 h-1 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden;
+  @apply border border-gray-400 dark:border-gray-500;
+  @apply flex-shrink-0;
+}
+
+.score-display-compact__progress-fill {
+  @apply h-full bg-gradient-to-r from-orange-500 to-yellow-500 transition-all duration-300;
 }
 
 /* Responsive adjustments */
 @media (max-width: 640px) {
   .score-display-compact {
-    @apply px-2 py-1.5;
+    @apply px-1.5 py-1;
+    height: 32px;
+    min-width: 140px;
+    max-width: 200px;
   }
   
   .score-display-compact__global {
-    @apply gap-2;
+    @apply gap-1.5;
   }
   
   .score-display-compact__main {
@@ -556,21 +724,61 @@
   }
   
   .score-display-compact__level-badge {
-    @apply text-xs px-1.5 py-0.5;
+    @apply text-xs px-1 py-0.5;
+    min-width: 24px;
   }
   
   .score-display-compact__points {
     @apply text-xs;
+    min-width: 20px;
   }
 }
 
 @media (max-width: 480px) {
+  .score-display-compact {
+    min-width: 120px;
+    max-width: 160px;
+  }
+  
   .score-display-compact__icon {
     @apply hidden;
   }
   
   .score-display-compact__level {
-    @apply flex-row gap-1;
+    @apply gap-1;
+  }
+  
+  .score-display-compact__accuracy {
+    @apply hidden; /* Ocultar precisión en pantallas muy pequeñas */
+  }
+}
+
+@media (max-width: 360px) {
+  .score-display-compact {
+    min-width: 100px;
+    max-width: 120px;
+    @apply px-1;
+  }
+  
+  .score-display-compact__divider {
+    @apply hidden;
+  }
+  
+  .score-display-compact__level {
+    @apply gap-0.5;
+  }
+  
+  .score-display-compact__level-badge {
+    @apply text-xs px-1 py-0.5;
+    min-width: 20px;
+  }
+  
+  .score-display-compact__points {
+    min-width: 16px;
+  }
+  
+  .score-display-compact__progress-bar {
+    @apply w-6 h-0.5;
   }
 }
 
@@ -613,6 +821,75 @@
 
 .score-display__tooltip-progress-text {
   @apply text-xs text-center text-gray-500 dark:text-gray-400 font-medium;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* Focus visible for better keyboard navigation */
+.focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+/* Improved focus styles for interactive elements */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  @apply outline-none ring-2 ring-blue-500 ring-offset-2;
+}
+
+.dark button:focus-visible,
+.dark input:focus-visible,
+.dark select:focus-visible,
+.dark textarea:focus-visible,
+.dark [tabindex]:focus-visible {
+  @apply ring-blue-400 ring-offset-gray-800;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .score-display-compact__correct {
+    @apply text-green-800 dark:text-green-200;
+  }
+  
+  .score-display-compact__incorrect {
+    @apply text-red-800 dark:text-red-200;
+  }
+  
+  .score-display-compact__separator {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+  
+  .menu__no-results-text,
+  .menu__results-count {
+    @apply text-gray-900 dark:text-gray-100;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .loading-skeleton {
+    animation: none;
+  }
+  
+  .flashcard-inner {
+    transition: none;
+  }
+  
+  .score-display-compact__progress-fill {
+    transition: none;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Responsive */
@@ -711,59 +988,7 @@
   @apply text-gray-400 hover:text-white hover:bg-gray-700 hover:border-gray-600;
 }
 
-/* Responsive Design for Header Redesigned */
-@media (max-width: 640px) {
-  .header-redesigned__container {
-    @apply px-3 py-2 gap-2;
-    min-height: 56px;
-  }
-  
-  .header-redesigned__center {
-    @apply max-w-none;
-  }
-  
-  .header-redesigned__right {
-    @apply gap-3;
-  }
-  
-  .header-redesigned__user-btn {
-    @apply px-2 py-2;
-  }
-  
-  .header-redesigned__avatar {
-    @apply w-7 h-7;
-  }
-  
-  .header-redesigned__control-panel {
-    @apply px-0.5 py-0.5;
-  }
-  
-  .header-redesigned__control-btn {
-    @apply p-2;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-redesigned__container {
-    @apply gap-1;
-  }
-  
-  .header-redesigned__left {
-    @apply gap-2;
-  }
-  
-  .header-redesigned__right {
-    @apply gap-2;
-  }
-  
-  .header-redesigned__control-panel {
-    @apply bg-transparent border-0 shadow-none px-0 py-0;
-  }
-  
-  .header-redesigned__control-btn {
-    @apply bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600;
-  }
-}
+/* Estilos duplicados removidos - ya están definidos arriba */
 
 .dark .menu {
   @apply bg-gray-800;
@@ -840,6 +1065,194 @@
 
 .dark .quiz-explanation h4 {
   @apply text-blue-100;
+}
+
+/* Loading Skeletons */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+.loading-skeleton--card {
+  @apply h-24 w-24 rounded-lg;
+}
+
+.loading-skeleton--text {
+  @apply h-4 w-full rounded;
+}
+
+.loading-skeleton--button {
+  @apply h-10 w-32 rounded-lg;
+}
+
+.loading-skeleton--header {
+  @apply h-6 w-48 rounded;
+}
+
+.loading-skeleton--score {
+  @apply h-8 w-40 rounded-xl;
+}
+
+.loading-skeleton--grid {
+  @apply h-24 w-24 rounded-lg;
+}
+
+/* Improved skeleton animation */
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.dark .loading-skeleton {
+  background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+  background-size: 200px 100%;
+}
+
+/* Toast Notifications */
+.toast-container {
+  @apply fixed top-4 right-4 z-50 space-y-2;
+  @apply pointer-events-none;
+  max-width: 420px;
+}
+
+.toast {
+  @apply relative overflow-hidden rounded-lg shadow-lg border;
+  @apply pointer-events-auto;
+  @apply transform transition-all duration-300 ease-out;
+  @apply translate-x-full opacity-0;
+  @apply bg-white dark:bg-gray-800;
+  @apply border-gray-200 dark:border-gray-700;
+  min-width: 320px;
+}
+
+.toast--visible {
+  @apply translate-x-0 opacity-100;
+}
+
+.toast--leaving {
+  @apply translate-x-full opacity-0 scale-95;
+}
+
+.toast--success {
+  @apply border-l-4 border-l-green-500;
+}
+
+.toast--error {
+  @apply border-l-4 border-l-red-500;
+}
+
+.toast--warning {
+  @apply border-l-4 border-l-orange-500;
+}
+
+.toast--info {
+  @apply border-l-4 border-l-blue-500;
+}
+
+.toast__content {
+  @apply flex items-start p-4 gap-3;
+}
+
+.toast__icon {
+  @apply flex-shrink-0 mt-0.5;
+}
+
+.toast__text {
+  @apply flex-1 min-w-0;
+}
+
+.toast__title {
+  @apply text-sm font-semibold text-gray-900 dark:text-white;
+  @apply leading-tight;
+}
+
+.toast__message {
+  @apply text-sm text-gray-600 dark:text-gray-300 mt-1;
+  @apply leading-relaxed;
+}
+
+.toast__action {
+  @apply flex-shrink-0 ml-2 px-3 py-1.5;
+  @apply text-xs font-medium rounded-md;
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+  @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+}
+
+.toast__close {
+  @apply flex-shrink-0 ml-2 p-1.5 rounded-md;
+  @apply text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300;
+  @apply hover:bg-gray-100 dark:hover:bg-gray-700;
+  @apply transition-colors duration-200;
+  @apply focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+}
+
+/* Toast animations for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    @apply transition-none;
+    @apply translate-x-0 opacity-100;
+  }
+  
+  .toast--leaving {
+    @apply opacity-0;
+  }
+}
+
+/* Mobile responsive toasts */
+@media (max-width: 640px) {
+  .toast-container {
+    @apply top-2 right-2 left-2;
+    @apply max-w-none;
+  }
+  
+  .toast {
+    @apply min-w-0 w-full;
+  }
+  
+  .toast__content {
+    @apply p-3 gap-2;
+  }
+  
+  .toast__title {
+    @apply text-xs;
+  }
+  
+  .toast__message {
+    @apply text-xs;
+  }
+}
+
+/* High contrast mode support for toasts */
+@media (prefers-contrast: high) {
+  .toast {
+    @apply border-2;
+  }
+  
+  .toast--success {
+    @apply border-green-700 dark:border-green-300;
+  }
+  
+  .toast--error {
+    @apply border-red-700 dark:border-red-300;
+  }
+  
+  .toast--warning {
+    @apply border-orange-700 dark:border-orange-300;
+  }
+  
+  .toast--info {
+    @apply border-blue-700 dark:border-blue-300;
+  }
 }
 
 /* Flashcard 3D Flip Effect */
