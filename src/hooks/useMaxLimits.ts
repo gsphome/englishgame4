@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useSettingsStore } from '../stores/settingsStore';
 import { secureJsonFetch, validateUrl } from '../utils/secureHttp';
 import { logWarn, logError } from '../utils/logger';
+import { getLearningModulesPath, getAssetPath } from '../utils/pathUtils';
 import type { MaxLimits } from '../stores/settingsStore';
 
 /**
@@ -14,7 +15,7 @@ export const useMaxLimits = () => {
     const calculateMaxLimits = async (): Promise<MaxLimits> => {
       try {
         // Fetch all modules
-        const modulesUrl = validateUrl('./src/assets/data/learningModules.json');
+        const modulesUrl = validateUrl(getLearningModulesPath());
         const modules = await secureJsonFetch(modulesUrl);
 
         const limits: MaxLimits = {
@@ -33,8 +34,7 @@ export const useMaxLimits = () => {
           if (!module.dataPath) continue;
 
           try {
-            const dataPath = module.dataPath.replace('src/assets/data/', '');
-            const dataUrl = validateUrl(`./src/assets/data/${dataPath}`);
+            const dataUrl = validateUrl(getAssetPath(module.dataPath));
             const data = await secureJsonFetch(dataUrl);
             const items = data.data || data;
             

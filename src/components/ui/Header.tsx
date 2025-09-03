@@ -15,7 +15,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
   const { setCurrentView } = useAppStore();
-  const { user, getTotalScore } = useUserStore();
+  const { user } = useUserStore();
   const { theme, language } = useSettingsStore();
   const { t } = useTranslation(language);
   const [showProfileForm, setShowProfileForm] = useState(false);
@@ -42,64 +42,84 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
 
   const handleSettings = () => {
     setShowSettings(!showSettings);
-    // Settings clicked - no logging needed for UI interactions
   };
 
   return (
-    <header className="header">
-      <div className="header__content">
-        <div className="header__left">
+    <header className="header-redesigned">
+      <div className="header-redesigned__container">
+        {/* Left Section: Menu + Brand */}
+        <div className="header-redesigned__left">
           <button
             onClick={handleMenuToggle}
-            className="header__button"
-            title="Main Menu"
+            className="header-redesigned__menu-btn"
+            title="Menu"
+            aria-label="Toggle menu"
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="w-5 h-5" />
           </button>
-          <h1 className="header__title">
-            Advanced Learning App
-          </h1>
+          <div className="header-redesigned__brand">
+            <span className="header-redesigned__logo">🎓</span>
+            <h1 className="header-redesigned__title">LearnEng</h1>
+          </div>
         </div>
 
-        <ScoreDisplay />
+        {/* Center Section: Score Display */}
+        <div className="header-redesigned__center">
+          <ScoreDisplay />
+        </div>
 
-        <div className="header__right">
+        {/* Right Section: Unified Control Area */}
+        <div className="header-redesigned__right">
+          {/* User Profile Section */}
           {user ? (
-            <button
-              onClick={() => setShowProfileForm(true)}
-              className="header__user-button"
-            >
-              <User className="h-4 w-4" />
-              <span>{user.name}</span>
-              <span className="header__user-points">
-                ({getTotalScore()} pts)
-              </span>
-            </button>
+            <div className="header-redesigned__user-section">
+              <button
+                onClick={() => setShowProfileForm(true)}
+                className="header-redesigned__user-btn"
+                title={`${user.name} - Profile Settings`}
+              >
+                <div className="header-redesigned__avatar">
+                  <User className="w-4 h-4" />
+                </div>
+                <div className="header-redesigned__user-info">
+                  <span className="header-redesigned__username">{user.name}</span>
+                </div>
+              </button>
+            </div>
           ) : (
-            <button
-              onClick={() => setShowProfileForm(true)}
-              className="btn btn--primary"
-            >
-              <User className="btn--icon h-4 w-4" />
-              <span className="hidden sm:inline">Login</span>
-            </button>
+            <div className="header-redesigned__user-section">
+              <button
+                onClick={() => setShowProfileForm(true)}
+                className="header-redesigned__login-btn"
+              >
+                <User className="w-4 h-4" />
+                <span className="hidden sm:inline ml-1">Login</span>
+              </button>
+            </div>
           )}
 
-          <button
-            onClick={onDashboardToggle}
-            className="header__button"
-            title="Dashboard"
-          >
-            <BarChart3 className="h-5 w-5" />
-          </button>
+          {/* Unified Control Panel */}
+          <div className="header-redesigned__control-panel">
+            <div className="header-redesigned__control-group">
+              <button
+                onClick={onDashboardToggle}
+                className="header-redesigned__control-btn"
+                title="Dashboard"
+                aria-label="Open dashboard"
+              >
+                <BarChart3 className="w-4 h-4" />
+              </button>
 
-          <button
-            onClick={handleSettings}
-            className="header__button"
-            title="Settings"
-          >
-            <Settings className="h-5 w-5" />
-          </button>
+              <button
+                onClick={handleSettings}
+                className="header-redesigned__control-btn"
+                title="Settings"
+                aria-label="Open settings"
+              >
+                <Settings className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSettingsStore } from '../stores/settingsStore';
 import { secureJsonFetch, validateUrl } from '../utils/secureHttp';
+import { getLearningModulesPath, getAssetPath } from '../utils/pathUtils';
 import type { LearningModule } from '../types';
 
 const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
   // First get module metadata
-  const modulesUrl = validateUrl('./src/assets/data/learningModules.json');
+  const modulesUrl = validateUrl(getLearningModulesPath());
   const modules: LearningModule[] = await secureJsonFetch(modulesUrl);
   const moduleInfo = modules.find(m => m.id === moduleId);
   
@@ -14,8 +15,11 @@ const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
   }
   
   // Then get module data using the correct dataPath
-  const dataPath = moduleInfo.dataPath?.replace('src/assets/data/', '') || '';
-  const dataUrl = validateUrl(`./src/assets/data/${dataPath}`);
+  if (!moduleInfo.dataPath) {
+    throw new Error(`Module ${moduleId} has no dataPath`);
+  }
+  
+  const dataUrl = validateUrl(getAssetPath(moduleInfo.dataPath));
   const data = await secureJsonFetch(dataUrl);
   
   return {
@@ -28,7 +32,7 @@ const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
 };
 
 const fetchAllModules = async (): Promise<LearningModule[]> => {
-  const modulesUrl = validateUrl('./src/assets/data/learningModules.json');
+  const modulesUrl = validateUrl(getLearningModulesPath());
   const modules = await secureJsonFetch(modulesUrl);
   return modules.map((module: any) => ({
     ...module,

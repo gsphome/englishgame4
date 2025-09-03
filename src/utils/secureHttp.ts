@@ -77,7 +77,13 @@ const validateResponseSecurity = (response: Response, url: string): void => {
     warnings.push('Response from insecure HTTP connection');
   }
 
-  // Check for security headers
+  // Skip strict header validation for localhost in development
+  const isLocalhost = url.includes('localhost') || url.includes('127.0.0.1');
+  if (isLocalhost) {
+    return; // Skip security header validation for local development
+  }
+
+  // Check for security headers (only for non-localhost requests)
   const securityHeaders = [
     'strict-transport-security',
     'x-content-type-options',
