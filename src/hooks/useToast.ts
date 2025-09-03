@@ -15,28 +15,25 @@ export const useToast = () => {
       '¡Genial! 🚀'
     ];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    // Replace any existing success toast to avoid accumulation
-    toast.replace('success', randomMessage, 'Sigue así, vas muy bien');
+    // Use single toast to ensure only one feedback toast is visible
+    toast.single.success(randomMessage, 'Sigue así, vas muy bien');
   }, []);
 
   const showIncorrectAnswer = useCallback((correctAnswer: string) => {
-    // Replace any existing error toast to avoid accumulation
-    toast.replace('error', 'Incorrecto', `La respuesta correcta era: ${correctAnswer}`);
+    // Use single toast to ensure only one feedback toast is visible
+    toast.single.error('Incorrecto', `La respuesta correcta era: ${correctAnswer}`);
   }, []);
 
   const showModuleCompleted = useCallback((moduleName: string, score: number, accuracy: number) => {
-    // Clear any existing toasts before showing completion
-    toast.clearType('success');
-    toast.clearType('error');
-    
+    // Use single toast to ensure clean completion message
     if (accuracy >= 90) {
-      toast.achievement('¡Excelente trabajo!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión`, score);
+      toast.single.success('🎉 ¡Excelente trabajo!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
     } else if (accuracy >= 70) {
-      toast.achievement('¡Bien hecho!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión`, score);
+      toast.single.success('✨ ¡Bien hecho!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
     } else if (accuracy >= 50) {
-      toast.info('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. ¡Sigue practicando!`);
+      toast.single.info('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. ¡Sigue practicando!`);
     } else {
-      toast.warning('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. Te recomendamos repasar el contenido.`);
+      toast.single.warning('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. Te recomendamos repasar el contenido.`);
     }
   }, []);
 

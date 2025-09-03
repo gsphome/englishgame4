@@ -49,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
     setShowSettings(!showSettings);
     if (!showSettings) {
       // Replace any existing info toast to avoid accumulation
-      toast.replace('info', 'Configuración', 'Panel de configuración abierto');
+      toast.single.info('Configuración', 'Panel de configuración abierto');
     }
   };
 

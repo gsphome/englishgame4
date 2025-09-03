@@ -22,6 +22,7 @@ interface ToastStore {
   clearAllToasts: () => void;
   clearToastsByType: (type: ToastType) => void;
   replaceToastByType: (toast: Omit<ToastData, 'id'>) => void;
+  showSingleToast: (toast: Omit<ToastData, 'id'>) => void;
   hasShownToast: (key: string) => boolean;
   markToastAsShown: (key: string) => void;
 }
@@ -60,8 +61,18 @@ class SimpleToastStore {
       ...toast,
     };
 
+    // For better UX, limit the number of toasts visible at once
+    // Keep only the most recent toasts (max 2 at a time)
+    const currentToasts = this.state.toasts;
+    let updatedToasts = [...currentToasts, newToast];
+    
+    // If we have more than 2 toasts, remove the oldest ones
+    if (updatedToasts.length > 2) {
+      updatedToasts = updatedToasts.slice(-2);
+    }
+
     this.setState({
-      toasts: [...this.state.toasts, newToast],
+      toasts: updatedToasts,
     });
 
     // Auto-remove toast after duration
@@ -105,6 +116,16 @@ class SimpleToastStore {
     }, 100); // Small delay to ensure cleanup is complete
   };
 
+  // New method: Show only one toast at a time (clear all others)
+  showSingleToast = (toast: Omit<ToastData, 'id'>) => {
+    // Clear all existing toasts first
+    this.clearAllToasts();
+    // Add the new toast after a small delay
+    setTimeout(() => {
+      this.addToast(toast);
+    }, 150); // Small delay to ensure cleanup animation completes
+  };
+
   hasShownToast = (key: string) => {
     return this.state.shownToasts.has(key);
   };
@@ -139,6 +160,7 @@ export const useToastStore = (): ToastStore => {
     clearAllToasts: toastStoreInstance.clearAllToasts,
     clearToastsByType: toastStoreInstance.clearToastsByType,
     replaceToastByType: toastStoreInstance.replaceToastByType,
+    showSingleToast: toastStoreInstance.showSingleToast,
     hasShownToast: toastStoreInstance.hasShownToast,
     markToastAsShown: toastStoreInstance.markToastAsShown,
   };
@@ -234,6 +256,41 @@ export const showToast = {
         toastStoreInstance.clearToastsByType('warning');
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
+  },
+
+  // New functions for single toast display (better UX)
+  single: {
+    success(title: string, message?: string, options?: Partial<ToastData>) {
+      setTimeout(() => {
+        try {
+          toastStoreInstance.showSingleToast({ type: 'success', title, message, ...options });
+        } catch (e) { console.warn('Toast not ready:', e); }
+      }, 0);
+    },
+    
+    error(title: string, message?: string, options?: Partial<ToastData>) {
+      setTimeout(() => {
+        try {
+          toastStoreInstance.showSingleToast({ type: 'error', title, message, duration: 6000, ...options });
+        } catch (e) { console.warn('Toast not ready:', e); }
+      }, 0);
+    },
+    
+    warning(title: string, message?: string, options?: Partial<ToastData>) {
+      setTimeout(() => {
+        try {
+          toastStoreInstance.showSingleToast({ type: 'warning', title, message, ...options });
+        } catch (e) { console.warn('Toast not ready:', e); }
+      }, 0);
+    },
+    
+    info(title: string, message?: string, options?: Partial<ToastData>) {
+      setTimeout(() => {
+        try {
+          toastStoreInstance.showSingleToast({ type: 'info', title, message, ...options });
+        } catch (e) { console.warn('Toast not ready:', e); }
+      }, 0);
+    }
   }
 };
 
