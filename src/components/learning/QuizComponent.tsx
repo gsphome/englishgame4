@@ -86,7 +86,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     if (isCorrect) {
       showCorrectAnswer();
     } else {
-      showIncorrectAnswer(currentQuestion?.correct || 'No disponible');
+      showIncorrectAnswer();
     }
 
     logDebug('Answer selected', {

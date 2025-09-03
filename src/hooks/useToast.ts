@@ -8,20 +8,20 @@ export const useToast = () => {
   // Learning-specific toast messages
   const showCorrectAnswer = useCallback(() => {
     const messages = [
-      '¡Excelente! 🎉',
-      '¡Correcto! 👏',
-      '¡Bien hecho! ✨',
+      '¡Correcto! 🎉',
+      '¡Excelente! ✨',
       '¡Perfecto! 🌟',
+      '¡Bien! 👏',
       '¡Genial! 🚀'
     ];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    // Use single toast to ensure only one feedback toast is visible
-    toast.single.success(randomMessage, 'Sigue así, vas muy bien');
+    // Quick success feedback - explanation is already in main UI
+    toast.single.success(randomMessage, undefined, { duration: 2000 });
   }, []);
 
-  const showIncorrectAnswer = useCallback((correctAnswer: string) => {
-    // Use single toast to ensure only one feedback toast is visible
-    toast.single.error('Incorrecto', `La respuesta correcta era: ${correctAnswer}`);
+  const showIncorrectAnswer = useCallback(() => {
+    // Quick error feedback - explanation is already in main UI
+    toast.single.error('Incorrecto', undefined, { duration: 2000 });
   }, []);
 
   const showModuleCompleted = useCallback((moduleName: string, score: number, accuracy: number) => {
