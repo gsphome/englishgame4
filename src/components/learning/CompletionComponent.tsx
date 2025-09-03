@@ -204,24 +204,22 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
         }`}>
           <div className="px-3 py-2 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
             {/* Ultra-compact result feedback */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-1.5">
-                {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() ? (
-                  <Check className="h-3.5 w-3.5 text-green-600" />
-                ) : (
-                  <X className="h-3.5 w-3.5 text-red-600" />
-                )}
-                <span className="font-medium text-xs text-gray-900 dark:text-white">
-                  {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() 
-                    ? 'Correct!' 
-                    : 'Incorrect'}
-                </span>
-              </div>
+            <div className="flex items-center space-x-1.5 flex-wrap">
+              {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() ? (
+                <Check className="h-3.5 w-3.5 text-green-600" />
+              ) : (
+                <X className="h-3.5 w-3.5 text-red-600" />
+              )}
+              <span className="font-medium text-xs text-gray-900 dark:text-white">
+                {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() 
+                  ? 'Correct!' 
+                  : 'Incorrect'}
+              </span>
               
-              {/* Correct answer inline and compact */}
+              {/* Correct answer flows naturally after incorrect */}
               {answer.toLowerCase().trim() !== currentExercise?.correct?.toLowerCase().trim() && (
                 <span className="text-xs text-gray-700 dark:text-gray-300">
-                  <strong>{currentExercise?.correct}</strong>
+                  - Answer: <strong>{currentExercise?.correct}</strong>
                 </span>
               )}
             </div>
