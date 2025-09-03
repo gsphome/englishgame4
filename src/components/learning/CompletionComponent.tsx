@@ -77,6 +77,16 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     }
   };
 
+  // Auto-focus input when exercise changes or component mounts
+  useEffect(() => {
+    if (!showResult) {
+      const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
+      if (inputElement) {
+        setTimeout(() => inputElement.focus(), 100);
+      }
+    }
+  }, [currentIndex, showResult]);
+
   const renderSentence = () => {
     if (!currentExercise?.sentence) return null;
     
@@ -106,20 +116,19 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             disabled={showResult}
-            placeholder="______"
+            placeholder="..."
             autoComplete="off"
-            autoFocus
-            className={`inline-block mx-1 px-2 py-1 min-w-[100px] text-center border-0 border-b-2 bg-transparent focus:outline-none transition-all duration-200 font-medium ${
+            className={`inline-block mx-2 px-3 py-1.5 min-w-[120px] text-center rounded-lg border-2 focus:outline-none transition-all duration-200 font-medium ${
               showResult
                 ? isCorrect
-                  ? 'border-green-500 text-green-700'
+                  ? 'border-green-500 bg-green-50 text-green-700 dark:bg-green-900 dark:text-green-200'
                   : isIncorrect
-                  ? 'border-red-500 text-red-700'
-                  : 'border-gray-400 text-gray-600'
-                : 'border-gray-400 focus:border-blue-500 text-gray-900 dark:text-white'
+                  ? 'border-red-500 bg-red-50 text-red-700 dark:bg-red-900 dark:text-red-200'
+                  : 'border-gray-300 bg-gray-50 text-gray-600 dark:bg-gray-700 dark:text-gray-300'
+                : 'border-blue-300 bg-blue-50 focus:border-blue-500 focus:bg-white text-gray-900 dark:bg-gray-700 dark:border-gray-500 dark:text-white dark:focus:bg-gray-600'
             }`}
             style={{ 
-              width: `${Math.max(100, (answer?.length || 6) * 10 + 40)}px`
+              width: `${Math.max(120, (answer?.length || 3) * 12 + 60)}px`
             }}
           />
         );
@@ -189,16 +198,13 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
           </div>
         </div>
 
-        {/* Results - Always present with smooth transition */}
+        {/* Result and Explanation - Unified section with smooth transition */}
         <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${
-          showResult ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+          showResult ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
         }`}>
-          <div className={`p-4 rounded-lg border-l-4 ${
-            answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim()
-              ? 'bg-green-50 dark:bg-green-900 border-green-400'
-              : 'bg-red-50 dark:bg-red-900 border-red-400'
-          }`}>
-            <div className="flex items-center space-x-3 mb-2">
+          <div className="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+            {/* Result feedback */}
+            <div className="flex items-center space-x-3 mb-3">
               {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() ? (
                 <Check className="h-5 w-5 text-green-600" />
               ) : (
@@ -210,25 +216,23 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
                   : 'Incorrect'}
               </span>
             </div>
+            
+            {/* Correct answer if wrong */}
             {answer.toLowerCase().trim() !== currentExercise?.correct?.toLowerCase().trim() && (
-              <p className="text-sm text-gray-700 dark:text-gray-300">
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
                 Correct answer: <strong>{currentExercise?.correct}</strong>
               </p>
             )}
-          </div>
-        </div>
-
-        {/* Explanation - Always present with smooth transition */}
-        <div className={`mt-4 overflow-hidden transition-all duration-300 ease-in-out ${
-          showResult && currentExercise?.explanation 
-            ? 'max-h-32 opacity-100' 
-            : 'max-h-0 opacity-0'
-        }`}>
-          <div className="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
-            <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Explanation:</h4>
-            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-              {currentExercise?.explanation || ''}
-            </p>
+            
+            {/* Explanation */}
+            {currentExercise?.explanation && (
+              <div className="border-t border-blue-200 dark:border-blue-700 pt-3">
+                <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Explanation:</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {currentExercise.explanation}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>
