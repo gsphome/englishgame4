@@ -176,7 +176,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
       </div>
 
       {/* Unified Control Bar */}
-      <div className="flex justify-center items-center gap-3 flex-wrap">
+      <div className="flex justify-center items-center gap-3 flex-wrap mt-6">
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}

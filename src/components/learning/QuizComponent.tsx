@@ -208,11 +208,10 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         </div>
 
         {/* Explanation - Always present with smooth transition */}
-        <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${
-          showResult && currentQuestion?.explanation 
-            ? 'max-h-40 opacity-100' 
+        <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${showResult && currentQuestion?.explanation
+            ? 'max-h-40 opacity-100'
             : 'max-h-0 opacity-0'
-        }`}>
+          }`}>
           <div className="quiz-explanation p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
             <h4 className="font-medium mb-2" style={{ color: textColor }}>Explanation:</h4>
             <p style={{ color: textColor }}>{currentQuestion?.explanation || ''}</p>
@@ -221,7 +220,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       </div>
 
       {/* Unified Control Bar */}
-      <div className="flex justify-center items-center gap-3 flex-wrap">
+      <div className="flex justify-center items-center gap-3 flex-wrap mt-6">
         {showResult && (
           <>
             <button

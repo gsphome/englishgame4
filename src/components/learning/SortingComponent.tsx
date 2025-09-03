@@ -282,7 +282,7 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
       </div>
 
       {/* Unified Control Bar */}
-      <div className="flex justify-center items-center gap-3 flex-wrap">
+      <div className="flex justify-center items-center gap-3 flex-wrap mt-6">
         {!showResult ? (
           <>
             <button
