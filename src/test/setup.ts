@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+// Basic test setup
 
 // Mock IntersectionObserver
 (globalThis as any).IntersectionObserver = class IntersectionObserver {
