@@ -192,44 +192,45 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
           </div>
         )}
 
-        <div className="text-lg leading-relaxed mb-8 p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-inner">
+        <div className="text-lg leading-relaxed mb-4 p-6 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-800 rounded-xl border border-gray-200 dark:border-gray-600 shadow-inner">
           <div className="text-gray-900 dark:text-white font-medium">
             {renderSentence()}
           </div>
         </div>
 
-        {/* Result and Explanation - Unified section with smooth transition */}
-        <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${
-          showResult ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
+        {/* Result and Explanation - Compact unified section */}
+        <div className={`mt-3 overflow-hidden transition-all duration-300 ease-in-out ${
+          showResult ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
         }`}>
-          <div className="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
-            {/* Result feedback */}
-            <div className="flex items-center space-x-3 mb-3">
-              {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() ? (
-                <Check className="h-5 w-5 text-green-600" />
-              ) : (
-                <X className="h-5 w-5 text-red-600" />
+          <div className="px-3 py-2 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+            {/* Ultra-compact result feedback */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-1.5">
+                {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() ? (
+                  <Check className="h-3.5 w-3.5 text-green-600" />
+                ) : (
+                  <X className="h-3.5 w-3.5 text-red-600" />
+                )}
+                <span className="font-medium text-xs text-gray-900 dark:text-white">
+                  {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() 
+                    ? 'Correct!' 
+                    : 'Incorrect'}
+                </span>
+              </div>
+              
+              {/* Correct answer inline and compact */}
+              {answer.toLowerCase().trim() !== currentExercise?.correct?.toLowerCase().trim() && (
+                <span className="text-xs text-gray-700 dark:text-gray-300">
+                  <strong>{currentExercise?.correct}</strong>
+                </span>
               )}
-              <span className="font-medium text-gray-900 dark:text-white">
-                {answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim() 
-                  ? 'Correct!' 
-                  : 'Incorrect'}
-              </span>
             </div>
             
-            {/* Correct answer if wrong */}
-            {answer.toLowerCase().trim() !== currentExercise?.correct?.toLowerCase().trim() && (
-              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                Correct answer: <strong>{currentExercise?.correct}</strong>
-              </p>
-            )}
-            
-            {/* Explanation */}
+            {/* Compact explanation */}
             {currentExercise?.explanation && (
-              <div className="border-t border-blue-200 dark:border-blue-700 pt-3">
-                <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Explanation:</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
-                  {currentExercise.explanation}
+              <div className="border-t border-blue-200 dark:border-blue-700 pt-2 mt-2">
+                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                  <span className="font-medium">Explanation:</span> {currentExercise.explanation}
                 </p>
               </div>
             )}
