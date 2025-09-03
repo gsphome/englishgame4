@@ -26,12 +26,13 @@ interface ToastStore {
   markToastAsShown: (key: string) => void;
 }
 
-export const useToastStore = create<ToastStore>((set, get) => ({
-  toasts: [],
-  shownToasts: new Set<string>(),
+export const useToastStore = create<ToastStore>()(
+  (set, get) => ({
+    toasts: [],
+    shownToasts: new Set<string>(),
 
   addToast: (toastData) => {
-    const id = `toast-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
     const toast: ToastData = {
       id,
       duration: 4000, // Default 4 seconds
@@ -110,84 +111,75 @@ export const useToastStore = create<ToastStore>((set, get) => ({
       return { shownToasts: newSet };
     });
   },
-}));
+  })
+);
 
-// Helper function to safely get store state
-const getToastStore = () => {
-  try {
-    // Ensure the store is initialized by checking if it has the expected methods
-    const state = useToastStore.getState();
-    if (state && typeof state.addToast === 'function') {
-      return state;
-    }
-    return null;
-  } catch (error) {
-    console.warn('Toast store not yet initialized:', error);
-    return null;
-  }
-};
-
-// Convenience functions for different toast types
+// Lazy-loaded toast functions to avoid initialization issues
 export const toast = {
   success: (title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type: 'success',
         title,
         message,
         ...options,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   error: (title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type: 'error',
         title,
         message,
         duration: 6000, // Errors stay longer
         ...options,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   warning: (title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type: 'warning',
         title,
         message,
         ...options,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   info: (title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type: 'info',
         title,
         message,
         ...options,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Special toast for learning achievements
   achievement: (title: string, message?: string, points?: number) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type: 'success',
         title: `🎉 ${title}`,
         message: points ? `${message} (+${points} points)` : message,
         duration: 5000,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
@@ -199,9 +191,8 @@ export const toast = {
     actionLabel: string,
     actionCallback: () => void
   ) => {
-    const store = getToastStore();
-    if (store) {
-      store.addToast({
+    try {
+      useToastStore.getState().addToast({
         type,
         title,
         message,
@@ -211,59 +202,70 @@ export const toast = {
           onClick: actionCallback,
         },
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Show toast only once per session
   once: (key: string, type: ToastType, title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store && !store.hasShownToast(key)) {
-      store.markToastAsShown(key);
-      store.addToast({
-        type,
-        title,
-        message,
-        ...options,
-      });
+    try {
+      const store = useToastStore.getState();
+      if (!store.hasShownToast(key)) {
+        store.markToastAsShown(key);
+        store.addToast({
+          type,
+          title,
+          message,
+          ...options,
+        });
+      }
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Replace existing toasts of the same type
   replace: (type: ToastType, title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = getToastStore();
-    if (store) {
-      store.replaceToastByType({
+    try {
+      useToastStore.getState().replaceToastByType({
         type,
         title,
         message,
         ...options,
       });
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Clear all toasts of a specific type
   clearType: (type: ToastType) => {
-    const store = getToastStore();
-    if (store) {
-      store.clearToastsByType(type);
+    try {
+      useToastStore.getState().clearToastsByType(type);
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Clear all toasts immediately (for view transitions)
   clearAll: () => {
-    const store = getToastStore();
-    if (store) {
-      store.clearAllToasts();
+    try {
+      useToastStore.getState().clearAllToasts();
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 
   // Clear all game-related toasts
   clearGameToasts: () => {
-    const store = getToastStore();
-    if (store) {
+    try {
+      const store = useToastStore.getState();
       store.clearToastsByType('success');
       store.clearToastsByType('error');
       store.clearToastsByType('warning');
+    } catch (error) {
+      console.warn('Toast store not ready:', error);
     }
   },
 };
