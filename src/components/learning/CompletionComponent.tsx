@@ -189,9 +189,11 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
           </div>
         </div>
 
-        {/* Results */}
-        {showResult && (
-          <div className={`mt-6 p-4 rounded-lg border-l-4 ${
+        {/* Results - Always present with smooth transition */}
+        <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${
+          showResult ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+        }`}>
+          <div className={`p-4 rounded-lg border-l-4 ${
             answer.toLowerCase().trim() === currentExercise?.correct?.toLowerCase().trim()
               ? 'bg-green-50 dark:bg-green-900 border-green-400'
               : 'bg-red-50 dark:bg-red-900 border-red-400'
@@ -213,13 +215,22 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
                 Correct answer: <strong>{currentExercise?.correct}</strong>
               </p>
             )}
-            {currentExercise?.explanation && (
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                {currentExercise.explanation}
-              </p>
-            )}
           </div>
-        )}
+        </div>
+
+        {/* Explanation - Always present with smooth transition */}
+        <div className={`mt-4 overflow-hidden transition-all duration-300 ease-in-out ${
+          showResult && currentExercise?.explanation 
+            ? 'max-h-32 opacity-100' 
+            : 'max-h-0 opacity-0'
+        }`}>
+          <div className="p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+            <h4 className="font-medium mb-2 text-gray-900 dark:text-white">Explanation:</h4>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              {currentExercise?.explanation || ''}
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Unified Control Bar */}
