@@ -94,7 +94,7 @@ export default defineConfig({
             return 'ui-components';
           }
           
-          // Stores and hooks
+          // Stores and hooks - keep together to avoid initialization issues
           if (id.includes('/stores/') || id.includes('/hooks/')) {
             return 'app-logic';
           }
