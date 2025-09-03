@@ -62,48 +62,9 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        manualChunks: (id) => {
-          // Vendor libraries
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'vendor-react';
-            }
-            if (id.includes('lucide-react')) {
-              return 'vendor-icons';
-            }
-            if (id.includes('zustand') || id.includes('zod')) {
-              return 'vendor-utils';
-            }
-            if (id.includes('@tanstack')) {
-              return 'vendor-query';
-            }
-            return 'vendor-misc';
-          }
-          
-          // Learning components - separate chunks for each
-          if (id.includes('/components/learning/')) {
-            if (id.includes('QuizComponent')) return 'learning-quiz';
-            if (id.includes('FlashcardComponent')) return 'learning-flashcard';
-            if (id.includes('CompletionComponent')) return 'learning-completion';
-            if (id.includes('SortingComponent')) return 'learning-sorting';
-            if (id.includes('MatchingComponent')) return 'learning-matching';
-          }
-          
-          // UI components
-          if (id.includes('/components/ui/')) {
-            return 'ui-components';
-          }
-          
-          // Stores and hooks - keep together to avoid initialization issues
-          if (id.includes('/stores/') || id.includes('/hooks/')) {
-            return 'app-logic';
-          }
-          
-          // Utils
-          if (id.includes('/utils/')) {
-            return 'app-utils';
-          }
-        },
+        // Disable manual chunking completely to avoid initialization order issues
+        // Let Vite handle chunking automatically for GitHub Pages compatibility
+        manualChunks: undefined,
       },
     },
   },
