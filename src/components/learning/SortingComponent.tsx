@@ -185,15 +185,21 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
 
   return (
     <div className="max-w-6xl mx-auto p-3 sm:p-6">
-      {/* Compact header */}
+      {/* Compact header with progress */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">{module.name}</h2>
           <span className="text-sm font-medium text-gray-600 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
-            {availableWords.length} words left
+            {exercise.words.length - availableWords.length}/{exercise.words.length}
           </span>
         </div>
-        <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        <div className="w-full bg-gray-200 rounded-full h-1.5">
+          <div
+            className="bg-orange-600 h-1.5 rounded-full transition-all duration-300"
+            style={{ width: `${exercise.words.length > 0 ? ((exercise.words.length - availableWords.length) / exercise.words.length) * 100 : 0}%` }}
+          />
+        </div>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
           {allWordsSorted ? 'All words sorted! Check your answers' : 'Drag and drop words into categories'}
         </p>
       </div>
