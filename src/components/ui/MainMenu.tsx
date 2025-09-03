@@ -52,7 +52,7 @@ export const MainMenu: React.FC = () => {
       matching: 'Ejercicio de emparejamiento'
     };
     
-    toast.single.info('Iniciando módulo', `${module.name} - ${modeLabels[module.learningMode] || 'Ejercicio'}`);
+    toast.single.info('Iniciando módulo', `${module.name} - ${modeLabels[module.learningMode] || 'Ejercicio'}`, { duration: 1500 });
     
     setCurrentModule(module);
     setCurrentView(module.learningMode);
