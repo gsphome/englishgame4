@@ -112,53 +112,83 @@ export const useToastStore = create<ToastStore>((set, get) => ({
   },
 }));
 
+// Helper function to safely get store state
+const getToastStore = () => {
+  try {
+    // Ensure the store is initialized by checking if it has the expected methods
+    const state = useToastStore.getState();
+    if (state && typeof state.addToast === 'function') {
+      return state;
+    }
+    return null;
+  } catch (error) {
+    console.warn('Toast store not yet initialized:', error);
+    return null;
+  }
+};
+
 // Convenience functions for different toast types
 export const toast = {
   success: (title: string, message?: string, options?: Partial<ToastData>) => {
-    useToastStore.getState().addToast({
-      type: 'success',
-      title,
-      message,
-      ...options,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type: 'success',
+        title,
+        message,
+        ...options,
+      });
+    }
   },
 
   error: (title: string, message?: string, options?: Partial<ToastData>) => {
-    useToastStore.getState().addToast({
-      type: 'error',
-      title,
-      message,
-      duration: 6000, // Errors stay longer
-      ...options,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type: 'error',
+        title,
+        message,
+        duration: 6000, // Errors stay longer
+        ...options,
+      });
+    }
   },
 
   warning: (title: string, message?: string, options?: Partial<ToastData>) => {
-    useToastStore.getState().addToast({
-      type: 'warning',
-      title,
-      message,
-      ...options,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type: 'warning',
+        title,
+        message,
+        ...options,
+      });
+    }
   },
 
   info: (title: string, message?: string, options?: Partial<ToastData>) => {
-    useToastStore.getState().addToast({
-      type: 'info',
-      title,
-      message,
-      ...options,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type: 'info',
+        title,
+        message,
+        ...options,
+      });
+    }
   },
 
   // Special toast for learning achievements
   achievement: (title: string, message?: string, points?: number) => {
-    useToastStore.getState().addToast({
-      type: 'success',
-      title: `🎉 ${title}`,
-      message: points ? `${message} (+${points} points)` : message,
-      duration: 5000,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type: 'success',
+        title: `🎉 ${title}`,
+        message: points ? `${message} (+${points} points)` : message,
+        duration: 5000,
+      });
+    }
   },
 
   // Toast with custom action
@@ -169,22 +199,25 @@ export const toast = {
     actionLabel: string,
     actionCallback: () => void
   ) => {
-    useToastStore.getState().addToast({
-      type,
-      title,
-      message,
-      duration: 0, // Don't auto-dismiss when there's an action
-      action: {
-        label: actionLabel,
-        onClick: actionCallback,
-      },
-    });
+    const store = getToastStore();
+    if (store) {
+      store.addToast({
+        type,
+        title,
+        message,
+        duration: 0, // Don't auto-dismiss when there's an action
+        action: {
+          label: actionLabel,
+          onClick: actionCallback,
+        },
+      });
+    }
   },
 
   // Show toast only once per session
   once: (key: string, type: ToastType, title: string, message?: string, options?: Partial<ToastData>) => {
-    const store = useToastStore.getState();
-    if (!store.hasShownToast(key)) {
+    const store = getToastStore();
+    if (store && !store.hasShownToast(key)) {
       store.markToastAsShown(key);
       store.addToast({
         type,
@@ -197,29 +230,40 @@ export const toast = {
 
   // Replace existing toasts of the same type
   replace: (type: ToastType, title: string, message?: string, options?: Partial<ToastData>) => {
-    useToastStore.getState().replaceToastByType({
-      type,
-      title,
-      message,
-      ...options,
-    });
+    const store = getToastStore();
+    if (store) {
+      store.replaceToastByType({
+        type,
+        title,
+        message,
+        ...options,
+      });
+    }
   },
 
   // Clear all toasts of a specific type
   clearType: (type: ToastType) => {
-    useToastStore.getState().clearToastsByType(type);
+    const store = getToastStore();
+    if (store) {
+      store.clearToastsByType(type);
+    }
   },
 
   // Clear all toasts immediately (for view transitions)
   clearAll: () => {
-    useToastStore.getState().clearAllToasts();
+    const store = getToastStore();
+    if (store) {
+      store.clearAllToasts();
+    }
   },
 
   // Clear all game-related toasts
   clearGameToasts: () => {
-    const store = useToastStore.getState();
-    store.clearToastsByType('success');
-    store.clearToastsByType('error');
-    store.clearToastsByType('warning');
+    const store = getToastStore();
+    if (store) {
+      store.clearToastsByType('success');
+      store.clearToastsByType('error');
+      store.clearToastsByType('warning');
+    }
   },
 };

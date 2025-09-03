@@ -55,13 +55,17 @@ const AppContent: React.FC = () => {
       
       // Clear ALL toasts from learning modes when exiting them
       if (learningModes.includes(prevView)) {
-        // Immediate cleanup for smooth transition
-        toast.clearGameToasts();
+        // Small delay to ensure store is initialized
+        setTimeout(() => {
+          toast.clearGameToasts();
+        }, 10);
       }
       
       // Also clear when entering a learning mode (clean slate)
       if (learningModes.includes(currentView)) {
-        toast.clearGameToasts();
+        setTimeout(() => {
+          toast.clearGameToasts();
+        }, 10);
       }
       
       // Special case: when going to menu from any learning mode
