@@ -8,7 +8,7 @@ interface MatchingComponentProps {
   module: LearningModule;
 }
 
-export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
+const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
   const [leftItems, setLeftItems] = useState<string[]>([]);
   const [rightItems, setRightItems] = useState<string[]>([]);
   const [selectedLeft, setSelectedLeft] = useState<string | null>(null);
@@ -344,14 +344,14 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
         </div>
       </div>
 
-      {/* Compact controls */}
-      <div className="flex justify-center items-center space-x-2">
+      {/* Unified Control Bar */}
+      <div className="flex justify-center items-center gap-3 flex-wrap">
         {!showResult ? (
           <>
             <button
               onClick={resetExercise}
-              className="p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              title="Reset"
+              className="p-2.5 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors shadow-sm"
+              title="Reset Exercise"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
@@ -359,7 +359,7 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
             <button
               onClick={checkAnswers}
               disabled={!allMatched}
-              className="flex items-center space-x-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+              className="flex items-center gap-2 px-6 py-2.5 bg-pink-600 hover:bg-pink-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
             >
               <Check className="h-4 w-4" />
               <span>Check Matches</span>
@@ -368,11 +368,22 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
         ) : (
           <button
             onClick={finishExercise}
-            className="flex items-center space-x-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors text-sm"
+            className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
           >
             <span>Finish Exercise</span>
           </button>
         )}
+        
+        {/* Separator */}
+        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        
+        {/* Navigation */}
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="flex items-center gap-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+        >
+          ← Menu
+        </button>
       </div>
 
       {/* Explanation Modal */}
@@ -458,13 +469,9 @@ export const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) 
         </div>
       )}
 
-      {/* Back to menu */}
-      <button
-        onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-      >
-        Back to Menu
-      </button>
+
     </div>
   );
 };
+
+export default MatchingComponent;

@@ -18,7 +18,7 @@ interface CompletionComponentProps {
   module: LearningModule;
 }
 
-export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => {
+const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answer, setAnswer] = useState('');
   const [showResult, setShowResult] = useState(false);
@@ -40,7 +40,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   // Early return if no data
   if (!randomizedExercises.length) {
     return (
-      <div className="max-w-4xl mx-auto p-6 text-center">
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
         <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No completion exercises available'}</p>
         <button
           onClick={() => setCurrentView('menu')}
@@ -149,7 +149,7 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
   const hasAnswer = answer.trim().length > 0;
 
   return (
-    <div className="max-w-4xl mx-auto p-3 sm:p-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6">
       {/* Compact header with progress */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
@@ -222,13 +222,13 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
         )}
       </div>
 
-      {/* Compact controls */}
-      <div className="flex justify-center">
+      {/* Unified Control Bar */}
+      <div className="flex justify-center items-center gap-3 flex-wrap">
         {!showResult ? (
           <button
             onClick={checkAnswer}
             disabled={!hasAnswer}
-            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+            className="flex items-center gap-2 px-6 py-2.5 bg-purple-600 hover:bg-purple-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
           >
             <Check className="h-4 w-4" />
             <span>Check Answer</span>
@@ -236,21 +236,26 @@ export const CompletionComponent: React.FC<CompletionComponentProps> = ({ module
         ) : (
           <button
             onClick={handleNext}
-            className="flex items-center space-x-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm"
+            className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
           >
             <span>{currentIndex === randomizedExercises.length - 1 ? 'Finish' : 'Next'}</span>
             <ArrowRight className="h-4 w-4" />
           </button>
         )}
+        
+        {/* Separator */}
+        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        
+        {/* Navigation */}
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="flex items-center gap-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+        >
+          ← Menu
+        </button>
       </div>
-
-      {/* Back to menu */}
-      <button
-        onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-      >
-        Back to Menu
-      </button>
     </div>
   );
 };
+
+export default CompletionComponent;

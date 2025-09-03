@@ -20,7 +20,7 @@ interface QuizComponentProps {
   module: LearningModule;
 }
 
-export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
+const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
@@ -58,7 +58,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   // Early return if no data
   if (!randomizedQuestions.length) {
     return (
-      <div className="max-w-3xl mx-auto p-6 text-center">
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
         <p className="text-gray-600 mb-4">No quiz questions available</p>
         <button
           onClick={() => setCurrentView('menu')}
@@ -128,7 +128,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   }, [showResult, currentQuestion]);
 
   return (
-    <div className="max-w-3xl mx-auto p-3 sm:p-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6">
       {/* Compact header with progress */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
@@ -180,10 +180,7 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <span
-                      className="w-6 h-6 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center text-xs font-medium mr-3"
-                      style={{ color: textColor }}
-                    >
+                    <span className="w-6 h-6 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full flex items-center justify-center text-xs font-medium mr-3">
                       {index + 1}
                     </span>
                     <span
@@ -210,35 +207,46 @@ export const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
           })}
         </div>
 
-        {/* Explanation */}
-        {showResult && currentQuestion?.explanation && (
-          <div className="quiz-explanation mt-6 p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
+        {/* Explanation - Always present with smooth transition */}
+        <div className={`mt-6 overflow-hidden transition-all duration-300 ease-in-out ${
+          showResult && currentQuestion?.explanation 
+            ? 'max-h-40 opacity-100' 
+            : 'max-h-0 opacity-0'
+        }`}>
+          <div className="quiz-explanation p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg">
             <h4 className="font-medium mb-2" style={{ color: textColor }}>Explanation:</h4>
-            <p style={{ color: textColor }}>{currentQuestion.explanation}</p>
+            <p style={{ color: textColor }}>{currentQuestion?.explanation || ''}</p>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Compact controls */}
-      {showResult && (
-        <div className="flex justify-center">
-          <button
-            onClick={handleNext}
-            className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
-          >
-            <span>{currentIndex === randomizedQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}</span>
-            <ArrowRight className="h-4 w-4" />
-          </button>
-        </div>
-      )}
+      {/* Unified Control Bar */}
+      <div className="flex justify-center items-center gap-3 flex-wrap">
+        {showResult && (
+          <>
+            <button
+              onClick={handleNext}
+              className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
+            >
+              <span>{currentIndex === randomizedQuestions.length - 1 ? 'Finish Quiz' : 'Next Question'}</span>
+              <ArrowRight className="h-4 w-4" />
+            </button>
 
-      {/* Back to menu */}
-      <button
-        onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-      >
-        Back to Menu
-      </button>
+            {/* Separator */}
+            <div className="w-px h-6 bg-gray-300 mx-1"></div>
+          </>
+        )}
+
+        {/* Navigation */}
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="flex items-center gap-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+        >
+          ← Menu
+        </button>
+      </div>
     </div>
   );
 };
+
+export default QuizComponent;

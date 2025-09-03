@@ -15,7 +15,7 @@ interface SortingComponentProps {
   module: LearningModule;
 }
 
-export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
+const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
   const [draggedItem, setDraggedItem] = useState<string | null>(null);
   const [sortedItems, setSortedItems] = useState<Record<string, string[]>>({});
   const [availableWords, setAvailableWords] = useState<string[]>([]);
@@ -281,14 +281,14 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         })}
       </div>
 
-      {/* Compact controls */}
-      <div className="flex justify-center items-center space-x-2">
+      {/* Unified Control Bar */}
+      <div className="flex justify-center items-center gap-3 flex-wrap">
         {!showResult ? (
           <>
             <button
               onClick={resetExercise}
-              className="p-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              title="Reset"
+              className="p-2.5 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors shadow-sm"
+              title="Reset Exercise"
             >
               <RotateCcw className="h-4 w-4" />
             </button>
@@ -296,7 +296,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
             <button
               onClick={checkAnswers}
               disabled={!allWordsSorted}
-              className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+              className="flex items-center gap-2 px-6 py-2.5 bg-orange-600 hover:bg-orange-700 disabled:bg-gray-400 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
             >
               <Check className="h-4 w-4" />
               <span>Check Answers</span>
@@ -305,20 +305,25 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ module }) =>
         ) : (
           <button
             onClick={finishExercise}
-            className="flex items-center space-x-2 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors text-sm"
+            className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm"
           >
             <span>Finish Exercise</span>
           </button>
         )}
+        
+        {/* Separator */}
+        <div className="w-px h-6 bg-gray-300 dark:bg-gray-600 mx-1"></div>
+        
+        {/* Navigation */}
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="flex items-center gap-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors text-sm font-medium"
+        >
+          ← Menu
+        </button>
       </div>
-
-      {/* Back to menu */}
-      <button
-        onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm"
-      >
-        Back to Menu
-      </button>
     </div>
   );
 };
+
+export default SortingComponent;

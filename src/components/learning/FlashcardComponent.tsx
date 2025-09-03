@@ -11,7 +11,7 @@ interface FlashcardComponentProps {
   module: LearningModule;
 }
 
-export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
+const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [startTime] = useState(Date.now());
@@ -33,7 +33,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   // Early return if no data
   if (!randomizedFlashcards.length) {
     return (
-      <div className="max-w-2xl mx-auto p-6 text-center">
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
         <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No flashcards available'}</p>
         <button
           onClick={() => setCurrentView('menu')}
@@ -100,7 +100,7 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
   }, [isFlipped, currentIndex]);
 
   return (
-    <div className="max-w-2xl mx-auto p-3 sm:p-6">
+    <div className="max-w-6xl mx-auto p-3 sm:p-6">
       {/* Compact header with progress */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-3">
@@ -175,41 +175,46 @@ export const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }
         </div>
       </div>
 
-      {/* Compact controls */}
-      <div className="flex justify-center items-center space-x-2 mt-4">
+      {/* Unified Control Bar */}
+      <div className="flex justify-center items-center gap-3 flex-wrap">
         <button
           onClick={handlePrev}
           disabled={currentIndex === 0}
-          className="p-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          title="Previous (←)"
+          className="p-2.5 bg-gray-200 hover:bg-gray-300 disabled:bg-gray-100 text-gray-700 rounded-lg transition-colors shadow-sm"
+          title="Previous Card (←)"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-4 w-4" />
         </button>
 
         <button
           onClick={handleFlip}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm font-medium shadow-sm w-[140px] justify-center"
         >
           <RotateCcw className="h-4 w-4" />
-          <span className="text-sm">{isFlipped ? 'Flip Back' : 'Flip'}</span>
+          <span>{isFlipped ? 'Flip Back' : 'Flip'}</span>
         </button>
 
         <button
           onClick={handleNext}
-          className="p-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-          title={currentIndex === randomizedFlashcards.length - 1 ? 'Finish' : 'Next (→)'}
+          className="p-2.5 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-lg transition-colors shadow-sm"
+          title={currentIndex === randomizedFlashcards.length - 1 ? 'Finish' : 'Next Card (→)'}
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4" />
+        </button>
+        
+        {/* Separator */}
+        <div className="w-px h-6 bg-gray-300 mx-1"></div>
+        
+        {/* Navigation */}
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="flex items-center gap-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+        >
+          ← Menu
         </button>
       </div>
-
-      {/* Back to menu */}
-      <button
-        onClick={() => setCurrentView('menu')}
-        className="w-full mt-3 px-4 py-2 bg-gray-50 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm"
-      >
-        {t('mainMenu')}
-      </button>
     </div>
   );
 };
+
+export default FlashcardComponent;

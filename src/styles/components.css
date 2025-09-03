@@ -5,6 +5,10 @@
   @apply min-h-screen;
 }
 
+.layout-main {
+  @apply px-3 sm:px-6;
+}
+
 /* Header - Legacy (mantener para compatibilidad) */
 .header {
   @apply bg-white border-b border-gray-200 shadow-sm;
@@ -52,7 +56,7 @@
 }
 
 .header-redesigned__container {
-  @apply max-w-6xl mx-auto px-4 py-3;
+  @apply max-w-6xl mx-auto px-3 sm:px-6 py-3;
   @apply flex items-center justify-between;
   @apply gap-4;
   min-height: 64px;
@@ -201,7 +205,7 @@
 
 /* Main Menu */
 .menu {
-  @apply max-w-4xl mx-auto my-2 bg-white pt-4 pb-6 px-4 rounded-lg shadow-sm;
+  @apply max-w-6xl mx-auto my-2 bg-white pt-4 pb-6 px-3 sm:px-6 rounded-lg shadow-sm;
 }
 
 .menu__title {
@@ -213,7 +217,7 @@
 }
 
 .menu__grid {
-  @apply bg-gray-50 rounded-xl p-2 border-2 border-gray-200 max-w-3xl mx-auto;
+  @apply bg-gray-50 rounded-xl p-2 border-2 border-gray-200 max-w-5xl mx-auto;
 }
 
 /* Optimización para modo web - contenedor más compacto */

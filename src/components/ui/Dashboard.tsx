@@ -34,7 +34,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose }) => {
   const avgScore = moduleData.length > 0 ? Math.round(moduleData.reduce((sum, m) => sum + m.score, 0) / moduleData.length) : 0;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 relative">
+    <div className="max-w-6xl mx-auto px-3 sm:px-6 space-y-6 relative">
       {/* Floating Close Button */}
       <button
         onClick={onClose}
