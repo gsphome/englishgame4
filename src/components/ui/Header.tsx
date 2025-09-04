@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { User, Settings, Menu, BarChart3 } from 'lucide-react';
+import './Header.css';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { toast } from '../../stores/toastStore';
-import { useTranslation } from '../../utils/i18n';
+
 import { UserProfileForm } from './UserProfileForm';
 import { AdvancedSettingsModal } from './AdvancedSettingsModal';
 import { ScoreDisplay } from './ScoreDisplay';
@@ -17,8 +18,7 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
   const { setCurrentView, currentView } = useAppStore();
   const { user } = useUserStore();
-  const { theme, language } = useSettingsStore();
-  const { t } = useTranslation(language);
+  const { theme } = useSettingsStore();
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
@@ -146,47 +146,47 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
       />
 
       {showSideMenu && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 z-40" 
+        <div
+          className="header-side-menu-overlay"
           onClick={() => setShowSideMenu(false)}
           role="presentation"
         >
-          <nav 
+          <nav
             id="navigation-menu"
-            className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-50" 
+            className="header-side-menu"
             onClick={(e) => e.stopPropagation()}
             role="navigation"
             aria-label="Main navigation"
           >
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {'Navigation'}
+            <div className="header-side-menu__header">
+              <h2 className="header-side-menu__title">
+                Navegación
               </h2>
             </div>
-            <div className="p-4 space-y-2">
+            <div className="header-side-menu__content">
               <button
                 onClick={handleGoToMenu}
-                className="w-full text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md flex items-center space-x-3 text-gray-900 dark:text-white"
-                aria-label="Go to main menu"
+                className="header-side-menu__item"
+                aria-label="Ir al menú principal"
               >
-                <Menu className="h-5 w-5" aria-hidden="true" />
-                <span>{t('navigation.mainMenu') || 'Main Menu'}</span>
+                <Menu className="header-side-menu__icon" aria-hidden="true" />
+                <span className="header-side-menu__text">Menú Principal</span>
               </button>
               <button
                 onClick={() => { setShowSettings(true); setShowSideMenu(false); }}
-                className="w-full text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md flex items-center space-x-3 text-gray-900 dark:text-white"
-                aria-label="Open settings"
+                className="header-side-menu__item"
+                aria-label="Abrir configuración"
               >
-                <Settings className="h-5 w-5" aria-hidden="true" />
-                <span>{t('navigation.settings') || 'Settings'}</span>
+                <Settings className="header-side-menu__icon" aria-hidden="true" />
+                <span className="header-side-menu__text">Configuración</span>
               </button>
               <button
-                className="w-full text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md flex items-center space-x-3 text-gray-900 dark:text-white"
-                onClick={() => alert('About This App\n\nThis is an advanced learning application designed to help you improve your English vocabulary and understanding through interactive exercises.\n\nDeveloped by Genil Suarez.')}
-                aria-label="About this application"
+                className="header-side-menu__item"
+                onClick={() => alert('Acerca de esta App\n\nEsta es una aplicación avanzada de aprendizaje diseñada para ayudarte a mejorar tu vocabulario y comprensión del inglés a través de ejercicios interactivos.\n\nDesarrollado por Genil Suarez.')}
+                aria-label="Acerca de esta aplicación"
               >
-                <User className="h-5 w-5" aria-hidden="true" />
-                <span>{t('navigation.about') || 'About'}</span>
+                <User className="header-side-menu__icon" aria-hidden="true" />
+                <span className="header-side-menu__text">Acerca de</span>
               </button>
             </div>
           </nav>

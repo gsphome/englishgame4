@@ -72,25 +72,55 @@
   fill: #10B981;
 }
 
-/* Responsive Chart Container */
+/* Compact chart styling */
 .dashboard-chart-container {
   width: 100%;
-  height: 300px;
+  height: 350px;
 }
 
-/* Chart No Data State */
+/* No data state styling */
 .dashboard-no-data {
+  height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 16rem; /* h-64 */
 }
 
 .dashboard-no-data-icon {
-  height: 3rem; /* h-12 */
-  width: 3rem; /* w-12 */
-  margin: 0 auto 1rem auto; /* mx-auto mb-4 */
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
   opacity: 0.5;
+}
+
+/* Chart consistency improvements */
+.recharts-cartesian-axis-tick-value {
+  font-weight: 500;
+}
+
+.recharts-tooltip-wrapper {
+  z-index: 1000;
+}
+
+/* Improved chart spacing */
+.recharts-wrapper {
+  margin: 0 auto;
+}
+
+/* Homologated chart styles */
+.dashboard-chart-homologated {
+  width: 100%;
+  height: 350px;
+}
+
+.dashboard-chart-homologated .recharts-cartesian-axis-tick-value {
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.dashboard-chart-homologated .recharts-label {
+  font-weight: bold;
+  font-size: 12px;
 }
 
 /* Help Modal Styles */
