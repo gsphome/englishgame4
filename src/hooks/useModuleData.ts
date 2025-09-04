@@ -1,83 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 import { useSettingsStore } from '../stores/settingsStore';
-import { secureJsonFetch, validateUrl } from '../utils/secureHttp';
-import { getLearningModulesPath, getAssetPath } from '../utils/pathUtils';
+import { apiService, fetchModules, fetchModuleData } from '../services/api';
 import type { LearningModule } from '../types';
-
-const fetchModuleData = async (moduleId: string): Promise<LearningModule> => {
-  // First get module metadata
-  const modulesUrl = validateUrl(getLearningModulesPath());
-  const modules: LearningModule[] = await secureJsonFetch(modulesUrl);
-  const moduleInfo = modules.find(m => m.id === moduleId);
-  
-  if (!moduleInfo) {
-    throw new Error(`Module ${moduleId} not found`);
-  }
-  
-  // Then get module data using the correct dataPath
-  if (!moduleInfo.dataPath) {
-    throw new Error(`Module ${moduleId} has no dataPath`);
-  }
-  
-  const dataUrl = validateUrl(getAssetPath(moduleInfo.dataPath));
-  const data = await secureJsonFetch(dataUrl);
-  
-  return {
-    ...moduleInfo,
-    data: data.data || data,
-    estimatedTime: data.estimatedTime || 5,
-    difficulty: data.difficulty || 3,
-    tags: data.tags || []
-  };
-};
-
-const fetchAllModules = async (): Promise<LearningModule[]> => {
-  const modulesUrl = validateUrl(getLearningModulesPath());
-  const modules = await secureJsonFetch(modulesUrl);
-  return modules.map((module: any) => ({
-    ...module,
-    estimatedTime: 5,
-    difficulty: 3,
-    tags: [module.category]
-  }));
-};
 
 export const useModuleData = (moduleId: string) => {
   const { categories, level, gameSettings } = useSettingsStore();
   
   return useQuery({
-    queryKey: ['module', moduleId, categories, level, gameSettings],
+    queryKey: ['module', moduleId],
     queryFn: async () => {
-      const module = await fetchModuleData(moduleId);
-      
-      // Filter data by categories and level
+      const response = await fetchModuleData(moduleId);
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to fetch module data');
+      }
+      return response.data;
+    },
+    select: (module: LearningModule) => {
+      // Apply filtering using the service layer
       if (module.data && Array.isArray(module.data)) {
-        let filteredData = module.data;
-        // Skip all filtering for sorting modules
-        if (module.learningMode === 'sorting') {
-          // No filtering for sorting
-        } else {
-          // Filter by categories
-          if (categories.length > 0) {
-            filteredData = filteredData.filter((item: any) => {
-              const itemCategory = item.category || getCategoryFromId(moduleId);
-              return categories.includes(itemCategory);
-            });
-          }
-          
-          // Filter by level
-          if (level !== 'all') {
-            filteredData = filteredData.filter((item: any) => {
-              const itemLevel = item.level || 'b1';
-              return itemLevel.toLowerCase() === level.toLowerCase();
-            });
-          }
-        }
+        // Determine limit based on game settings
+        let limit = 10; // default
         
-        // Limit items based on game settings (but not for sorting - it needs all data)
         if (module.learningMode && module.learningMode !== 'sorting') {
-          let limit = 10; // default
-          
           switch (module.learningMode) {
             case 'flashcard':
               limit = gameSettings.flashcardMode.wordCount;
@@ -92,18 +36,27 @@ export const useModuleData = (moduleId: string) => {
               limit = gameSettings.matchingMode.wordCount;
               break;
           }
-          
-          filteredData = filteredData.slice(0, limit);
         }
-        
-        module.data = filteredData;
+
+        const filteredData = apiService.filterModuleData(
+          module.data,
+          { categories, level, limit },
+          moduleId
+        );
+
+        return { ...module, data: filteredData };
       }
       
       return module;
     },
-    staleTime: 5 * 60 * 1000,
-    retry: 3,
-    refetchOnWindowFocus: false
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    retry: (failureCount, error) => {
+      if (error instanceof Error && error.message.includes('not found')) {
+        return false; // Don't retry for 404-like errors
+      }
+      return failureCount < 3;
+    },
+    refetchOnWindowFocus: false,
   });
 };
 
@@ -111,10 +64,15 @@ export const useAllModules = () => {
   const { categories, level } = useSettingsStore();
   
   return useQuery({
-    queryKey: ['modules', categories, level],
+    queryKey: ['modules'],
     queryFn: async () => {
-      const modules = await fetchAllModules();
-      
+      const response = await fetchModules();
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to fetch modules');
+      }
+      return response.data;
+    },
+    select: (modules: LearningModule[]) => {
       // Filter modules based on settings
       return modules.filter(module => {
         // Filter by categories
@@ -124,9 +82,10 @@ export const useAllModules = () => {
           }
         }
         
-        // Filter by level - module.level is an array
-        if (level !== 'all' && module.level && Array.isArray(module.level)) {
-          if (!module.level.includes(level)) {
+        // Filter by level - module.level can be array or string
+        if (level !== 'all' && module.level) {
+          const moduleLevels = Array.isArray(module.level) ? module.level : [module.level];
+          if (!moduleLevels.includes(level as any)) {
             return false;
           }
         }
@@ -134,15 +93,7 @@ export const useAllModules = () => {
         return true;
       });
     },
-    staleTime: 10 * 60 * 1000,
-    retry: 3
+    staleTime: 15 * 60 * 1000, // 15 minutes for modules list
+    retry: 3,
   });
-};
-
-// Helper function to determine category from module ID
-const getCategoryFromId = (moduleId: string): string => {
-  if (moduleId.includes('grammar') || moduleId.includes('conditional') || moduleId.includes('participle')) return 'Grammar';
-  if (moduleId.includes('phrasal')) return 'PhrasalVerbs';
-  if (moduleId.includes('idiom')) return 'Idioms';
-  return 'Vocabulary';
 };

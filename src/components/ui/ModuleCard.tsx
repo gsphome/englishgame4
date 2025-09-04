@@ -4,7 +4,7 @@ import type { LearningModule } from '../../types';
 
 interface ModuleCardProps {
   module: LearningModule;
-  onClick: () => void;
+  onClick: (module: LearningModule) => void;
   tabIndex?: number;
   role?: string;
   'aria-posinset'?: number;
@@ -52,14 +52,14 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      onClick();
+      onClick(module);
     }
   };
   
   return (
     <button 
       className={`module-card module-card--${module.learningMode}`}
-      onClick={onClick}
+      onClick={() => onClick(module)}
       onKeyDown={handleKeyDown}
       tabIndex={tabIndex}
       role={role}

@@ -50,12 +50,14 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
 
     let pairs: { left: string; right: string }[] = [];
     
-    if (module.data[0]?.pairs) {
-      pairs = module.data[0].pairs;
+    // Check if data has pairs property (legacy format)
+    const firstItem = module.data[0] as any;
+    if (firstItem?.pairs) {
+      pairs = firstItem.pairs;
     } else if (Array.isArray(module.data)) {
       pairs = module.data.map((item: any) => ({
-        left: item.en || item.term || '',
-        right: item.es || item.definition || ''
+        left: item.en || item.term || item.left || '',
+        right: item.es || item.definition || item.right || ''
       }));
     }
 
@@ -83,8 +85,9 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
 
   const getPairs = (): { left: string; right: string }[] => {
     if (!module.data) return [];
-    if (module.data[0]?.pairs) {
-      return module.data[0].pairs;
+    const firstItem = module.data[0] as any;
+    if (firstItem?.pairs) {
+      return firstItem.pairs;
     }
     return (module.data as any[]).map((item: any) => ({
       left: item.term || '',
