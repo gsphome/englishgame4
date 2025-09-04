@@ -236,5 +236,19 @@ class RateLimiter {
   }
 }
 
-// Global rate limiter instance
-export const globalRateLimiter = new RateLimiter(50, 60000); // 50 actions per minute
+// Global rate limiter instance - lazy initialization to avoid module loading issues
+let _globalRateLimiter: RateLimiter | null = null;
+export const globalRateLimiter = {
+  isAllowed: (key: string) => {
+    if (!_globalRateLimiter) {
+      _globalRateLimiter = new RateLimiter(50, 60000);
+    }
+    return _globalRateLimiter.isAllowed(key);
+  },
+  clear: (key: string) => {
+    if (!_globalRateLimiter) {
+      _globalRateLimiter = new RateLimiter(50, 60000);
+    }
+    _globalRateLimiter.clear(key);
+  }
+};

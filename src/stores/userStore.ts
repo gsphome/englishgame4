@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { logDebug } from '../utils/logger';
 import type { User, ModuleScore } from '../types';
 
 interface UserStore {
@@ -63,10 +62,7 @@ export const useUserStore = create<UserStore>()(
         const { userScores } = get();
         const scores = Object.values(userScores);
         
-        logDebug('getGlobalStats called', {
-          userScores,
-          scoresArray: scores
-        }, 'UserStore');
+        // Debug logging removed to avoid circular dependencies
         
         if (scores.length === 0) {
           const emptyStats = {
@@ -78,7 +74,6 @@ export const useUserStore = create<UserStore>()(
             level: 1,
             progressToNextLevel: 0
           };
-          logDebug('Returning empty stats', emptyStats, 'UserStore');
           return emptyStats;
         }
 
@@ -117,7 +112,6 @@ export const useUserStore = create<UserStore>()(
           progressToNextLevel
         };
         
-        logDebug('Calculated global stats', globalStats, 'UserStore');
         return globalStats;
       }
     }),

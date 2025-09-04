@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { logDebug } from '../utils/logger';
 import type { AppState, LearningModule, SessionScore } from '../types';
 
 interface AppStore extends AppState {
@@ -44,18 +43,9 @@ export const useAppStore = create<AppStore>()(
         // Always reset session score when setting a new module
         const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
 
-        logDebug('setCurrentModule called', {
-          newModule: module?.id,
-          currentModule: state.currentModule?.id,
-          shouldResetScore,
-          currentSessionScore: state.sessionScore
-        }, 'AppStore');
-
         const newSessionScore = shouldResetScore
           ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
           : state.sessionScore;
-
-        logDebug('Setting sessionScore to', newSessionScore, 'AppStore');
 
         return {
           currentModule: module,
@@ -70,10 +60,6 @@ export const useAppStore = create<AppStore>()(
       })),
 
       updateSessionScore: (scoreUpdate) => set((state) => {
-        logDebug('updateSessionScore called', {
-          currentScore: state.sessionScore,
-          scoreUpdate,
-        }, 'AppStore');
 
         // INCREMENT the session score values
         const newSessionScore = { ...state.sessionScore };
@@ -99,11 +85,6 @@ export const useAppStore = create<AppStore>()(
         newGlobalScore.total = newGlobalScore.correct + newGlobalScore.incorrect;
         newGlobalScore.accuracy = newGlobalScore.total > 0 ? (newGlobalScore.correct / newGlobalScore.total) * 100 : 0;
 
-        logDebug('New scores calculated', {
-          sessionScore: newSessionScore,
-          globalScore: newGlobalScore
-        }, 'AppStore');
-
         return {
           sessionScore: newSessionScore,
           globalScore: newGlobalScore
@@ -111,10 +92,6 @@ export const useAppStore = create<AppStore>()(
       }),
 
       updateGlobalScore: (scoreUpdate) => set((state) => {
-        logDebug('updateGlobalScore called', {
-          currentGlobalScore: state.globalScore,
-          scoreUpdate,
-        }, 'AppStore');
 
         const newGlobalScore = { ...state.globalScore };
         if (scoreUpdate.correct) {
@@ -127,8 +104,6 @@ export const useAppStore = create<AppStore>()(
         newGlobalScore.total = newGlobalScore.correct + newGlobalScore.incorrect;
         newGlobalScore.accuracy = newGlobalScore.total > 0 ? (newGlobalScore.correct / newGlobalScore.total) * 100 : 0;
 
-        logDebug('New global score calculated', newGlobalScore, 'AppStore');
-
         return { globalScore: newGlobalScore };
       }),
 
@@ -137,8 +112,6 @@ export const useAppStore = create<AppStore>()(
       setError: (error) => set({ error }),
 
       resetSession: () => {
-        logDebug('resetSession called', undefined, 'AppStore');
-
         return set({
           sessionScore: { correct: 0, incorrect: 0, total: 0, accuracy: 0 },
           error: null,
@@ -147,8 +120,6 @@ export const useAppStore = create<AppStore>()(
       },
 
       resetGlobalScore: () => {
-        logDebug('resetGlobalScore called', undefined, 'AppStore');
-
         return set({
           globalScore: { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
         });

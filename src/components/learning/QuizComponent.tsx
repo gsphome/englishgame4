@@ -3,6 +3,7 @@ import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useProgressStore } from '../../stores/progressStore';
 import { useToast } from '../../hooks/useToast';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
@@ -51,6 +52,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { theme } = useSettingsStore();
+  const { addProgressEntry } = useProgressStore();
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
   const { /* clearGameToasts */ } = useLearningCleanup();
 
@@ -87,8 +89,18 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       const { sessionScore } = useAppStore.getState();
       const finalScore = Math.round((sessionScore.correct / sessionScore.total) * 100);
       const accuracy = sessionScore.accuracy;
-      showModuleCompleted(module.name, finalScore, accuracy);
       
+      // Register progress
+      addProgressEntry({
+        score: finalScore,
+        totalQuestions: sessionScore.total,
+        correctAnswers: sessionScore.correct,
+        moduleId: module.id,
+        learningMode: 'quiz',
+        timeSpent: timeSpent,
+      });
+      
+      showModuleCompleted(module.name, finalScore, accuracy);
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }

@@ -48,6 +48,34 @@ export const translations = {
       attempts: 'Attempts',
       timeSpent: 'Time Spent'
     },
+    dashboard: {
+      learningDashboard: 'Learning Dashboard',
+      totalScore: 'Points earned',
+      avgScore: 'Avg accuracy',
+      totalSessions: 'Sessions done',
+      timeSpent: 'Time practiced',
+      weeklyProgress: 'Weekly Progress',
+      modulePerformance: 'Module Performance',
+      learningAccuracy: 'Accuracy',
+      studySessions: 'Sessions',
+      noProgressData: 'No data yet',
+      completeModulesMessage: 'Complete modules to see progress!',
+      helpButton: 'Help',
+      helpTitle: 'How Metrics Work',
+      helpPointsTitle: 'Points System',
+      helpPointsDesc: 'Earn points by completing quizzes and exercises. Higher accuracy = more points per question.',
+      helpAccuracyTitle: 'Accuracy Score',
+      helpAccuracyDesc: 'Percentage of correct answers in your recent sessions. Calculated from your last 7 days of activity.',
+      helpSessionsTitle: 'Study Sessions',
+      helpSessionsDesc: 'Each time you complete a learning module counts as one session. More sessions = more practice!',
+      helpTimeTitle: 'Practice Time',
+      helpTimeDesc: 'Total minutes spent actively learning. Time is tracked while you\'re engaged with exercises.',
+      helpProgressTitle: 'Progress Tracking',
+      helpProgressDesc: 'Charts show your daily performance trends. Blue bars = accuracy, green line = session count.',
+      helpModuleTitle: 'Module Performance',
+      helpModuleDesc: 'Your best score in each completed module. Focus on modules with lower scores to improve.',
+      closeHelp: 'Got it!'
+    },
     categories: {
       vocabulary: 'Vocabulary',
       grammar: 'Grammar',
@@ -133,6 +161,34 @@ export const translations = {
       attempts: 'Intentos',
       timeSpent: 'Tiempo Empleado'
     },
+    dashboard: {
+      learningDashboard: 'Panel de Aprendizaje',
+      totalScore: 'Puntos obtenidos',
+      avgScore: 'Precisión promedio',
+      totalSessions: 'Sesiones hechas',
+      timeSpent: 'Tiempo practicado',
+      weeklyProgress: 'Progreso Semanal',
+      modulePerformance: 'Rendimiento por Módulo',
+      learningAccuracy: 'Precisión',
+      studySessions: 'Sesiones',
+      noProgressData: 'Sin datos aún',
+      completeModulesMessage: '¡Completa módulos para ver progreso!',
+      helpButton: 'Ayuda',
+      helpTitle: 'Cómo Funcionan las Métricas',
+      helpPointsTitle: 'Sistema de Puntos',
+      helpPointsDesc: 'Gana puntos completando cuestionarios y ejercicios. Mayor precisión = más puntos por pregunta.',
+      helpAccuracyTitle: 'Puntuación de Precisión',
+      helpAccuracyDesc: 'Porcentaje de respuestas correctas en tus sesiones recientes. Calculado de tus últimos 7 días de actividad.',
+      helpSessionsTitle: 'Sesiones de Estudio',
+      helpSessionsDesc: 'Cada vez que completas un módulo de aprendizaje cuenta como una sesión. ¡Más sesiones = más práctica!',
+      helpTimeTitle: 'Tiempo de Práctica',
+      helpTimeDesc: 'Minutos totales dedicados al aprendizaje activo. El tiempo se registra mientras participas en ejercicios.',
+      helpProgressTitle: 'Seguimiento de Progreso',
+      helpProgressDesc: 'Los gráficos muestran tus tendencias de rendimiento diario. Barras azules = precisión, línea verde = número de sesiones.',
+      helpModuleTitle: 'Rendimiento por Módulo',
+      helpModuleDesc: 'Tu mejor puntuación en cada módulo completado. Enfócate en módulos con puntuaciones más bajas para mejorar.',
+      closeHelp: '¡Entendido!'
+    },
     categories: {
       vocabulary: 'Vocabulario',
       grammar: 'Gramática',
@@ -192,7 +248,16 @@ export const useTranslation = (language: Language) => {
       value = value?.[k];
     }
 
-    let result = value || defaultValue || key;
+    // If value is still an object, it means we didn't find the right key
+    // Return the defaultValue or the key itself as a string
+    let result: string;
+    if (typeof value === 'string') {
+      result = value;
+    } else if (defaultValue) {
+      result = defaultValue;
+    } else {
+      result = key; // Return the key as fallback
+    }
 
     // Simple interpolation support
     if (interpolation && typeof result === 'string') {

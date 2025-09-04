@@ -366,8 +366,30 @@ class AccessibilityManager {
   }
 }
 
-// Export singleton instance
-export const a11y = new AccessibilityManager();
+// Export singleton instance - lazy initialization to avoid module loading issues
+let _a11y: AccessibilityManager | null = null;
+const getA11y = () => {
+  if (!_a11y) {
+    _a11y = new AccessibilityManager();
+  }
+  return _a11y;
+};
+
+export const a11y = {
+  announce: (message: string, priority?: AriaLiveType) => getA11y().announce(message, priority),
+  focus: (element: HTMLElement | string, options?: FocusOptions) => getA11y().focus(element, options),
+  trapFocus: (container: HTMLElement) => getA11y().trapFocus(container),
+  restoreFocus: () => getA11y().restoreFocus(),
+  prefersReducedMotion: () => getA11y().prefersReducedMotion(),
+  isWCAGCompliant: (color1: string, color2: string, level?: 'AA' | 'AAA', isLargeText?: boolean) => 
+    getA11y().isWCAGCompliant(color1, color2, level, isLargeText),
+  getFocusableElements: (container: HTMLElement) => getA11y().getFocusableElements(container),
+  createAccessibleButton: (text: string, onClick: () => void, options?: any) => 
+    getA11y().createAccessibleButton(text, onClick, options),
+  getContrastRatio: (color1: string, color2: string) => getA11y().getContrastRatio(color1, color2),
+  setAriaAttributes: (element: HTMLElement, attributes: Record<string, string>) => 
+    getA11y().setAriaAttributes(element, attributes)
+};
 
 // Convenience functions
 export const announce = (message: string, priority?: AriaLiveType) => a11y.announce(message, priority);

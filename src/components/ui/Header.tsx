@@ -160,7 +160,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
           >
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {t('navigation') || 'Navigation'}
+                {'Navigation'}
               </h2>
             </div>
             <div className="p-4 space-y-2">
@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
                 aria-label="Go to main menu"
               >
                 <Menu className="h-5 w-5" aria-hidden="true" />
-                <span>{t('mainMenu') || 'Main Menu'}</span>
+                <span>{t('navigation.mainMenu') || 'Main Menu'}</span>
               </button>
               <button
                 onClick={() => { setShowSettings(true); setShowSideMenu(false); }}
@@ -178,7 +178,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
                 aria-label="Open settings"
               >
                 <Settings className="h-5 w-5" aria-hidden="true" />
-                <span>{t('settings') || 'Settings'}</span>
+                <span>{t('navigation.settings') || 'Settings'}</span>
               </button>
               <button
                 className="w-full text-left p-3 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md flex items-center space-x-3 text-gray-900 dark:text-white"
@@ -186,7 +186,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
                 aria-label="About this application"
               >
                 <User className="h-5 w-5" aria-hidden="true" />
-                <span>{t('about') || 'About'}</span>
+                <span>{t('navigation.about') || 'About'}</span>
               </button>
             </div>
           </nav>

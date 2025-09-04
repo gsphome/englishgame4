@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useProgressStore } from '../../stores/progressStore';
 import { useTranslation } from '../../utils/i18n';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
@@ -20,6 +21,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   const { setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { language } = useSettingsStore();
+  const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
   const { /* clearGameToasts */ } = useLearningCleanup();
 
@@ -39,6 +41,17 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
     } else {
       // End of flashcards
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+      
+      // Register progress (assuming all flashcards were "correct" for completion)
+      addProgressEntry({
+        score: 100, // Flashcards are completion-based, so 100% for finishing
+        totalQuestions: randomizedFlashcards.length,
+        correctAnswers: randomizedFlashcards.length,
+        moduleId: module.id,
+        learningMode: 'flashcard',
+        timeSpent: timeSpent,
+      });
+      
       updateUserScore(module.id, randomizedFlashcards.length, timeSpent);
       setCurrentView('menu');
     }
@@ -93,7 +106,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
           onClick={() => setCurrentView('menu')}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          {t('mainMenu')}
+          {t('navigation.mainMenu')}
         </button>
       </div>
     );

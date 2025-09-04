@@ -3,6 +3,7 @@ import { Check, X, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { useProgressStore } from '../../stores/progressStore';
 import { useTranslation } from '../../utils/i18n';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
@@ -28,6 +29,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { language } = useSettingsStore();
+  const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
   const { /* clearGameToasts */ } = useLearningCleanup();
 
@@ -69,6 +71,17 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
       const { sessionScore } = useAppStore.getState();
       const finalScore = Math.round((sessionScore.correct / sessionScore.total) * 100);
+      
+      // Register progress
+      addProgressEntry({
+        score: finalScore,
+        totalQuestions: sessionScore.total,
+        correctAnswers: sessionScore.correct,
+        moduleId: module.id,
+        learningMode: 'completion',
+        timeSpent: timeSpent,
+      });
+      
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }
@@ -102,7 +115,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
           onClick={() => setCurrentView('menu')}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          {t('mainMenu')}
+          {t('navigation.mainMenu')}
         </button>
       </div>
     );

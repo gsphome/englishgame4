@@ -20,7 +20,10 @@
     "cleanup": "node scripts/cleanup.js",
     "security:audit": "npm audit --audit-level=moderate",
     "security:fix": "npm audit fix",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "cache-logs:toggle": "node scripts/toggle-cache-logs.js",
+    "cache-logs:enable": "echo 'VITE_ENABLE_CACHE_LOGS=true' > .env.local && echo '✅ Cache logs ENABLED - restart dev server'",
+    "cache-logs:disable": "echo 'VITE_ENABLE_CACHE_LOGS=false' > .env.local && echo '🔇 Cache logs DISABLED - restart dev server'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

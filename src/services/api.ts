@@ -216,8 +216,26 @@ class ApiService {
   }
 }
 
-// Export singleton instance
-export const apiService = new ApiService();
+// Export singleton instance - lazy initialization to avoid module loading issues
+let _apiService: ApiService | null = null;
+const getApiService = () => {
+  if (!_apiService) {
+    _apiService = new ApiService();
+  }
+  return _apiService;
+};
+
+export const apiService = {
+  fetchModules: () => getApiService().fetchModules(),
+  fetchModuleData: (moduleId: string) => getApiService().fetchModuleData(moduleId),
+  filterModuleData: <T extends { category?: string; level?: string }>(
+    data: T[],
+    filters: ModuleFilters,
+    moduleId: string
+  ) => getApiService().filterModuleData(data, filters, moduleId),
+  clearCache: () => getApiService().clearCache(),
+  getCacheStats: () => getApiService().getCacheStats()
+};
 
 // Export convenience functions
 export const fetchModules = () => apiService.fetchModules();

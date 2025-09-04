@@ -1,0 +1,393 @@
+/* Dashboard Component Styles */
+
+/* Chart Styles */
+.dashboard-chart-tick {
+  font-size: 11px;
+}
+
+.dashboard-chart-axis-line {
+  stroke: #e5e7eb;
+}
+
+.dashboard-chart-axis-line-accuracy {
+  stroke: #3b82f6;
+}
+
+.dashboard-chart-axis-line-sessions {
+  stroke: #10b981;
+}
+
+.dashboard-chart-label {
+  text-anchor: middle;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.dashboard-chart-label-accuracy {
+  fill: #3b82f6;
+}
+
+.dashboard-chart-label-sessions {
+  fill: #10b981;
+}
+
+.dashboard-tooltip {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+.dashboard-chart-grid {
+  opacity: 0.3;
+}
+
+/* Chart Bar Styles */
+.dashboard-chart-bar-accuracy {
+  fill: #3b82f6;
+  fill-opacity: 0.85;
+}
+
+.dashboard-chart-line-sessions {
+  stroke: #10b981;
+  stroke-width: 2px;
+}
+
+.dashboard-chart-dot-sessions {
+  fill: #10b981;
+  stroke-width: 2px;
+  r: 3px;
+}
+
+.dashboard-chart-active-dot-sessions {
+  r: 5px;
+  stroke: #10b981;
+  stroke-width: 2px;
+  fill: #ffffff;
+}
+
+/* Module Performance Chart */
+.dashboard-module-bar {
+  fill: #10B981;
+}
+
+/* Responsive Chart Container */
+.dashboard-chart-container {
+  width: 100%;
+  height: 300px;
+}
+
+/* Chart No Data State */
+.dashboard-no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16rem; /* h-64 */
+}
+
+.dashboard-no-data-icon {
+  height: 3rem; /* h-12 */
+  width: 3rem; /* w-12 */
+  margin: 0 auto 1rem auto; /* mx-auto mb-4 */
+  opacity: 0.5;
+}
+
+/* Help Modal Styles */
+.dashboard-help-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.dashboard-help-modal-content {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 56rem;
+  width: 100%;
+  border: 1px solid #e5e7eb;
+}
+
+.dark .dashboard-help-modal-content {
+  background-color: #111827 !important;
+  border-color: #374151 !important;
+}
+
+.dashboard-help-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.dashboard-help-modal-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.dark .dashboard-help-modal-title {
+  color: #ffffff !important;
+}
+
+.dashboard-help-modal-close {
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+
+.dashboard-help-modal-close:hover {
+  color: #4b5563;
+}
+
+.dark .dashboard-help-modal-close {
+  color: #9ca3af !important;
+}
+
+.dark .dashboard-help-modal-close:hover {
+  color: #e5e7eb !important;
+}
+
+.dashboard-help-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-help-metrics-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dashboard-help-metric-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.dashboard-help-metric-icon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard-help-metric-icon-yellow {
+  background-color: #fef3c7;
+}
+
+.dark .dashboard-help-metric-icon-yellow {
+  background-color: rgba(217, 119, 6, 0.2) !important;
+}
+
+.dashboard-help-metric-icon-blue {
+  background-color: #dbeafe;
+}
+
+.dark .dashboard-help-metric-icon-blue {
+  background-color: rgba(37, 99, 235, 0.2) !important;
+}
+
+.dashboard-help-metric-icon-green {
+  background-color: #d1fae5;
+}
+
+.dark .dashboard-help-metric-icon-green {
+  background-color: rgba(34, 197, 94, 0.2) !important;
+}
+
+.dashboard-help-metric-icon-purple {
+  background-color: #e9d5ff;
+}
+
+.dark .dashboard-help-metric-icon-purple {
+  background-color: rgba(147, 51, 234, 0.2) !important;
+}
+
+.dashboard-help-metric-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.dark .dashboard-help-metric-title {
+  color: #ffffff !important;
+}
+
+.dashboard-help-metric-description {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.dark .dashboard-help-metric-description {
+  color: #f3f4f6 !important;
+}
+
+.dashboard-help-charts-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dark .dashboard-help-charts-section {
+  border-color: #4b5563 !important;
+}
+
+.dashboard-help-charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .dashboard-help-charts-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dashboard-help-chart-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.dark .dashboard-help-chart-title {
+  color: #ffffff !important;
+}
+
+.dashboard-help-chart-description {
+  font-size: 0.75rem;
+  color: #4b5563;
+}
+
+.dark .dashboard-help-chart-description {
+  color: #f3f4f6 !important;
+}
+
+.dashboard-help-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.dashboard-help-close-button {
+  padding: 0.5rem 1rem;
+  background-color: #2563eb;
+  color: white;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+}
+
+.dashboard-help-close-button:hover {
+  background-color: #1d4ed8;
+}
+
+.dark .dashboard-help-close-button {
+  background-color: #2563eb !important;
+}
+
+.dark .dashboard-help-close-button:hover {
+  background-color: #3b82f6 !important;
+}
+
+/* Icon Colors */
+.dashboard-help-icon-yellow {
+  color: #d97706;
+}
+
+.dark .dashboard-help-icon-yellow {
+  color: #fbbf24 !important;
+}
+
+.dashboard-help-icon-blue {
+  color: #2563eb;
+}
+
+.dark .dashboard-help-icon-blue {
+  color: #60a5fa !important;
+}
+
+.dashboard-help-icon-green {
+  color: #059669;
+}
+
+.dark .dashboard-help-icon-green {
+  color: #34d399 !important;
+}
+
+.dashboard-help-icon-purple {
+  color: #7c3aed;
+}
+
+.dark .dashboard-help-icon-purple {
+  color: #a78bfa !important;
+}
+
+/* Accessibility */
+.dashboard-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Chart Legend */
+.dashboard-legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* gap-4 */
+  font-size: 0.75rem; /* text-xs */
+}
+
+.dashboard-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* gap-1 */
+}
+
+.dashboard-legend-dot {
+  width: 0.75rem; /* w-3 */
+  height: 0.75rem; /* h-3 */
+}
+
+.dashboard-legend-dot-accuracy {
+  background-color: #3b82f6; /* bg-blue-500 */
+  border-radius: 0.125rem; /* rounded */
+}
+
+.dashboard-legend-dot-sessions {
+  background-color: #10b981; /* bg-green-500 */
+  border-radius: 9999px; /* rounded-full */
+}
+
+.dashboard-legend-text {
+  color: #4b5563; /* text-gray-600 */
+}
+
+.dark .dashboard-legend-text {
+  color: #9ca3af; /* dark:text-gray-400 */
+}
+
+.dashboard-legend-text-primary {
+  font-weight: 500; /* font-medium */
+}

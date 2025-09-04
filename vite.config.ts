@@ -2,6 +2,9 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
+// Control flag for cache logging
+const ENABLE_CACHE_LOGS = process.env.VITE_ENABLE_CACHE_LOGS === 'true'
+
 export default defineConfig({
   base: '/englishgame4/',
   publicDir: 'public',
@@ -11,6 +14,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,json,woff2}'],
+        // Control cache logging
+        mode: ENABLE_CACHE_LOGS ? 'development' : 'production',
         // Enhanced caching strategies
         runtimeCaching: [
           {
@@ -58,7 +63,12 @@ export default defineConfig({
         skipWaiting: true,
         clientsClaim: true,
         // Clean up old caches
-        cleanupOutdatedCaches: true
+        cleanupOutdatedCaches: true,
+        // Suppress logs when disabled
+        ...(ENABLE_CACHE_LOGS ? {} : {
+          navigateFallback: null,
+          navigateFallbackDenylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],
+        })
       },
       manifest: {
         name: 'English Learning App',
@@ -74,15 +84,15 @@ export default defineConfig({
         lang: 'en',
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'icon.svg',
             sizes: '192x192',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any maskable'
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'icon.svg',
             sizes: '512x512',
-            type: 'image/png',
+            type: 'image/svg+xml',
             purpose: 'any maskable'
           }
         ],
@@ -92,14 +102,14 @@ export default defineConfig({
             short_name: 'Flashcards',
             description: 'Start flashcard learning',
             url: '/englishgame4/?mode=flashcard',
-            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+            icons: [{ src: 'icon.svg', sizes: '192x192' }]
           },
           {
             name: 'Quiz',
             short_name: 'Quiz',
             description: 'Take a quiz',
             url: '/englishgame4/?mode=quiz',
-            icons: [{ src: 'pwa-192x192.png', sizes: '192x192' }]
+            icons: [{ src: 'icon.svg', sizes: '192x192' }]
           }
         ]
       },
