@@ -32,21 +32,6 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   
   const currentCard = randomizedFlashcards[currentIndex];
 
-  // Early return if no data
-  if (!randomizedFlashcards.length) {
-    return (
-      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
-        <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No flashcards available'}</p>
-        <button
-          onClick={() => setCurrentView('menu')}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          {t('mainMenu')}
-        </button>
-      </div>
-    );
-  }
-
   const handleNext = () => {
     if (currentIndex < randomizedFlashcards.length - 1) {
       setCurrentIndex(currentIndex + 1);
@@ -72,6 +57,8 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
 
   // Keyboard navigation
   useEffect(() => {
+    if (randomizedFlashcards.length === 0) return;
+    
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowRight':
@@ -82,14 +69,10 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
           e.preventDefault();
           handlePrev();
           break;
-        case 'Enter':
         case ' ':
+        case 'Enter':
           e.preventDefault();
-          if (isFlipped) {
-            handleNext();
-          } else {
-            handleFlip();
-          }
+          handleFlip();
           break;
         case 'Escape':
           setCurrentView('menu');
@@ -99,7 +82,22 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isFlipped, currentIndex]);
+  }, [currentIndex, randomizedFlashcards.length]);
+
+  // Early return if no data
+  if (!randomizedFlashcards.length) {
+    return (
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
+        <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No flashcards available'}</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          {t('mainMenu')}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-3 sm:p-6">

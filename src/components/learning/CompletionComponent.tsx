@@ -39,20 +39,15 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   
   const currentExercise = randomizedExercises[currentIndex];
 
-  // Early return if no data
-  if (!randomizedExercises.length) {
-    return (
-      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
-        <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No completion exercises available'}</p>
-        <button
-          onClick={() => setCurrentView('menu')}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          {t('mainMenu')}
-        </button>
-      </div>
-    );
-  }
+  // Auto-focus input when exercise changes or component mounts
+  useEffect(() => {
+    if (!showResult && randomizedExercises.length > 0) {
+      const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
+      if (inputElement) {
+        setTimeout(() => inputElement.focus(), 100);
+      }
+    }
+  }, [currentIndex, showResult, randomizedExercises.length]);
 
   const checkAnswer = () => {
     if (showResult) return;
@@ -79,15 +74,39 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     }
   };
 
-  // Auto-focus input when exercise changes or component mounts
   useEffect(() => {
-    if (!showResult) {
-      const inputElement = document.querySelector('input[type="text"]') as HTMLInputElement;
-      if (inputElement) {
-        setTimeout(() => inputElement.focus(), 100);
+    if (randomizedExercises.length === 0) return;
+    
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'Enter' && !showResult) {
+        if (answer.trim()) {
+          checkAnswer();
+        }
+      } else if (e.key === 'Enter' && showResult) {
+        handleNext();
+      } else if (e.key === 'Escape') {
+        setCurrentView('menu');
       }
-    }
-  }, [currentIndex, showResult]);
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [answer, showResult, randomizedExercises.length]);
+
+  // Early return if no data
+  if (!randomizedExercises.length) {
+    return (
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
+        <p className="text-gray-600 mb-4">{t('noDataAvailable') || 'No completion exercises available'}</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          {t('mainMenu')}
+        </button>
+      </div>
+    );
+  }
 
   const renderSentence = () => {
     if (!currentExercise?.sentence) return null;
@@ -139,23 +158,6 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     
     return <>{elements}</>;
   };
-
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && !showResult) {
-        if (answer.trim()) {
-          checkAnswer();
-        }
-      } else if (e.key === 'Enter' && showResult) {
-        handleNext();
-      } else if (e.key === 'Escape') {
-        setCurrentView('menu');
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [answer, showResult]);
 
   const hasAnswer = answer.trim().length > 0;
 

@@ -7,7 +7,7 @@ import { useToast } from '../../hooks/useToast';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
 import { createSanitizedHTML } from '../../utils/htmlSanitizer';
-import { logDebug } from '../../utils/logger';
+
 import type { LearningModule } from '../../types';
 
 interface QuizData {
@@ -59,51 +59,22 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
   const currentQuestion = randomizedQuestions[currentIndex];
 
-  // Early return if no data
-  if (!randomizedQuestions.length) {
-    return (
-      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
-        <p className="text-gray-600 mb-4">No quiz questions available</p>
-        <button
-          onClick={() => setCurrentView('menu')}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Back to Menu
-        </button>
-      </div>
-    );
-  }
-
   const handleAnswerSelect = (optionIndex: number) => {
-    if (showResult) return;
+    if (showResult || !currentQuestion) return;
+    
+    const selectedAnswer = currentQuestion.options?.[optionIndex];
+    const isCorrect = selectedAnswer === currentQuestion.correct;
+    
     setSelectedAnswer(optionIndex);
     setShowResult(true);
-
-    const isCorrect = currentQuestion?.options[optionIndex] === currentQuestion?.correct;
-    const scoreUpdate = isCorrect ? { correct: 1 } : { incorrect: 1 };
-
-    // Show toast notification for answer feedback
+    
+    updateSessionScore(isCorrect ? { correct: 1 } : { incorrect: 1 });
+    
     if (isCorrect) {
       showCorrectAnswer();
     } else {
       showIncorrectAnswer();
     }
-
-    logDebug('Answer selected', {
-      optionIndex,
-      selectedOption: currentQuestion?.options[optionIndex],
-      correctAnswer: currentQuestion?.correct,
-      isCorrect,
-      scoreUpdate
-    }, 'QuizComponent');
-
-    updateSessionScore(scoreUpdate);
-
-    // Log the state after update
-    setTimeout(() => {
-      const { sessionScore } = useAppStore.getState();
-      logDebug('Score after update', sessionScore, 'QuizComponent');
-    }, 100);
   };
 
   const handleNext = () => {
@@ -115,8 +86,6 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
       const { sessionScore } = useAppStore.getState();
       const finalScore = Math.round((sessionScore.correct / sessionScore.total) * 100);
-      
-      // Show completion toast with achievement
       const accuracy = sessionScore.accuracy;
       showModuleCompleted(module.name, finalScore, accuracy);
       
@@ -126,6 +95,8 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   };
 
   useEffect(() => {
+    if (randomizedQuestions.length === 0) return;
+    
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key >= '1' && e.key <= '4' && !showResult && currentQuestion) {
         const optionIndex = parseInt(e.key) - 1;
@@ -141,7 +112,22 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [showResult, currentQuestion]);
+  }, [showResult, currentQuestion, randomizedQuestions.length]);
+
+  // Early return if no data
+  if (!randomizedQuestions.length) {
+    return (
+      <div className="max-w-6xl mx-auto p-3 sm:p-6 text-center">
+        <p className="text-gray-600 mb-4">No quiz questions available</p>
+        <button
+          onClick={() => setCurrentView('menu')}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+        >
+          Back to Menu
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-3 sm:p-6">

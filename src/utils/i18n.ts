@@ -177,8 +177,8 @@ export const translations = {
 // Type-safe translation keys based on the JSON structure
 type NestedKeyOf<ObjectType extends object> = {
   [Key in keyof ObjectType & (string | number)]: ObjectType[Key] extends object
-    ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key]>}`
-    : `${Key}`;
+  ? `${Key}` | `${Key}.${NestedKeyOf<ObjectType[Key]>}`
+  : `${Key}`;
 }[keyof ObjectType & (string | number)];
 
 type TranslationKeys = NestedKeyOf<typeof translations.en>;
@@ -187,35 +187,35 @@ export const useTranslation = (language: Language) => {
   const t = (key: TranslationKeys | string, defaultValue?: string, interpolation?: Record<string, string | number>): string => {
     const keys = key.split('.');
     let value: any = translations[language];
-    
+
     for (const k of keys) {
       value = value?.[k];
     }
-    
+
     let result = value || defaultValue || key;
-    
+
     // Simple interpolation support
     if (interpolation && typeof result === 'string') {
       Object.entries(interpolation).forEach(([placeholder, replacement]) => {
         result = result.replace(new RegExp(`{{${placeholder}}}`, 'g'), String(replacement));
       });
     }
-    
+
     return result;
   };
-  
+
   // Helper functions for common translation patterns
   const tn = (namespace: string, key: string, defaultValue?: string) => {
     return t(`${namespace}.${key}` as TranslationKeys, defaultValue);
   };
-  
+
   const tc = (key: string, count: number, defaultValue?: string) => {
     const pluralKey = count === 1 ? key : `${key}_plural`;
     return t(pluralKey as TranslationKeys, defaultValue, { count });
   };
-  
-  return { 
-    t, 
+
+  return {
+    t,
     tn, // namespace translation
     tc, // count-based translation
     language,
@@ -231,24 +231,11 @@ export const useTranslation = (language: Language) => {
   };
 };
 
-// Utility functions for common translations
-export const getCommonTranslation = (key: string, language: Language = 'en') => {
-  const { t } = useTranslation(language);
-  return t(`common.${key}` as TranslationKeys);
-};
-
-export const getErrorTranslation = (key: string, language: Language = 'en') => {
-  const { t } = useTranslation(language);
-  return t(`errors.${key}` as TranslationKeys);
-};
-
-export const getCategoryTranslation = (category: string, language: Language = 'en') => {
-  const { t } = useTranslation(language);
+// Translation key builders (use these with useTranslation hook in components)
+export const getCommonKey = (key: string) => `common.${key}` as TranslationKeys;
+export const getErrorKey = (key: string) => `errors.${key}` as TranslationKeys;
+export const getCategoryKey = (category: string) => {
   const categoryKey = category.toLowerCase().replace(/\s+/g, '');
-  return t(`categories.${categoryKey}` as TranslationKeys, category);
+  return `categories.${categoryKey}` as TranslationKeys;
 };
-
-export const getLevelTranslation = (level: string, language: Language = 'en') => {
-  const { t } = useTranslation(language);
-  return t(`levels.${level.toLowerCase()}` as TranslationKeys, level.toUpperCase());
-};
+export const getLevelKey = (level: string) => `levels.${level.toLowerCase()}` as TranslationKeys;
