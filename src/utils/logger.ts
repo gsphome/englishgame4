@@ -14,7 +14,7 @@ interface LogEntry {
 }
 
 class SecureLogger {
-  private isProduction = process.env.NODE_ENV === 'production';
+  private isProduction = import.meta.env.PROD || false;
   private sensitiveKeys = ['password', 'token', 'secret', 'key', 'auth', 'credential'];
 
   /**

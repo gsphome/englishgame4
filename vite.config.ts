@@ -105,7 +105,7 @@ export default defineConfig({
       },
       // Development options
       devOptions: {
-        enabled: process.env.NODE_ENV === 'development',
+        enabled: true,
         type: 'module'
       }
     })
@@ -116,14 +116,14 @@ export default defineConfig({
     }
   },
   build: {
-    sourcemap: process.env.NODE_ENV !== 'production',
+    sourcemap: false,
     minify: 'terser',
     chunkSizeWarningLimit: 500, // Reduce to 500KB to encourage better chunking
     terserOptions: {
       compress: {
-        drop_console: process.env.NODE_ENV === 'production',
+        drop_console: true,
         drop_debugger: true,
-        pure_funcs: process.env.NODE_ENV === 'production' ? ['console.log', 'console.debug'] : [],
+        pure_funcs: ['console.log', 'console.debug'],
       },
     },
     rollupOptions: {

@@ -32,12 +32,17 @@ class SimpleToastStore {
   private state: {
     toasts: ToastData[];
     shownToasts: Set<string>;
-  } = {
-    toasts: [],
-    shownToasts: new Set<string>(),
   };
 
-  private listeners: Set<() => void> = new Set();
+  private listeners: Set<() => void>;
+
+  constructor() {
+    this.state = {
+      toasts: [],
+      shownToasts: new Set<string>(),
+    };
+    this.listeners = new Set();
+  }
 
   getState() {
     return this.state;
@@ -137,8 +142,28 @@ class SimpleToastStore {
   };
 }
 
-// Create store instance
-const toastStoreInstance = new SimpleToastStore();
+// Create store instance with safe initialization
+let toastStoreInstance: SimpleToastStore;
+
+try {
+  toastStoreInstance = new SimpleToastStore();
+} catch (error) {
+  console.warn('Toast store initialization failed, creating fallback:', error);
+  // Fallback implementation
+  toastStoreInstance = {
+    getState: () => ({ toasts: [], shownToasts: new Set() }),
+    setState: () => {},
+    subscribe: () => () => {},
+    addToast: () => {},
+    removeToast: () => {},
+    clearAllToasts: () => {},
+    clearToastsByType: () => {},
+    replaceToastByType: () => {},
+    showSingleToast: () => {},
+    hasShownToast: () => false,
+    markToastAsShown: () => {},
+  } as any;
+}
 
 // React hook to use the store
 export const useToastStore = (): ToastStore => {
