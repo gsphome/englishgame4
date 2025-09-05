@@ -8,6 +8,25 @@ const ENABLE_CACHE_LOGS = process.env.VITE_ENABLE_CACHE_LOGS === 'true'
 export default defineConfig({
   base: '/englishgame4/',
   publicDir: 'public',
+  // Optimize dependencies to avoid initialization issues
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'zustand',
+      '@tanstack/react-query',
+      'lucide-react'
+    ],
+    // Force pre-bundling to avoid runtime issues
+    force: true,
+  },
+  // Ensure proper module resolution
+  esbuild: {
+    // Keep function names for better debugging and avoid initialization issues
+    keepNames: true,
+    // Preserve legal comments that might be important for module initialization
+    legalComments: 'inline',
+  },
   plugins: [
     react(),
     VitePWA({
@@ -128,48 +147,46 @@ export default defineConfig({
   build: {
     sourcemap: false,
     minify: 'terser',
-    chunkSizeWarningLimit: 500, // Reduce to 500KB to encourage better chunking
+    chunkSizeWarningLimit: 1000, // Increase to 1MB to allow larger chunks and avoid module initialization issues
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.debug'],
       },
+      mangle: {
+        // Preserve function names to avoid initialization issues
+        keep_fnames: true,
+      },
     },
     rollupOptions: {
       output: {
-        // Optimized chunking strategy
+        // Simplified chunking strategy to avoid module initialization issues
         manualChunks: (id) => {
-          // Vendor chunk for node_modules
+          // Keep React and React-DOM together to avoid initialization issues
           if (id.includes('node_modules')) {
-            // Separate large libraries
             if (id.includes('react') || id.includes('react-dom')) {
               return 'react-vendor';
             }
-            if (id.includes('@tanstack/react-query')) {
-              return 'query-vendor';
-            }
-            if (id.includes('zustand')) {
-              return 'state-vendor';
-            }
+            // Keep all other vendor libraries in a single chunk to maintain initialization order
             return 'vendor';
           }
           
-          // Learning components chunk
-          if (id.includes('/components/learning/')) {
-            return 'learning';
+          // Keep all application code in fewer chunks to maintain proper initialization order
+          if (id.includes('/stores/') || id.includes('/hooks/')) {
+            return 'app-state';
           }
           
-          // UI components chunk
-          if (id.includes('/components/ui/')) {
-            return 'ui';
+          if (id.includes('/components/')) {
+            return 'app-components';
           }
           
-          // Utils chunk
-          if (id.includes('/utils/') || id.includes('/hooks/')) {
-            return 'utils';
+          if (id.includes('/utils/')) {
+            return 'app-utils';
           }
         },
+        // Preserve module format to avoid initialization issues
+        format: 'es',
         // Optimize asset naming
         assetFileNames: (assetInfo) => {
           const info = assetInfo.name?.split('.') ?? [];
@@ -184,7 +201,13 @@ export default defineConfig({
         },
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
+        // Preserve module initialization order
+        preserveModules: false,
+        // Ensure proper hoisting
+        hoistTransitiveImports: false,
       },
+      // Preserve entry order to avoid initialization issues
+      preserveEntrySignatures: 'strict',
     },
   },
   server: {
