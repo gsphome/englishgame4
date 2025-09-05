@@ -20,7 +20,7 @@ export const MemoizedDashboard = React.memo(Dashboard, (prevProps, nextProps) =>
 
 MemoizedDashboard.displayName = 'MemoizedDashboard';
 
-// Memoized ToastContainer component
-export const MemoizedToastContainer = React.memo(ToastContainer);
+// ToastContainer component (no memoization needed since it uses internal state)
+export const MemoizedToastContainer = ToastContainer;
 
-MemoizedToastContainer.displayName = 'MemoizedToastContainer';
+MemoizedToastContainer.displayName = 'ToastContainer';

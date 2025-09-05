@@ -144,12 +144,28 @@ class ApiService {
 
     let filteredData = [...data];
 
-    // Skip filtering for sorting modules (they need all data)
+    // Special handling for sorting modules - they need all data for category selection
     if (moduleId.includes('sorting')) {
-      logDebug('Skipping filters for sorting module', { moduleId }, 'ApiService');
-      return filteredData.slice(0, filters.limit || filteredData.length);
+      logDebug('Applying minimal filtering for sorting module', { moduleId }, 'ApiService');
+      
+      // Only filter by level for sorting modules, not by categories
+      // because sorting component needs to select from multiple categories
+      if (filters.level && filters.level !== 'all') {
+        filteredData = filteredData.filter((item) => {
+          const itemLevel = item.level || 'b1';
+          return itemLevel.toLowerCase() === filters.level!.toLowerCase();
+        });
+      }
+      
+      // Apply limit
+      if (filters.limit && filters.limit > 0) {
+        filteredData = filteredData.slice(0, filters.limit);
+      }
+      
+      return filteredData;
     }
 
+    // Normal filtering for other modes
     // Filter by categories
     if (filters.categories && filters.categories.length > 0) {
       filteredData = filteredData.filter((item) => {

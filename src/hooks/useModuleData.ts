@@ -21,7 +21,7 @@ export const useModuleData = (moduleId: string) => {
         // Determine limit based on game settings
         let limit = 10; // default
         
-        if (module.learningMode && module.learningMode !== 'sorting') {
+        if (module.learningMode) {
           switch (module.learningMode) {
             case 'flashcard':
               limit = gameSettings.flashcardMode.wordCount;
@@ -31,6 +31,11 @@ export const useModuleData = (moduleId: string) => {
               break;
             case 'completion':
               limit = gameSettings.completionMode.itemCount;
+              break;
+            case 'sorting':
+              // For sorting mode, we need more data than the final word count
+              // because the component will select words from multiple categories
+              limit = gameSettings.sortingMode.wordCount * gameSettings.sortingMode.categoryCount * 2;
               break;
             case 'matching':
               limit = gameSettings.matchingMode.wordCount;

@@ -17,7 +17,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [startTime] = useState(Date.now());
-  
+
   const { setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { language } = useSettingsStore();
@@ -31,7 +31,9 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
     const allFlashcards = module.data as FlashcardData[];
     return shuffleArray(allFlashcards);
   }, [module?.data, module?.id, startTime]);
-  
+
+
+
   const currentCard = randomizedFlashcards[currentIndex];
 
   const handleNext = () => {
@@ -41,7 +43,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
     } else {
       // End of flashcards
       const timeSpent = Math.floor((Date.now() - startTime) / 1000);
-      
+
       // Register progress (assuming all flashcards were "correct" for completion)
       addProgressEntry({
         score: 100, // Flashcards are completion-based, so 100% for finishing
@@ -51,7 +53,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
         learningMode: 'flashcard',
         timeSpent: timeSpent,
       });
-      
+
       updateUserScore(module.id, randomizedFlashcards.length, timeSpent);
       setCurrentView('menu');
     }
@@ -71,7 +73,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   // Keyboard navigation
   useEffect(() => {
     if (randomizedFlashcards.length === 0) return;
-    
+
     const handleKeyPress = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowRight':
@@ -82,10 +84,14 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
           e.preventDefault();
           handlePrev();
           break;
-        case ' ':
         case 'Enter':
+        case ' ':
           e.preventDefault();
-          handleFlip();
+          if (isFlipped) {
+            handleNext();
+          } else {
+            handleFlip();
+          }
           break;
         case 'Escape':
           setCurrentView('menu');
@@ -95,7 +101,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex, randomizedFlashcards.length]);
+  }, [currentIndex, randomizedFlashcards.length, isFlipped]);
 
   // Early return if no data
   if (!randomizedFlashcards.length) {
@@ -123,21 +129,20 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-1.5">
-          <div 
+          <div
             className="bg-blue-600 h-1.5 rounded-full transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / randomizedFlashcards.length) * 100}%` }}
           />
         </div>
         <p className="text-xs text-gray-500 mt-2 text-center">
-          {isFlipped ? 'Press Enter/Space for next card' : 'Click card or press Space to flip'}
+          {isFlipped ? 'Press Enter/Space for next card' : 'Click card or press Enter/Space to flip'}
         </p>
       </div>
 
       {/* Flashcard */}
-      <div 
-        className={`flashcard relative h-56 sm:h-64 w-full cursor-pointer ${
-          isFlipped ? 'flipped' : ''
-        }`}
+      <div
+        className={`flashcard relative h-56 sm:h-64 w-full cursor-pointer ${isFlipped ? 'flipped' : ''
+          }`}
         onClick={handleFlip}
       >
         <div className="flashcard-inner">
@@ -214,10 +219,10 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
         >
           <ChevronRight className="h-4 w-4" />
         </button>
-        
+
         {/* Separator */}
         <div className="w-px h-6 bg-gray-300 mx-1"></div>
-        
+
         {/* Navigation */}
         <button
           onClick={() => setCurrentView('menu')}

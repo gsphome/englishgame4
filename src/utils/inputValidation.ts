@@ -17,6 +17,7 @@ export const gameSettingsSchema = z.object({
     itemCount: z.number().int().min(1).max(50),
   }),
   sortingMode: z.object({
+    wordCount: z.number().int().min(1).max(50),
     categoryCount: z.number().int().min(2).max(10),
   }),
   matchingMode: z.object({
@@ -125,7 +126,7 @@ export const validateGameSettings = (settings: any): any => {
       flashcardMode: { wordCount: 10 },
       quizMode: { questionCount: 10 },
       completionMode: { itemCount: 10 },
-      sortingMode: { categoryCount: 3 },
+      sortingMode: { wordCount: 5, categoryCount: 3 },
       matchingMode: { wordCount: 6 },
     };
   }

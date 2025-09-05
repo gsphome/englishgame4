@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { RotateCcw, Check, Info, X } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
+import { useToast } from '../../hooks/useToast';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import type { LearningModule } from '../../types';
 
@@ -23,6 +24,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
   
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
+  const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
   const { /* clearGameToasts */ } = useLearningCleanup();
 
   // Initialize component when module changes
@@ -150,6 +152,13 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
     const isAllCorrect = correctMatches === pairs.length;
     updateSessionScore(isAllCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
+    
+    // Show toast feedback
+    if (isAllCorrect) {
+      showCorrectAnswer();
+    } else {
+      showIncorrectAnswer();
+    }
   };
 
   const resetExercise = () => {
@@ -168,6 +177,9 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
     const timeSpent = Math.floor((Date.now() - startTime) / 1000);
     const correctCount = pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length;
     const finalScore = Math.round((correctCount / pairs.length) * 100);
+    const accuracy = (correctCount / pairs.length) * 100;
+    
+    showModuleCompleted(module.name, finalScore, accuracy);
     updateUserScore(module.id, finalScore, timeSpent);
     setCurrentView('menu');
   };

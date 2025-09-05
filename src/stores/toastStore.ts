@@ -69,7 +69,7 @@ const toastStore = {
     // Keep only the most recent toasts (max 2 at a time)
     const currentToasts = globalState.toasts;
     let updatedToasts = [...currentToasts, newToast];
-    
+
     // If we have more than 2 toasts, remove the oldest ones
     if (updatedToasts.length > 2) {
       updatedToasts = updatedToasts.slice(-2);
@@ -99,7 +99,7 @@ const toastStore = {
 
   clearToastsByType(type: ToastType) {
     const toastsToRemove = globalState.toasts.filter((toast) => toast.type === type);
-    
+
     this.setState({
       toasts: globalState.toasts.filter((toast) => toast.type !== type),
     });
@@ -150,27 +150,29 @@ try {
   // Fallback implementation
   toastStoreInstance = {
     getState: () => ({ toasts: [], shownToasts: new Set() }),
-    setState: () => {},
-    subscribe: () => () => {},
-    addToast: () => {},
-    removeToast: () => {},
-    clearAllToasts: () => {},
-    clearToastsByType: () => {},
-    replaceToastByType: () => {},
-    showSingleToast: () => {},
+    setState: () => { },
+    subscribe: () => () => { },
+    addToast: () => { },
+    removeToast: () => { },
+    clearAllToasts: () => { },
+    clearToastsByType: () => { },
+    replaceToastByType: () => { },
+    showSingleToast: () => { },
     hasShownToast: () => false,
-    markToastAsShown: () => {},
+    markToastAsShown: () => { },
   } as any;
 }
 
 // React hook to use the store
 export const useToastStore = (): ToastStore => {
-  const [state, setState] = useState(toastStoreInstance.getState());
+  const [state, setState] = useState(() => toastStoreInstance.getState());
 
   useEffect(() => {
     const unsubscribe = toastStoreInstance.subscribe(() => {
-      setState(toastStoreInstance.getState());
+      const newState = toastStoreInstance.getState();
+      setState(newState);
     });
+
     return () => {
       unsubscribe();
     };
@@ -178,14 +180,14 @@ export const useToastStore = (): ToastStore => {
 
   return {
     ...state,
-    addToast: toastStoreInstance.addToast,
-    removeToast: toastStoreInstance.removeToast,
-    clearAllToasts: toastStoreInstance.clearAllToasts,
-    clearToastsByType: toastStoreInstance.clearToastsByType,
-    replaceToastByType: toastStoreInstance.replaceToastByType,
-    showSingleToast: toastStoreInstance.showSingleToast,
-    hasShownToast: toastStoreInstance.hasShownToast,
-    markToastAsShown: toastStoreInstance.markToastAsShown,
+    addToast: toastStoreInstance.addToast.bind(toastStoreInstance),
+    removeToast: toastStoreInstance.removeToast.bind(toastStoreInstance),
+    clearAllToasts: toastStoreInstance.clearAllToasts.bind(toastStoreInstance),
+    clearToastsByType: toastStoreInstance.clearToastsByType.bind(toastStoreInstance),
+    replaceToastByType: toastStoreInstance.replaceToastByType.bind(toastStoreInstance),
+    showSingleToast: toastStoreInstance.showSingleToast.bind(toastStoreInstance),
+    hasShownToast: toastStoreInstance.hasShownToast.bind(toastStoreInstance),
+    markToastAsShown: toastStoreInstance.markToastAsShown.bind(toastStoreInstance),
   };
 };
 
@@ -198,7 +200,7 @@ export const showToast = {
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
   },
-  
+
   error(title: string, message?: string, options?: Partial<ToastData>) {
     setTimeout(() => {
       try {
@@ -206,7 +208,7 @@ export const showToast = {
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
   },
-  
+
   warning(title: string, message?: string, options?: Partial<ToastData>) {
     setTimeout(() => {
       try {
@@ -214,7 +216,7 @@ export const showToast = {
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
   },
-  
+
   info(title: string, message?: string, options?: Partial<ToastData>) {
     setTimeout(() => {
       try {
@@ -262,7 +264,7 @@ export const showToast = {
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
   },
-  
+
   clearAll() {
     setTimeout(() => {
       try {
@@ -270,7 +272,7 @@ export const showToast = {
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);
   },
-  
+
   clearGameToasts() {
     setTimeout(() => {
       try {
@@ -290,7 +292,7 @@ export const showToast = {
         } catch (e) { console.warn('Toast not ready:', e); }
       }, 0);
     },
-    
+
     error(title: string, message?: string, options?: Partial<ToastData>) {
       setTimeout(() => {
         try {
@@ -298,7 +300,7 @@ export const showToast = {
         } catch (e) { console.warn('Toast not ready:', e); }
       }, 0);
     },
-    
+
     warning(title: string, message?: string, options?: Partial<ToastData>) {
       setTimeout(() => {
         try {
@@ -306,7 +308,7 @@ export const showToast = {
         } catch (e) { console.warn('Toast not ready:', e); }
       }, 0);
     },
-    
+
     info(title: string, message?: string, options?: Partial<ToastData>) {
       setTimeout(() => {
         try {

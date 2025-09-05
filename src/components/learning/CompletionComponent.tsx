@@ -5,6 +5,7 @@ import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useProgressStore } from '../../stores/progressStore';
 import { useTranslation } from '../../utils/i18n';
+import { useToast } from '../../hooks/useToast';
 import { useLearningCleanup } from '../../hooks/useLearningCleanup';
 import { shuffleArray } from '../../utils/randomUtils';
 import type { LearningModule } from '../../types';
@@ -31,6 +32,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const { language } = useSettingsStore();
   const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
+  const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
   const { /* clearGameToasts */ } = useLearningCleanup();
 
   // Randomize exercises once per component mount
@@ -60,6 +62,13 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     
     updateSessionScore(isCorrect ? { correct: 1 } : { incorrect: 1 });
     setShowResult(true);
+    
+    // Show toast feedback
+    if (isCorrect) {
+      showCorrectAnswer();
+    } else {
+      showIncorrectAnswer();
+    }
   };
 
   const handleNext = () => {
@@ -82,6 +91,8 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
         timeSpent: timeSpent,
       });
       
+      const accuracy = sessionScore.accuracy;
+      showModuleCompleted(module.name, finalScore, accuracy);
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }
