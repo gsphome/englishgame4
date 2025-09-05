@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -165,9 +165,9 @@ try {
 
 // React hook to use the store
 export const useToastStore = (): ToastStore => {
-  const [state, setState] = React.useState(toastStoreInstance.getState());
+  const [state, setState] = useState(toastStoreInstance.getState());
 
-  React.useEffect(() => {
+  useEffect(() => {
     const unsubscribe = toastStoreInstance.subscribe(() => {
       setState(toastStoreInstance.getState());
     });
