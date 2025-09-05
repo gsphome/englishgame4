@@ -13,21 +13,243 @@
   stroke: white !important;
 }
 
+/* Enhanced dark mode compatibility */
+.dark .user-profile-modal {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Improved contrast for dark mode text */
+.dark .profile-field-label {
+  @apply text-blue-300;
+}
+
+.dark .profile-section-title--basic {
+  @apply text-gray-100;
+}
+
+.dark .profile-section-title--preferences {
+  @apply text-purple-300;
+}
+
+/* Enhanced dark mode gradients */
+.dark .profile-section--basic {
+  background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+  border-color: #4b5563;
+}
+
+.dark .profile-section--preferences {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+/* Enhanced animations and transitions for modal */
+.user-profile-modal {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+.user-profile-container {
+  animation: modalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Smooth transitions for grid layout changes */
+.profile-content-grid {
+  transition: grid-template-columns 0.3s ease-in-out;
+}
+
+.profile-content-grid > * {
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
 .user-profile-modal {
   @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
 }
 
 .user-profile-container {
-  @apply bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto border border-gray-200 dark:border-gray-700;
+  @apply bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full border border-gray-200 dark:border-gray-700;
+  /* Compact height for desktop - no scroll */
+  height: 520px;
+  overflow: hidden;
+}
+
+/* Media queries for different height breakpoints - more compact */
+@media (max-height: 650px) and (min-width: 768px) {
+  .user-profile-container {
+    height: 460px;
+  }
+}
+
+@media (max-height: 550px) and (min-width: 768px) {
+  .user-profile-container {
+    height: 420px;
+  }
+}
+
+@media (max-height: 500px) and (min-width: 768px) {
+  .user-profile-container {
+    height: 380px;
+  }
+  
+  /* More compact spacing for very limited height */
+  .user-profile-content {
+    @apply p-2;
+  }
+  
+  .profile-section {
+    @apply p-2;
+  }
+  
+  .user-profile-form {
+    @apply space-y-1;
+  }
+  
+  .profile-content-grid {
+    @apply gap-1;
+  }
+}
+
+/* Extremely limited height - emergency fallback */
+@media (max-height: 400px) and (min-width: 768px) {
+  .user-profile-container {
+    height: 340px;
+    overflow-y: auto;
+  }
+  
+  .user-profile-content {
+    @apply p-1.5;
+  }
+  
+  .profile-section {
+    @apply p-1.5;
+  }
+}
+
+/* Mobile breakpoint - fallback to single column with adaptive height */
+@media (max-width: 767px) {
+  .user-profile-container {
+    max-height: 90vh;
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  /* Force single column on mobile */
+  .profile-content-grid {
+    @apply grid-cols-1 gap-2;
+  }
+  
+  /* Adjust field grid to single column on mobile */
+  .profile-field-grid {
+    @apply grid-cols-1 gap-2;
+  }
+  
+  /* Optimize mobile spacing */
+  .user-profile-content {
+    @apply p-2;
+  }
+  
+  .profile-section {
+    @apply p-2;
+  }
+}
+
+/* Small mobile screens - more compact layout */
+@media (max-width: 480px) {
+  .user-profile-container {
+    max-height: 95vh;
+    margin: 0.5rem;
+  }
+  
+  .user-profile-content {
+    @apply p-1.5;
+  }
+  
+  .profile-section {
+    @apply p-1.5;
+  }
+  
+  .profile-categories-grid {
+    @apply grid-cols-1 gap-1;
+  }
+}
+
+/* Mobile landscape - optimize for limited height */
+@media (max-width: 767px) and (orientation: landscape) and (max-height: 500px) {
+  .user-profile-container {
+    max-height: 95vh;
+    height: auto;
+    overflow-y: auto;
+  }
+  
+  .user-profile-content {
+    @apply p-2;
+  }
+  
+  .profile-section {
+    @apply p-2;
+  }
+  
+  .user-profile-form {
+    @apply space-y-1;
+  }
+  
+  /* Use horizontal layout for categories in landscape */
+  .profile-categories-grid {
+    @apply grid-cols-4 gap-1;
+  }
 }
 
 .user-profile-content {
-  @apply p-4;
+  @apply p-2.5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure form takes available space */
+.user-profile-form {
+  @apply space-y-1.5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Form content area that can scroll if needed */
+.user-profile-form > *:not(.profile-actions) {
+  flex-shrink: 0;
+}
+
+/* Actions should stick to bottom */
+.profile-actions {
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 /* Header Styles */
 .user-profile-header {
-  @apply flex items-center justify-between mb-4;
+  @apply flex items-center justify-between mb-2;
 }
 
 .user-profile-title-section {
@@ -56,12 +278,69 @@
 
 /* Form Styles */
 .user-profile-form {
-  @apply space-y-3;
+  @apply space-y-2;
+}
+
+/* Two-column grid layout for responsive design */
+.profile-content-grid {
+  @apply grid grid-cols-1 gap-1.5;
+}
+
+/* Tablet and larger screens - maintain two-column layout */
+@media (min-width: 768px) {
+  .profile-content-grid {
+    @apply grid-cols-2;
+  }
+}
+
+/* Tablet specific optimizations */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .user-profile-container {
+    max-width: 580px;
+  }
+  
+  /* Ensure two-column layout works well on tablets */
+  .profile-content-grid {
+    @apply gap-1.5;
+  }
+  
+  /* Optimize field grid for tablet */
+  .profile-field-grid {
+    @apply grid-cols-1 gap-1.5;
+  }
+  
+  /* Tablet portrait - adjust container width */
+  @media (orientation: portrait) {
+    .user-profile-container {
+      max-width: 480px;
+    }
+  }
+}
+
+/* Large tablets and desktop - optimize column spacing */
+@media (min-width: 1024px) {
+  .profile-content-grid {
+    @apply gap-2;
+  }
+  
+  .user-profile-container {
+    max-width: 620px;
+  }
+  
+  /* Restore two-column field grid on larger screens */
+  .profile-field-grid {
+    @apply grid-cols-2 gap-1.5;
+  }
+}
+
+/* Ensure sections in grid don't have bottom margin that conflicts with grid gap */
+.profile-content-grid .profile-section {
+  @apply mb-0;
 }
 
 /* Section Styles */
 .profile-section {
-  @apply rounded-lg p-3 border;
+  @apply rounded-lg p-2 border;
 }
 
 .profile-section--basic {
@@ -77,11 +356,11 @@
 }
 
 .profile-section-title--basic {
-  @apply text-gray-600 dark:text-white mb-2;
+  @apply text-gray-600 dark:text-white mb-1;
 }
 
 .profile-section-title--preferences {
-  @apply text-purple-600 dark:text-white mb-3;
+  @apply text-purple-600 dark:text-white mb-1.5;
 }
 
 .profile-section-icon {
@@ -90,28 +369,61 @@
 
 /* Field Styles */
 .profile-fields {
-  @apply space-y-2.5;
+  @apply space-y-1.5;
 }
 
 .profile-field-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-3;
+  @apply grid grid-cols-1 md:grid-cols-2 gap-2;
+  /* Ensure consistent alignment */
+  align-items: start;
+  /* Improved grid alignment */
+  grid-template-rows: auto;
+}
+
+.profile-field-item {
+  @apply flex flex-col;
+  /* Ensure consistent height and alignment */
+  min-height: fit-content;
+  /* Better vertical alignment in grid */
+  justify-self: stretch;
+  align-self: start;
 }
 
 .profile-field-label {
-  @apply block text-sm font-medium text-blue-600 dark:text-blue-300 mb-1;
+  @apply block text-xs font-medium text-blue-600 dark:text-blue-300 mb-0.5;
+  /* Prevent text wrapping issues */
+  line-height: 1.2;
+  min-height: 1.2em;
+}
+
+.profile-field-label--compact {
+  @apply text-xs;
+  /* More compact spacing for shorter labels */
+  margin-bottom: 0.25rem;
 }
 
 .profile-field-label--difficulty {
-  @apply mb-1.5;
+  @apply mb-1;
 }
 
 .profile-field-label--categories {
-  @apply mb-1.5;
+  @apply mb-1;
 }
 
 /* Input Styles */
 .profile-input {
-  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 placeholder-gray-500 dark:placeholder-gray-300;
+  @apply w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 placeholder-gray-500 dark:placeholder-gray-300;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+}
+
+.profile-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.dark .profile-input:focus {
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.25);
 }
 
 .profile-input--blue-focus {
@@ -127,7 +439,18 @@
 }
 
 .profile-select {
-  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200;
+  @apply w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+}
+
+.profile-select:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.dark .profile-select:focus {
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.25);
 }
 
 .profile-select--blue-focus {
@@ -145,15 +468,64 @@
 
 /* Range Slider Styles */
 .profile-range-container {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-600 shadow-sm;
 }
 
 .profile-range-slider {
   @apply w-full h-2 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-lg appearance-none cursor-pointer;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-range-slider:focus {
+  transform: scaleY(1.2);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .profile-range-slider:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
+}
+
+/* Enhanced range slider thumb styles */
+.profile-range-slider::-webkit-slider-thumb {
+  appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark .profile-range-slider::-webkit-slider-thumb {
+  border: 2px solid #374151;
+}
+
+.profile-range-slider::-moz-range-thumb {
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8b5cf6, #a855f7);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+
+.dark .profile-range-slider::-moz-range-thumb {
+  border: 2px solid #374151;
 }
 
 .profile-range-labels {
-  @apply flex justify-between text-xs text-gray-500 dark:text-gray-100 mt-1.5 font-medium;
+  @apply flex justify-between text-xs text-gray-500 dark:text-gray-100 mt-1 font-medium;
 }
 
 .profile-range-label {
@@ -166,44 +538,88 @@
 
 /* Categories Styles */
 .profile-categories-container {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-1.5 border border-gray-200 dark:border-gray-600 shadow-sm;
 }
 
 .profile-categories-grid {
-  @apply grid grid-cols-1 sm:grid-cols-2 gap-1.5;
+  @apply grid grid-cols-2 gap-1;
+  /* Improved grid alignment for categories */
+  align-items: center;
+  justify-items: start;
+}
+
+/* Responsive categories grid */
+@media (min-width: 768px) {
+  .profile-categories-grid {
+    @apply grid-cols-2 gap-1.5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .profile-categories-grid {
+    @apply grid-cols-2 gap-2;
+  }
 }
 
 .profile-category-item {
-  @apply flex items-center p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+  @apply flex items-center p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+  /* Improved alignment and spacing */
+  width: 100%;
+  min-height: 32px;
+  justify-content: flex-start;
 }
 
 .profile-category-checkbox {
   @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-category-checkbox:focus {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .profile-category-checkbox:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
 }
 
 .profile-category-label {
-  @apply ml-2 text-sm text-gray-700 dark:text-white font-medium;
+  @apply ml-1.5 text-xs text-gray-700 dark:text-white font-medium;
 }
 
 /* Notifications Styles */
 .profile-notifications-container {
-  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+  @apply bg-white dark:bg-gray-800 rounded-lg p-1.5 border border-gray-200 dark:border-gray-600 shadow-sm;
 }
 
 .profile-notifications-item {
-  @apply flex items-center p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
+  @apply flex items-center p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
 }
 
 .profile-notifications-checkbox {
   @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.profile-notifications-checkbox:focus {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .profile-notifications-checkbox:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
 }
 
 .profile-notifications-content {
-  @apply ml-2;
+  @apply ml-1.5;
 }
 
 .profile-notifications-title {
-  @apply text-sm text-gray-700 dark:text-white font-medium flex items-center;
+  @apply text-xs text-gray-700 dark:text-white font-medium flex items-center;
 }
 
 .profile-notifications-icon {
@@ -211,33 +627,229 @@
 }
 
 .profile-notifications-description {
-  @apply text-xs text-gray-500 dark:text-gray-100 mt-0.5;
+  @apply text-xs text-gray-500 dark:text-gray-100 mt-0;
 }
 
-/* Error Styles */
+/* Error Styles - Compact Layout Optimized */
 .profile-error {
-  @apply mt-2 text-sm text-red-600 dark:text-red-400 flex items-center;
+  @apply mt-0.5 text-xs text-red-600 dark:text-red-400 flex items-center;
+  /* Prevent layout breaking */
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .profile-error-icon {
-  @apply mr-1;
+  @apply mr-1 flex-shrink-0;
+  font-size: 0.75rem;
+}
+
+/* Compact error indicator - just icon with tooltip */
+.profile-error--compact {
+  @apply absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-xs cursor-help;
+  font-size: 0.6rem;
+  z-index: 10;
+}
+
+/* Tooltip styles for compact errors */
+.profile-error-tooltip {
+  @apply absolute bottom-full right-0 mb-1 px-2 py-1 bg-red-600 text-white text-xs rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-200;
+  white-space: nowrap;
+  z-index: 20;
+  max-width: 200px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.profile-error--compact:hover .profile-error-tooltip {
+  @apply opacity-100;
+}
+
+/* Mobile-specific tooltip behavior */
+@media (max-width: 767px) {
+  .profile-error-tooltip {
+    /* Position tooltip above on mobile to avoid viewport issues */
+    bottom: auto;
+    top: 100%;
+    right: auto;
+    left: 0;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    max-width: 180px;
+  }
+  
+  /* Show tooltip on touch/tap for mobile */
+  .profile-error--compact:active .profile-error-tooltip,
+  .profile-error--compact:focus .profile-error-tooltip {
+    @apply opacity-100;
+  }
+}
+
+/* Ensure tooltips don't overflow in narrow containers */
+@media (max-width: 480px) {
+  .profile-error-tooltip {
+    max-width: 150px;
+    font-size: 0.65rem;
+  }
+}
+
+/* Adjust tooltip position in grid layout to prevent clipping */
+.profile-content-grid .profile-error-tooltip {
+  /* Ensure tooltip appears above other grid items */
+  z-index: 40;
+}
+
+/* Left column tooltips should appear to the right when space allows */
+.profile-content-grid > :first-child .profile-error-tooltip {
+  right: auto;
+  left: 0;
+}
+
+/* Right column tooltips should appear to the left */
+.profile-content-grid > :last-child .profile-error-tooltip {
+  right: 0;
+  left: auto;
+}
+
+/* Field container with error state */
+.profile-field-container {
+  @apply relative;
+  /* Ensure container can accommodate error indicators */
+  min-height: fit-content;
+}
+
+.profile-field-container--error .profile-input,
+.profile-field-container--error .profile-select {
+  @apply border-red-300 dark:border-red-500 focus:ring-red-500 focus:border-red-500;
+}
+
+/* Prevent error indicators from breaking grid layout */
+.profile-content-grid .profile-field-container {
+  overflow: visible;
+  position: relative;
+}
+
+/* Ensure error tooltips don't get clipped in grid containers */
+.profile-content-grid .profile-field-container .profile-error-tooltip {
+  z-index: 30;
+}
+
+/* Adjust spacing for fields with errors to prevent layout shift */
+.profile-field-container--error {
+  padding-bottom: 0.25rem;
+}
+
+/* Special handling for categories and notifications containers */
+.profile-categories-container.profile-field-container--error,
+.profile-notifications-container.profile-field-container--error {
+  @apply border-red-300 dark:border-red-500;
+}
+
+/* Inline error for critical fields */
+.profile-error--inline {
+  @apply mt-0.5 text-xs text-red-600 dark:text-red-400;
+  /* Truncate long messages */
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Error state for input focus */
+.profile-input--error {
+  @apply border-red-300 dark:border-red-500 focus:ring-red-500 focus:border-red-500;
+}
+
+.profile-select--error {
+  @apply border-red-300 dark:border-red-500 focus:ring-red-500 focus:border-red-500;
 }
 
 /* Actions Styles */
 .profile-actions {
-  @apply flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-3 border-t border-gray-200 dark:border-gray-700;
+  @apply flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-1.5 border-t border-gray-200 dark:border-gray-700;
+}
+
+/* Mobile actions - stack vertically */
+@media (max-width: 640px) {
+  .profile-actions {
+    @apply flex-col space-y-2 space-x-0;
+  }
+  
+  .profile-btn {
+    @apply w-full justify-center;
+  }
+}
+
+/* Tablet and desktop actions - horizontal layout */
+@media (min-width: 641px) {
+  .profile-actions {
+    @apply flex-row space-y-0 space-x-2;
+  }
+  
+  .profile-btn {
+    @apply w-auto;
+  }
 }
 
 .profile-btn {
   @apply px-3 py-1.5 rounded-lg transition-all duration-200 font-medium text-sm;
+  /* Enhanced focus styles for better keyboard navigation */
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
+}
+
+/* Ripple effect for buttons */
+.profile-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.profile-btn:active::before {
+  width: 300px;
+  height: 300px;
 }
 
 .profile-btn--cancel {
   @apply text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600;
 }
 
+.profile-btn--cancel:focus {
+  box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.3);
+}
+
+.dark .profile-btn--cancel:focus {
+  box-shadow: 0 0 0 3px rgba(209, 213, 219, 0.3);
+}
+
 .profile-btn--save {
   @apply flex items-center justify-center space-x-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105;
+}
+
+.profile-btn--save:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3), 0 8px 16px rgba(59, 130, 246, 0.2);
+}
+
+.dark .profile-btn--save:focus {
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4), 0 8px 16px rgba(96, 165, 250, 0.3);
 }
 
 .profile-btn-icon {
@@ -246,9 +858,78 @@
 
 /* Utility Classes */
 .profile-spacing-sm {
-  @apply mt-3;
+  @apply mt-1.5;
 }
 
 .profile-relative {
   @apply relative;
+}
+
+/* Skip link for keyboard navigation */
+.profile-skip-link {
+  @apply absolute -top-10 left-4 bg-blue-600 text-white px-4 py-2 rounded-md z-50 opacity-0 pointer-events-none transition-all duration-200;
+}
+
+.profile-skip-link:focus {
+  @apply top-4 opacity-100 pointer-events-auto;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .profile-input,
+  .profile-select {
+    border-width: 2px;
+  }
+  
+  .profile-btn {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+  
+  .profile-category-item,
+  .profile-notifications-item {
+    border-width: 1px;
+    border-color: currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .user-profile-modal,
+  .user-profile-container,
+  .profile-content-grid,
+  .profile-content-grid > *,
+  .profile-input,
+  .profile-select,
+  .profile-btn,
+  .profile-category-checkbox,
+  .profile-notifications-checkbox,
+  .profile-range-slider {
+    animation: none;
+    transition: none;
+  }
+  
+  .profile-btn::before {
+    display: none;
+  }
+}
+
+/* Focus visible for better keyboard navigation */
+.profile-input:focus-visible,
+.profile-select:focus-visible,
+.profile-category-checkbox:focus-visible,
+.profile-notifications-checkbox:focus-visible,
+.profile-range-slider:focus-visible,
+.profile-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.dark .profile-input:focus-visible,
+.dark .profile-select:focus-visible,
+.dark .profile-category-checkbox:focus-visible,
+.dark .profile-notifications-checkbox:focus-visible,
+.dark .profile-range-slider:focus-visible,
+.dark .profile-btn:focus-visible {
+  outline-color: #60a5fa;
 }

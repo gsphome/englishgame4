@@ -36,21 +36,36 @@
   fill: none !important;
 }
 
-/* Force white icons in dark mode for better visibility */
+/* Enhanced icon contrast - Force appropriate colors for both modes */
+.module-card__icon svg {
+  color: #374151 !important; /* gray-700 for good contrast in light mode */
+  stroke: #374151 !important;
+}
+
 .dark .module-card__icon svg {
-  color: white !important;
-  stroke: white !important;
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
+  stroke: #ffffff !important;
 }
 
-/* Title */
+/* Title - Enhanced contrast */
 .module-card__title {
-  @apply text-xs sm:text-sm font-semibold text-gray-900 dark:text-white text-center leading-tight;
+  @apply text-xs sm:text-sm font-semibold text-center leading-tight;
   @apply line-clamp-2;
+  color: #111827 !important; /* gray-900 for maximum contrast in light mode */
 }
 
-/* Meta (Difficulty Level) */
+.dark .module-card__title {
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
+}
+
+/* Meta (Difficulty Level) - Enhanced contrast */
 .module-card__meta {
-  @apply text-xs text-gray-800 dark:text-white text-center mt-1 font-medium;
+  @apply text-xs text-center mt-1 font-medium;
+  color: #111827 !important; /* gray-900 for maximum contrast in light mode */
+}
+
+.dark .module-card__meta {
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
 }
 
 /* Subtitle/Mode */
@@ -59,14 +74,24 @@
   @apply hidden sm:block;
 }
 
-/* Difficulty Badge */
+/* Difficulty Badge - Enhanced contrast */
 .module-card__difficulty {
-  @apply absolute top-1 right-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-white text-xs px-1.5 py-0.5 rounded-full font-medium;
+  @apply absolute top-1 right-1 bg-blue-100 dark:bg-blue-900 text-xs px-1.5 py-0.5 rounded-full font-medium;
+  color: #1e40af !important; /* blue-800 for strong contrast in light mode */
 }
 
-/* Category Badge */
+.dark .module-card__difficulty {
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
+}
+
+/* Category Badge - Enhanced contrast */
 .module-card__category {
-  @apply absolute top-1 left-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-white text-xs px-1.5 py-0.5 rounded-full font-medium;
+  @apply absolute top-1 left-1 bg-green-100 dark:bg-green-900 text-xs px-1.5 py-0.5 rounded-full font-medium;
+  color: #166534 !important; /* green-800 for strong contrast in light mode */
+}
+
+.dark .module-card__category {
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
 }
 
 /* Progress Indicator */
@@ -95,78 +120,49 @@
   @apply transform-none shadow-lg border-gray-300 dark:border-gray-600;
 }
 
-/* Learning Mode Variants */
-.module-card--flashcard .module-card__icon {
-  @apply text-purple-600 dark:text-white;
-}
-
+/* Learning Mode Variants - Enhanced contrast for all types */
 .module-card--flashcard .module-card__icon svg {
-  color: inherit !important;
-  stroke: currentColor !important;
-}
-
-.module-card--quiz .module-card__icon {
-  @apply text-orange-600 dark:text-white;
+  color: #7c3aed !important; /* purple-600 for good contrast in light mode */
+  stroke: #7c3aed !important;
 }
 
 .module-card--quiz .module-card__icon svg {
-  color: inherit !important;
-  stroke: currentColor !important;
-}
-
-.module-card--completion .module-card__icon {
-  @apply text-green-600 dark:text-white;
+  color: #ea580c !important; /* orange-600 for good contrast in light mode */
+  stroke: #ea580c !important;
 }
 
 .module-card--completion .module-card__icon svg {
-  color: inherit !important;
-  stroke: currentColor !important;
-}
-
-.module-card--sorting .module-card__icon {
-  @apply text-blue-600 dark:text-white;
+  color: #059669 !important; /* emerald-600 for good contrast in light mode */
+  stroke: #059669 !important;
 }
 
 .module-card--sorting .module-card__icon svg {
-  color: inherit !important;
-  stroke: currentColor !important;
-}
-
-.module-card--matching .module-card__icon {
-  @apply text-red-600 dark:text-white;
+  color: #2563eb !important; /* blue-600 for good contrast in light mode */
+  stroke: #2563eb !important;
 }
 
 .module-card--matching .module-card__icon svg {
-  color: inherit !important;
-  stroke: currentColor !important;
+  color: #dc2626 !important; /* red-600 for good contrast in light mode */
+  stroke: #dc2626 !important;
 }
 
-/* Force white icons for all module types in dark mode */
+/* Force white icons for all module types in dark mode for maximum contrast */
 .dark .module-card--flashcard .module-card__icon svg,
 .dark .module-card--quiz .module-card__icon svg,
 .dark .module-card--completion .module-card__icon svg,
 .dark .module-card--sorting .module-card__icon svg,
 .dark .module-card--matching .module-card__icon svg {
-  color: white !important;
-  stroke: white !important;
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
+  stroke: #ffffff !important;
 }
 
-/* Force text visibility for difficulty level */
-.module-card__meta {
-  color: #1f2937 !important; /* gray-800 for light mode */
-}
-
-.dark .module-card__meta {
-  color: white !important; /* white for dark mode */
-}
-
-/* Force text visibility for subtitle */
+/* Enhanced subtitle contrast */
 .module-card__subtitle {
-  color: #374151 !important; /* gray-700 for light mode */
+  color: #374151 !important; /* gray-700 for good contrast in light mode */
 }
 
 .dark .module-card__subtitle {
-  color: white !important; /* white for dark mode */
+  color: #ffffff !important; /* white for maximum contrast in dark mode */
 }
 
 /* Responsive Adjustments */

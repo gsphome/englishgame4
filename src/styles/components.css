@@ -2,17 +2,290 @@
 /* Import component styles from organized structure */
 @import './components/index.css';
 
-/* Global SVG Icon Inheritance Fix */
+/* ========================================
+   GLOBAL SVG ICON RULES - ENHANCED CONTRAST SYSTEM
+   ======================================== */
+
+/* 
+ * Base SVG Rules - Light Mode
+ * Ensures all SVG icons inherit currentColor for proper theming
+ * Uses !important to override inline styles from icon libraries like Lucide React
+ */
 svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+  /* Ensure minimum contrast ratio of 3:1 for icons */
+  min-width: 16px;
+  min-height: 16px;
+}
+
+/* 
+ * Dark Mode Override - Force White Icons
+ * Uses .dark prefix to ensure maximum contrast (white on dark backgrounds)
+ * Overrides any component-specific color rules for consistency
+ */
+.dark svg {
+  color: #ffffff !important; /* Pure white for maximum contrast */
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* 
+ * Lucide React Specific Rules
+ * Ensures Lucide React icons properly inherit colors in both modes
+ * Addresses any inline styles that might be applied by the library
+ */
+[data-lucide] {
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+.dark [data-lucide] {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 
+ * Interactive Element Icons
+ * Ensures icons in buttons, links, and interactive elements maintain proper contrast
+ */
+button svg,
+a svg,
+[role="button"] svg,
+[tabindex] svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.dark button svg,
+.dark a svg,
+.dark [role="button"] svg,
+.dark [tabindex] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 
+ * Header Specific Icon Rules - Critical for Dark Mode Visibility
+ * Higher specificity to ensure header icons are always visible
+ */
+.header-redesigned svg,
+.header-redesigned__menu-btn svg,
+.header-redesigned__user-btn svg,
+.header-redesigned__login-btn svg,
+.header-redesigned__control-btn svg,
+.header-side-menu svg {
   color: currentColor !important;
   stroke: currentColor !important;
   fill: none !important;
 }
 
-/* Force white icons globally in dark mode */
-.dark svg {
-  color: white !important;
-  stroke: white !important;
+/* Force white icons in header dark mode - Maximum specificity */
+.dark .header-redesigned svg,
+.dark .header-redesigned__menu-btn svg,
+.dark .header-redesigned__user-btn svg,
+.dark .header-redesigned__login-btn svg,
+.dark .header-redesigned__control-btn svg,
+.dark .header-side-menu svg,
+.dark .header-side-menu__icon,
+.dark .header-side-menu__item svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+}
+
+/* 
+ * CRITICAL: Specific Icons Fix for Dark Mode Header
+ * Ultra-high specificity for problematic icons: hamburger menu, stats, settings
+ */
+.dark .header-redesigned .header-redesigned__menu-btn svg,
+.dark .header-redesigned .header-redesigned__control-btn svg,
+.dark .header-redesigned .header-redesigned__control-panel svg,
+.dark .header-redesigned .header-redesigned__control-group svg,
+.dark .header-redesigned button[title*="menu"] svg,
+.dark .header-redesigned button[title*="Menu"] svg,
+.dark .header-redesigned button[aria-label*="menu"] svg,
+.dark .header-redesigned button[aria-label*="Menu"] svg,
+.dark .header-redesigned button[aria-label*="settings"] svg,
+.dark .header-redesigned button[aria-label*="Settings"] svg,
+.dark .header-redesigned button[aria-label*="configuración"] svg,
+.dark .header-redesigned button[aria-label*="Configuración"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+
+/* Additional header icon specificity for all states */
+.header-redesigned button svg,
+.header-redesigned a svg,
+.header-side-menu button svg,
+.header-side-menu a svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.dark .header-redesigned button svg,
+.dark .header-redesigned a svg,
+.dark .header-side-menu button svg,
+.dark .header-side-menu a svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 
+ * EMERGENCY FIX: Lucide React Icon Names for Header Dark Mode
+ * Targeting specific icon components by their data attributes and classes
+ */
+.dark .header-redesigned [data-lucide="menu"] svg,
+.dark .header-redesigned [data-lucide="settings"] svg,
+.dark .header-redesigned [data-lucide="bar-chart"] svg,
+.dark .header-redesigned [data-lucide="bar-chart-2"] svg,
+.dark .header-redesigned [data-lucide="activity"] svg,
+.dark .header-redesigned [data-lucide="user"] svg,
+.dark .header-redesigned [data-lucide="more-horizontal"] svg,
+.dark .header-redesigned [data-lucide="more-vertical"] svg,
+.dark .header-redesigned svg[class*="lucide"],
+.dark .header-redesigned .lucide svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  opacity: 1 !important;
+}
+
+/* 
+ * High Contrast Mode Support
+ * Enhanced contrast for users with high contrast preferences
+ */
+@media (prefers-contrast: high) {
+  svg {
+    color: #000000 !important; /* Pure black in high contrast light mode */
+    stroke: #000000 !important;
+    stroke-width: 2 !important; /* Thicker strokes for better visibility */
+  }
+  
+  .dark svg {
+    color: #ffffff !important; /* Pure white in high contrast dark mode */
+    stroke: #ffffff !important;
+    stroke-width: 2 !important;
+  }
+}
+
+/* 
+ * Reduced Motion Support
+ * Removes any icon animations for users who prefer reduced motion
+ */
+@media (prefers-reduced-motion: reduce) {
+  svg {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* 
+ * Focus State Icons
+ * Ensures icons remain visible during focus states
+ */
+:focus svg,
+:focus-visible svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.dark :focus svg,
+.dark :focus-visible svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 
+ * SMART HEADER ICON COLORS: Context-Aware Contrast
+ * Icons adapt to their background color for optimal visibility
+ */
+
+/* CASE 1: Header with WHITE background (light mode or special cases) */
+.header-redesigned svg,
+.header-redesigned__menu-btn svg,
+.header-redesigned__control-btn svg {
+  color: #374151 !important; /* Dark gray on white background */
+  stroke: #374151 !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* CASE 2: Header with DARK background (normal dark mode) */
+.dark .header-redesigned svg,
+.dark .header-redesigned__menu-btn svg,
+.dark .header-redesigned__control-btn svg {
+  color: #ffffff !important; /* White on dark background */
+  stroke: #ffffff !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* CASE 3: Side menu - ALWAYS dark icons on white background */
+.header-side-menu svg,
+.header-side-menu__icon,
+.header-side-menu__item svg,
+.header-side-menu * svg {
+  color: #1f2937 !important; /* Dark gray on white background */
+  stroke: #1f2937 !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* CASE 4: Dark mode side menu - STILL dark icons (white background persists) */
+.dark .header-side-menu svg,
+.dark .header-side-menu__icon,
+.dark .header-side-menu__item svg,
+.dark .header-side-menu * svg {
+  color: #1f2937 !important; /* Keep dark on white background */
+  stroke: #1f2937 !important;
+  fill: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* CASE 5: If header background is forced white in dark mode */
+.dark .header-redesigned[style*="background-color: white"] svg,
+.dark .header-redesigned[style*="background: white"] svg {
+  color: #1f2937 !important; /* Dark icons on forced white background */
+  stroke: #1f2937 !important;
+  fill: none !important;
+}
+
+/* 
+ * Disabled State Icons
+ * Maintains appropriate contrast for disabled elements
+ */
+:disabled svg,
+[aria-disabled="true"] svg {
+  opacity: 0.5;
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.dark :disabled svg,
+.dark [aria-disabled="true"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  opacity: 0.6; /* Slightly higher opacity in dark mode for better visibility */
+}
+
+/* 
+ * CRITICAL: Universal Header Icon Fix for Dark Mode
+ * This rule has maximum specificity to ensure ALL header icons are visible
+ */
+.dark [class*="header"] svg,
+.dark [class*="header-"] svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
 }
 
 /* Layout */
@@ -64,289 +337,9 @@ svg {
   @apply text-xs text-gray-500;
 }
 
-/* Header Redesigned - Nueva implementación optimizada con contexto adaptativo */
-.header-redesigned {
-  @apply bg-white border-b border-gray-200 shadow-sm;
-  @apply sticky top-0 z-40;
-  @apply transition-all duration-300 ease-out;
-}
+/* Header styles moved to components/header.css */
 
-.header-redesigned__container {
-  @apply mx-auto px-4 sm:px-6 py-3;
-  @apply flex items-center justify-between;
-  @apply gap-3 sm:gap-4;
-  height: 64px; /* Altura fija en lugar de min-height */
-  min-width: 320px; /* Ancho mínimo para prevenir colapso */
-  @apply transition-all duration-300 ease-out;
-}
-
-/* Header Mode: Menu Principal - Layout amplio */
-.header-redesigned--menu .header-redesigned__container {
-  @apply max-w-6xl; /* Ancho completo para menú principal */
-}
-
-/* Header Mode: Learning - Layout compacto y centrado */
-.header-redesigned--learning .header-redesigned__container {
-  @apply max-w-4xl; /* Ancho reducido para modos de aprendizaje */
-}
-
-/* Left Section */
-.header-redesigned__left {
-  @apply flex items-center gap-2 sm:gap-3;
-  @apply flex-shrink-0;
-  min-width: 120px; /* Ancho mínimo garantizado */
-  @apply transition-all duration-300 ease-out;
-}
-
-/* Left Section - Learning Mode: Más compacto */
-.header-redesigned--learning .header-redesigned__left {
-  min-width: 100px;
-}
-
-.header-redesigned__menu-btn {
-  @apply p-2 rounded-lg;
-  @apply text-gray-600 hover:text-gray-900 hover:bg-gray-100;
-  @apply transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
-}
-
-.header-redesigned__brand {
-  @apply flex items-center gap-2;
-}
-
-.header-redesigned__logo {
-  @apply text-xl;
-  @apply hidden sm:block;
-}
-
-.header-redesigned__title {
-  @apply text-lg font-bold text-gray-900;
-  @apply hidden sm:block;
-}
-
-/* Center Section */
-.header-redesigned__center {
-  @apply flex-1 flex justify-center;
-  @apply mx-2;
-  min-width: 200px; /* Ancho mínimo para el score display */
-  @apply transition-all duration-300 ease-out;
-}
-
-/* Center Section - Menu Mode: Más espacio para información completa */
-.header-redesigned--menu .header-redesigned__center {
-  @apply max-w-md;
-}
-
-/* Center Section - Learning Mode: Más compacto y centrado */
-.header-redesigned--learning .header-redesigned__center {
-  @apply max-w-sm;
-}
-
-/* Right Section - Unified Control Area */
-.header-redesigned__right {
-  @apply flex items-center gap-2 sm:gap-3;
-  @apply flex-shrink-0;
-  min-width: 140px; /* Ancho mínimo garantizado */
-  @apply transition-all duration-300 ease-out;
-}
-
-/* Right Section - Learning Mode: Más compacto */
-.header-redesigned--learning .header-redesigned__right {
-  min-width: 120px;
-}
-
-/* User Section */
-.header-redesigned__user-section {
-  @apply flex items-center;
-  @apply flex-shrink-0;
-}
-
-.header-redesigned__user-btn {
-  @apply flex items-center gap-1 sm:gap-2 px-2 sm:px-3 py-2 rounded-lg;
-  @apply text-gray-700 hover:text-gray-900 hover:bg-gray-50;
-  @apply transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
-  @apply border border-transparent hover:border-gray-200;
-  min-width: 44px; /* Ancho mínimo para el botón de usuario */
-}
-
-.header-redesigned__avatar {
-  @apply w-8 h-8 rounded-full bg-blue-100 text-blue-600;
-  @apply flex items-center justify-center;
-  @apply flex-shrink-0;
-}
-
-.header-redesigned__user-info {
-  @apply flex items-center;
-  @apply hidden sm:flex;
-}
-
-.header-redesigned__username {
-  @apply text-sm font-medium text-gray-900;
-  @apply max-w-24 truncate;
-}
-
-.header-redesigned__login-btn {
-  @apply flex items-center px-3 py-2 rounded-lg;
-  @apply bg-blue-600 text-white hover:bg-blue-700;
-  @apply transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
-  @apply font-medium text-sm;
-}
-
-/* Unified Control Panel */
-.header-redesigned__control-panel {
-  @apply flex items-center;
-  @apply bg-gray-50 dark:bg-gray-800;
-  @apply border border-gray-200 dark:border-gray-600;
-  @apply rounded-xl px-1 py-1;
-  @apply shadow-sm;
-  min-width: 80px; /* Ancho mínimo para los controles */
-}
-
-.header-redesigned__control-group {
-  @apply flex items-center gap-0.5;
-}
-
-.header-redesigned__control-btn {
-  @apply p-2 sm:p-2.5 rounded-lg;
-  @apply text-gray-600 hover:text-gray-900 hover:bg-white;
-  @apply dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700;
-  @apply transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1;
-  @apply border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
-  @apply shadow-sm hover:shadow-md;
-  min-width: 36px; /* Ancho mínimo para cada botón */
-  min-height: 36px; /* Altura mínima para cada botón */
-}
-
-/* Responsive Design - Mejorado para mejor espaciado */
-@media (max-width: 640px) {
-  .header-redesigned__container {
-    @apply px-3 py-2;
-    gap: 8px; /* Gap fijo más generoso */
-    height: 56px;
-  }
-  
-  .header-redesigned__center {
-    @apply max-w-none;
-    min-width: 160px; /* Reducido para móviles */
-  }
-  
-  .header-redesigned__left {
-    min-width: 100px; /* Reducido para móviles */
-  }
-  
-  .header-redesigned__right {
-    min-width: 120px; /* Reducido para móviles */
-  }
-  
-  /* Learning Mode - Mobile: Aún más compacto */
-  .header-redesigned--learning .header-redesigned__center {
-    min-width: 140px;
-  }
-  
-  .header-redesigned--learning .header-redesigned__left {
-    min-width: 80px;
-  }
-  
-  .header-redesigned--learning .header-redesigned__right {
-    min-width: 100px;
-  }
-  
-  .header-redesigned--learning .score-display-compact {
-    max-width: 180px;
-  }
-  
-  .header-redesigned__user-btn {
-    @apply px-2 py-2;
-    min-width: 40px;
-  }
-  
-  .header-redesigned__avatar {
-    @apply w-7 h-7;
-  }
-  
-  .header-redesigned__control-panel {
-    min-width: 72px;
-  }
-  
-  .header-redesigned__control-btn {
-    min-width: 32px;
-    min-height: 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header-redesigned__container {
-    gap: 6px; /* Gap aún más compacto pero respirable */
-    @apply px-2;
-  }
-  
-  .header-redesigned__left {
-    @apply gap-1;
-    min-width: 80px;
-  }
-  
-  .header-redesigned__right {
-    @apply gap-1;
-    min-width: 100px;
-  }
-  
-  .header-redesigned__center {
-    min-width: 140px;
-  }
-  
-  .header-redesigned__brand {
-    @apply gap-1;
-  }
-  
-  .header-redesigned__control-panel {
-    @apply bg-transparent border-0 shadow-none px-0 py-0;
-    min-width: 68px;
-  }
-  
-  .header-redesigned__control-group {
-    @apply gap-1;
-  }
-  
-  .header-redesigned__control-btn {
-    @apply bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600;
-    min-width: 30px;
-    min-height: 30px;
-  }
-}
-
-/* Breakpoint específico para pantallas muy pequeñas */
-@media (max-width: 360px) {
-  .header-redesigned__container {
-    gap: 4px;
-    @apply px-1;
-  }
-  
-  .header-redesigned__left {
-    min-width: 70px;
-  }
-  
-  .header-redesigned__center {
-    min-width: 120px;
-  }
-  
-  .header-redesigned__right {
-    min-width: 90px;
-  }
-  
-  .header-redesigned__user-btn {
-    @apply px-1;
-    min-width: 36px;
-  }
-  
-  .header-redesigned__username {
-    @apply hidden; /* Ocultar nombre en pantallas muy pequeñas */
-  }
-}
-
-/* Main Menu */
+/* Main Menu - Legacy classes for compatibility */
 .menu {
   @apply max-w-6xl mx-auto my-2 bg-white pt-4 pb-6 px-3 sm:px-6 rounded-lg shadow-sm;
 }
@@ -427,32 +420,7 @@ svg {
   @apply mt-4 text-center text-sm text-gray-700 dark:text-gray-300;
 }
 
-/* Search */
-.search {
-  @apply relative;
-}
-
-.search__icon {
-  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
-}
-
-.search__icon-svg {
-  @apply h-4 w-4 text-gray-500 dark:text-gray-300;
-}
-
-.search__input {
-  @apply w-full px-3 py-2 pl-10 pr-10 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700;
-  @apply text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
-
-.search__clear {
-  @apply absolute inset-y-0 right-0 pr-3 flex items-center;
-}
-
-.search__clear-icon {
-  @apply h-4 w-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200;
-}
+/* Search styles moved to components/search-bar.css */
 
 /* Buttons */
 .btn {
@@ -962,48 +930,22 @@ textarea:focus-visible,
   @apply text-gray-400;
 }
 
-/* Dark Mode - Header Redesigned */
-.dark .header-redesigned {
-  @apply bg-gray-900 border-gray-700;
+/* Legacy Header Icon Rules for Dark Mode */
+.header svg,
+.header__button svg,
+.header__user-button svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
 }
 
-.dark .header-redesigned__menu-btn {
-  @apply text-gray-400 hover:text-white hover:bg-gray-800;
+.dark .header svg,
+.dark .header__button svg,
+.dark .header__user-button svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
-.dark .header-redesigned__title {
-  @apply text-white;
-}
-
-.dark .header-redesigned__user-btn {
-  @apply text-gray-300 hover:text-white hover:bg-gray-800 hover:border-gray-600;
-}
-
-.dark .header-redesigned__avatar {
-  @apply bg-blue-900 text-blue-300;
-}
-
-.dark .header-redesigned__username {
-  @apply text-gray-200;
-}
-
-.dark .header-redesigned__login-btn {
-  @apply bg-blue-600 hover:bg-blue-700;
-}
-
-.dark .header-redesigned__action-btn {
-  @apply text-gray-400 hover:text-white hover:bg-gray-800;
-}
-
-.dark .header-redesigned__control-panel {
-  @apply bg-gray-800 border-gray-600;
-}
-
-.dark .header-redesigned__control-btn {
-  @apply text-gray-400 hover:text-white hover:bg-gray-700 hover:border-gray-600;
-}
-
-/* Estilos duplicados removidos - ya están definidos arriba */
+/* Dark mode header styles moved to components/header.css */
 
 .dark .menu {
   @apply bg-gray-800;
@@ -1017,9 +959,7 @@ textarea:focus-visible,
   @apply bg-gray-700 border-gray-600;
 }
 
-.dark .search__input {
-  @apply bg-gray-700 border-gray-600 text-white;
-}
+/* Dark mode search styles moved to components/search-bar.css */
 
 .dark .btn--primary {
   @apply bg-blue-600 hover:bg-blue-700;
