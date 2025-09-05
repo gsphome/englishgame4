@@ -7,8 +7,8 @@ const mockModule: LearningModule = {
   id: 'test-module',
   name: 'Test Module',
   learningMode: 'flashcard',
-  level: ['B1'],
-  category: 'test',
+  level: ['b1'],
+  category: 'Vocabulary',
   description: 'Test description',
   data: []
 };
@@ -28,7 +28,7 @@ describe('ModuleCard', () => {
     expect(screen.getByText('Test Module')).toBeInTheDocument();
     
     // Check that the difficulty level is rendered
-    expect(screen.getByText('B1')).toBeInTheDocument();
+    expect(screen.getByText('b1')).toBeInTheDocument();
     
     // Check that the button has the correct CSS classes for contrast
     const button = screen.getByRole('button');
