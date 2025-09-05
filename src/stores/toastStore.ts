@@ -58,12 +58,15 @@ const toastStore = {
   },
 
   addToast(toast: Omit<ToastData, 'id'>) {
+    console.log('🧪 addToast called with:', toast);
     const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
     const newToast: ToastData = {
       id,
       duration: 4000, // Default duration
       ...toast,
     };
+
+    console.log('🧪 Created new toast:', newToast);
 
     // For better UX, limit the number of toasts visible at once
     // Keep only the most recent toasts (max 2 at a time)
@@ -75,9 +78,13 @@ const toastStore = {
       updatedToasts = updatedToasts.slice(-2);
     }
 
+    console.log('🧪 About to setState with toasts:', updatedToasts);
+
     this.setState({
       toasts: updatedToasts,
     });
+
+    console.log('🧪 setState completed, globalState.toasts:', globalState.toasts);
 
     // Auto-remove toast after duration
     if (newToast.duration && newToast.duration > 0) {
@@ -93,8 +100,25 @@ const toastStore = {
     });
   },
 
-  clearAllToasts() {
-    this.setState({ toasts: [] });
+  clearAllToasts(immediate = false) {
+    if (immediate) {
+      // Immediate clear for showSingleToast
+      this.setState({ toasts: [] });
+      return;
+    }
+
+    const toastsToRemove = [...globalState.toasts];
+
+    // Trigger fast close animation for all existing toasts
+    toastsToRemove.forEach((toast) => {
+      const closeEvent = new CustomEvent(`close-toast-${toast.id}`);
+      window.dispatchEvent(closeEvent);
+    });
+
+    // Clear the state after animation time
+    setTimeout(() => {
+      this.setState({ toasts: [] });
+    }, 200); // Give time for animations to complete
   },
 
   clearToastsByType(type: ToastType) {
@@ -122,12 +146,12 @@ const toastStore = {
 
   // New method: Show only one toast at a time (clear all others)
   showSingleToast(toast: Omit<ToastData, 'id'>) {
-    // Clear all existing toasts first
-    this.clearAllToasts();
-    // Add the new toast after a small delay
-    setTimeout(() => {
-      this.addToast(toast);
-    }, 150); // Small delay to ensure cleanup animation completes
+    console.log('🧪 showSingleToast called with:', toast);
+    // Clear all existing toasts immediately for single toast
+    this.clearAllToasts(true);
+    // Add the new toast immediately
+    this.addToast(toast);
+    console.log('🧪 showSingleToast completed, current toasts:', globalState.toasts);
   },
 
   hasShownToast(key: string) {

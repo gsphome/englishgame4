@@ -7,6 +7,7 @@ import { toast } from '../stores/toastStore';
 export const useToast = () => {
   // Learning-specific toast messages
   const showCorrectAnswer = useCallback(() => {
+    console.log('🧪 showCorrectAnswer called');
     const messages = [
       '¡Correcto! 🎉',
       '¡Excelente! ✨',
@@ -15,12 +16,15 @@ export const useToast = () => {
       '¡Genial! 🚀'
     ];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    console.log('🧪 Calling toast.single.success with:', randomMessage);
     // Quick success feedback - explanation is already in main UI
     toast.single.success(randomMessage, undefined, { duration: 2000 });
   }, []);
 
   const showIncorrectAnswer = useCallback(() => {
+    console.log('🧪 showIncorrectAnswer called');
     // Quick error feedback - explanation is already in main UI
+    console.log('🧪 Calling toast.single.error');
     toast.single.error('Incorrecto', undefined, { duration: 2000 });
   }, []);
 

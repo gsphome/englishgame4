@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AppState, LearningModule, SessionScore } from '../types';
+import { toast } from './toastStore';
 
 interface AppStore extends AppState {
   // Global score that persists across sessions
@@ -43,6 +44,11 @@ export const useAppStore = create<AppStore>()(
         // Always reset session score when setting a new module
         const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
 
+        // Clear all toasts when changing modules to ensure clean transitions
+        if (shouldResetScore) {
+          toast.clearAll();
+        }
+
         const newSessionScore = shouldResetScore
           ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
           : state.sessionScore;
@@ -53,11 +59,19 @@ export const useAppStore = create<AppStore>()(
         };
       }),
 
-      setCurrentView: (view) => set((state) => ({
-        currentView: view,
-        // Clear currentModule when going back to menu
-        currentModule: view === 'menu' ? null : state.currentModule
-      })),
+      setCurrentView: (view) => set((state) => {
+        // Only clear toasts when actually changing views, not on initial load
+        if (state.currentView !== view) {
+          // Clear all toasts when changing views to ensure clean transitions
+          toast.clearAll();
+        }
+        
+        return {
+          currentView: view,
+          // Clear currentModule when going back to menu
+          currentModule: view === 'menu' ? null : state.currentModule
+        };
+      }),
 
       updateSessionScore: (scoreUpdate) => set((state) => {
 
