@@ -8,24 +8,15 @@ const ENABLE_CACHE_LOGS = process.env.VITE_ENABLE_CACHE_LOGS === 'true'
 export default defineConfig({
   base: '/englishgame4/',
   publicDir: 'public',
-  // Optimize dependencies to avoid initialization issues
+  // Minimal optimization to avoid initialization issues
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom',
-      'zustand',
-      '@tanstack/react-query',
-      'lucide-react'
-    ],
-    // Force pre-bundling to avoid runtime issues
-    force: true,
+    // Let Vite auto-discover dependencies
+    force: false,
   },
-  // Ensure proper module resolution
+  // Minimal esbuild configuration
   esbuild: {
-    // Keep function names for better debugging and avoid initialization issues
+    // Keep everything as-is to avoid transformation issues
     keepNames: true,
-    // Preserve legal comments that might be important for module initialization
-    legalComments: 'inline',
   },
   plugins: [
     react(),
@@ -146,68 +137,17 @@ export default defineConfig({
   },
   build: {
     sourcemap: false,
-    minify: 'terser',
-    chunkSizeWarningLimit: 1000, // Increase to 1MB to allow larger chunks and avoid module initialization issues
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
-        pure_funcs: ['console.log', 'console.debug'],
-      },
-      mangle: {
-        // Preserve function names to avoid initialization issues
-        keep_fnames: true,
-      },
-    },
+    chunkSizeWarningLimit: 2000, // Increase to 2MB to allow very large chunks
     rollupOptions: {
       output: {
-        // Simplified chunking strategy to avoid module initialization issues
-        manualChunks: (id) => {
-          // Keep React and React-DOM together to avoid initialization issues
-          if (id.includes('node_modules')) {
-            if (id.includes('react') || id.includes('react-dom')) {
-              return 'react-vendor';
-            }
-            // Keep all other vendor libraries in a single chunk to maintain initialization order
-            return 'vendor';
-          }
-          
-          // Keep all application code in fewer chunks to maintain proper initialization order
-          if (id.includes('/stores/') || id.includes('/hooks/')) {
-            return 'app-state';
-          }
-          
-          if (id.includes('/components/')) {
-            return 'app-components';
-          }
-          
-          if (id.includes('/utils/')) {
-            return 'app-utils';
-          }
-        },
-        // Preserve module format to avoid initialization issues
+        // NO manual chunking - let Vite handle it automatically
+        // This should prevent module initialization order issues
         format: 'es',
-        // Optimize asset naming
-        assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') ?? [];
-          const extType = info[info.length - 1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType ?? '')) {
-            return `assets/images/[name]-[hash][extname]`;
-          }
-          if (/css/i.test(extType ?? '')) {
-            return `assets/css/[name]-[hash][extname]`;
-          }
-          return `assets/[name]-[hash][extname]`;
-        },
-        chunkFileNames: 'assets/js/[name]-[hash].js',
-        entryFileNames: 'assets/js/[name]-[hash].js',
-        // Preserve module initialization order
-        preserveModules: false,
-        // Ensure proper hoisting
-        hoistTransitiveImports: false,
+        // Simple asset naming
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        entryFileNames: 'assets/[name]-[hash].js',
       },
-      // Preserve entry order to avoid initialization issues
-      preserveEntrySignatures: 'strict',
     },
   },
   server: {
