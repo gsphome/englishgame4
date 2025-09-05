@@ -1,7 +1,7 @@
 import React from 'react';
 import { Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ComposedChart } from 'recharts';
 import { Trophy, Target, Clock, TrendingUp, X, HelpCircle } from 'lucide-react';
-import './Dashboard.css';
+import '../../styles/components/dashboard.css';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useProgressStore } from '../../stores/progressStore';

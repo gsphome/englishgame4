@@ -1,0 +1,313 @@
+/* Score Display Styles */
+
+/* Base Score Display */
+.score-display {
+  @apply flex items-center space-x-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-700 px-4 py-2 rounded-xl border border-blue-200 dark:border-gray-600 shadow-sm;
+}
+
+/* Session Score */
+.score-display__session {
+  @apply flex flex-col items-center space-y-1;
+}
+
+/* Global Score */
+.score-display__global {
+  @apply flex flex-col items-center space-y-1 border-l border-blue-200 dark:border-gray-600 pl-4;
+}
+
+/* Labels */
+.score-display__label {
+  @apply flex items-center space-x-1 text-xs font-medium text-gray-600 dark:text-gray-300;
+}
+
+.score-display__icon {
+  @apply text-sm;
+}
+
+/* Values */
+.score-display__values {
+  @apply flex items-center space-x-1 text-sm font-bold;
+}
+
+.score-display__correct {
+  @apply text-green-600 dark:text-green-400;
+}
+
+.score-display__separator {
+  @apply text-gray-400 dark:text-gray-500;
+}
+
+.score-display__incorrect {
+  @apply text-red-500 dark:text-red-400;
+}
+
+/* Accuracy */
+.score-display__accuracy {
+  @apply flex items-center space-x-1 ml-2 px-2 py-1 bg-white dark:bg-gray-800 rounded-full border;
+}
+
+/* Points */
+.score-display__total-points {
+  @apply text-purple-600 dark:text-purple-400 text-lg font-bold;
+}
+
+.score-display__points-label {
+  @apply text-purple-500 dark:text-purple-400 text-xs;
+}
+
+/* Level */
+.score-display__level {
+  @apply flex flex-col items-center space-y-1 ml-2;
+}
+
+.score-display__level-text {
+  @apply text-xs font-bold text-orange-600 dark:text-orange-400;
+}
+
+.score-display__progress-bar {
+  @apply w-12 h-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden;
+}
+
+.score-display__progress-fill {
+  @apply h-full bg-gradient-to-r from-orange-400 to-yellow-400 transition-all duration-300;
+}
+
+/* Compact Score Display */
+.score-display-compact {
+  @apply bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-700;
+  @apply border border-blue-200 dark:border-gray-600;
+  @apply rounded-xl px-2 sm:px-3 py-1.5 sm:py-2;
+  @apply shadow-sm;
+  @apply transition-all duration-300 ease-out;
+  height: 36px;
+  min-width: 160px;
+  max-width: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Compact Elements */
+.score-display-compact__session {
+  @apply flex items-center gap-2;
+}
+
+.score-display-compact__global {
+  @apply flex items-center gap-3;
+}
+
+.score-display-compact__main {
+  @apply flex items-center gap-2;
+}
+
+.score-display-compact__icon {
+  @apply text-sm flex-shrink-0;
+}
+
+.score-display-compact__values {
+  @apply flex items-center gap-1 text-sm font-bold;
+}
+
+.score-display-compact__correct {
+  @apply text-green-700 dark:text-green-400;
+}
+
+.score-display-compact__separator {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.score-display-compact__incorrect {
+  @apply text-red-600 dark:text-red-400;
+}
+
+.score-display-compact__accuracy {
+  @apply text-xs font-medium text-blue-700 dark:text-blue-300;
+  @apply bg-white dark:bg-gray-800 px-2 py-1 rounded-full;
+  @apply border border-blue-200 dark:border-gray-600;
+}
+
+.score-display-compact__divider {
+  @apply w-px h-6 bg-gray-400 dark:bg-gray-500;
+}
+
+.score-display-compact__level {
+  @apply flex items-center gap-1.5 flex-shrink-0;
+}
+
+.score-display-compact__level-badge {
+  @apply text-xs font-bold text-orange-700 dark:text-orange-300;
+  @apply bg-orange-100 dark:bg-orange-900 px-1.5 py-0.5 rounded-full;
+  @apply border border-orange-200 dark:border-orange-700;
+  @apply flex-shrink-0;
+  min-width: 28px;
+  text-align: center;
+}
+
+.score-display-compact__points {
+  @apply text-xs font-bold text-purple-700 dark:text-purple-300 flex-shrink-0;
+  min-width: 24px;
+}
+
+.score-display-compact__progress-bar {
+  @apply w-8 h-1 bg-gray-300 dark:bg-gray-600 rounded-full overflow-hidden;
+  @apply border border-gray-400 dark:border-gray-500 flex-shrink-0;
+}
+
+.score-display-compact__progress-fill {
+  @apply h-full bg-gradient-to-r from-orange-500 to-yellow-500 transition-all duration-300;
+}
+
+/* Learning Mode Variant */
+.score-display-compact--learning {
+  @apply bg-gradient-to-r from-green-50 to-blue-50 dark:from-gray-700 dark:to-gray-600;
+  @apply border-green-200 dark:border-gray-500 shadow-md;
+  max-width: 220px;
+}
+
+/* Menu Mode Variant */
+.score-display-compact--menu {
+  max-width: 280px;
+}
+
+/* Tooltip */
+.score-display__tooltip {
+  @apply absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50;
+}
+
+.score-display__tooltip-content {
+  @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg p-4 min-w-64;
+}
+
+.score-display__tooltip-title {
+  @apply text-sm font-bold text-gray-800 dark:text-gray-200 mb-3 text-center;
+}
+
+.score-display__tooltip-stats {
+  @apply space-y-2 mb-3;
+}
+
+.score-display__tooltip-stat {
+  @apply flex justify-between items-center text-sm;
+}
+
+.score-display__tooltip-label {
+  @apply text-gray-600 dark:text-gray-400;
+}
+
+.score-display__tooltip-value {
+  @apply font-bold text-gray-800 dark:text-gray-200;
+}
+
+.score-display__tooltip-progress {
+  @apply border-t border-gray-200 dark:border-gray-600 pt-3;
+}
+
+.score-display__tooltip-progress-text {
+  @apply text-xs text-center text-gray-500 dark:text-gray-400 font-medium;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .score-display-compact {
+    @apply px-1.5 py-1;
+    height: 32px;
+    min-width: 140px;
+    max-width: 200px;
+  }
+  
+  .score-display-compact__global {
+    @apply gap-1.5;
+  }
+  
+  .score-display-compact__main {
+    @apply gap-1;
+  }
+  
+  .score-display-compact__values {
+    @apply text-xs;
+  }
+  
+  .score-display-compact__accuracy {
+    @apply text-xs px-1.5 py-0.5;
+  }
+  
+  .score-display-compact__level-badge {
+    @apply text-xs px-1 py-0.5;
+    min-width: 24px;
+  }
+  
+  .score-display-compact__points {
+    @apply text-xs;
+    min-width: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-display-compact {
+    min-width: 120px;
+    max-width: 160px;
+  }
+  
+  .score-display-compact__icon {
+    @apply hidden;
+  }
+  
+  .score-display-compact__level {
+    @apply gap-1;
+  }
+  
+  .score-display-compact__accuracy {
+    @apply hidden;
+  }
+}
+
+@media (max-width: 360px) {
+  .score-display-compact {
+    min-width: 100px;
+    max-width: 120px;
+    @apply px-1;
+  }
+  
+  .score-display-compact__divider {
+    @apply hidden;
+  }
+  
+  .score-display-compact__level {
+    @apply gap-0.5;
+  }
+  
+  .score-display-compact__level-badge {
+    @apply text-xs px-1 py-0.5;
+    min-width: 20px;
+  }
+  
+  .score-display-compact__points {
+    min-width: 16px;
+  }
+  
+  .score-display-compact__progress-bar {
+    @apply w-6 h-0.5;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .score-display-compact__correct {
+    @apply text-green-800 dark:text-green-200;
+  }
+  
+  .score-display-compact__incorrect {
+    @apply text-red-800 dark:text-red-200;
+  }
+  
+  .score-display-compact__separator {
+    @apply text-gray-800 dark:text-gray-200;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .score-display-compact__progress-fill {
+    transition: none;
+  }
+}

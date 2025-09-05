@@ -1,0 +1,100 @@
+/* Advanced Settings Modal Styles */
+
+/* SVG Icon Inheritance Fix - Force white in dark mode */
+.advanced-settings-modal svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons in dark mode */
+.dark .advanced-settings-modal svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Modal Container */
+.advanced-settings-modal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.advanced-settings-modal__container {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-3 w-80 max-w-sm mx-4 max-h-[85vh] overflow-y-auto;
+}
+
+/* Header */
+.advanced-settings-modal__header {
+  @apply flex justify-between items-center mb-3;
+}
+
+.advanced-settings-modal__title {
+  @apply text-base font-semibold dark:text-white;
+}
+
+.advanced-settings-modal__close-btn {
+  @apply text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white;
+}
+
+/* Sections */
+.advanced-settings-modal__section {
+  @apply mb-4;
+}
+
+.advanced-settings-modal__section-title {
+  @apply text-xs font-semibold mb-2 uppercase tracking-wide text-gray-600 dark:text-white;
+}
+
+/* Settings Row */
+.advanced-settings-modal__row {
+  @apply flex justify-between items-center mb-2;
+}
+
+.advanced-settings-modal__label {
+  @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+.advanced-settings-modal__select {
+  @apply w-28 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-600 text-black dark:text-white;
+}
+
+.advanced-settings-modal__input {
+  @apply w-16 p-1 text-xs border border-gray-300 dark:border-gray-600 rounded text-center bg-white dark:bg-gray-600 text-black dark:text-white;
+}
+
+/* Categories */
+.advanced-settings-modal__categories {
+  @apply space-y-1;
+}
+
+.advanced-settings-modal__category-item {
+  @apply flex items-center space-x-2 p-1;
+}
+
+.advanced-settings-modal__category-checkbox {
+  @apply rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 focus:ring-2;
+}
+
+.advanced-settings-modal__category-label {
+  @apply text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Actions */
+.advanced-settings-modal__actions {
+  @apply flex justify-end space-x-2 mt-4;
+}
+
+.advanced-settings-modal__btn {
+  @apply font-bold py-2 px-4 rounded text-sm transition-colors duration-200;
+}
+
+.advanced-settings-modal__btn--edit {
+  @apply bg-green-600 hover:bg-green-700 text-white;
+}
+
+.advanced-settings-modal__btn--cancel {
+  @apply bg-gray-600 hover:bg-gray-700 text-white;
+}
+
+.advanced-settings-modal__btn--save {
+  @apply bg-blue-600 hover:bg-blue-700 text-white;
+}

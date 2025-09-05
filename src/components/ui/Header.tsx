@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User, Settings, Menu, BarChart3 } from 'lucide-react';
-import './Header.css';
+import '../../styles/components/header.css';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';

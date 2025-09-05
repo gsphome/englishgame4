@@ -1,0 +1,162 @@
+/* Main Menu Styles */
+
+/* SVG Icon Inheritance Fix - Force white in dark mode */
+.main-menu svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+.dark .main-menu svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Menu Container */
+.main-menu {
+  @apply max-w-6xl mx-auto my-2 bg-white pt-4 pb-6 px-3 sm:px-6 rounded-lg shadow-sm;
+}
+
+.main-menu__title {
+  @apply text-3xl font-bold text-center mb-8 text-gray-900;
+}
+
+/* Search Section */
+.main-menu__search {
+  @apply max-w-sm mx-auto mb-4;
+}
+
+/* Grid Container */
+.main-menu__grid {
+  @apply bg-gray-50 rounded-xl p-2 border-2 border-gray-200 max-w-5xl mx-auto;
+}
+
+.main-menu__grid-container {
+  @apply grid gap-3 place-items-center;
+}
+
+/* Custom breakpoints - All responsive grid columns */
+@media (max-width: 259px) {
+  .main-menu__grid-container {
+    @apply grid-cols-1;
+  }
+}
+
+@media (min-width: 260px) and (max-width: 349px) {
+  .main-menu__grid-container {
+    @apply grid-cols-2;
+  }
+}
+
+@media (min-width: 350px) and (max-width: 639px) {
+  .main-menu__grid-container {
+    @apply grid-cols-3;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 679px) {
+  .main-menu__grid-container {
+    @apply grid-cols-4;
+  }
+}
+
+@media (min-width: 680px) and (max-width: 1023px) {
+  .main-menu__grid-container {
+    @apply grid-cols-5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .main-menu__grid-container {
+    @apply grid-cols-6;
+  }
+}
+
+/* Optimización para modo web - contenedor más compacto */
+@media (min-width: 640px) {
+  .main-menu__grid {
+    @apply max-w-2xl; /* Reducido de 3xl (768px) a 2xl (672px) */
+  }
+  
+  .main-menu__grid-container {
+    @apply gap-2; /* Reducido de gap-3 (12px) a gap-2 (8px) */
+  }
+}
+
+/* No Results */
+.main-menu__no-results {
+  @apply text-center py-8;
+}
+
+.main-menu__no-results-text {
+  @apply text-gray-700 dark:text-gray-300;
+}
+
+.main-menu__results-count {
+  @apply mt-4 text-center text-sm text-gray-700 dark:text-gray-300;
+}
+
+/* Loading State */
+.main-menu__loading {
+  @apply flex items-center justify-center py-8;
+}
+
+.main-menu__loading-spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
+}
+
+/* Error State */
+.main-menu__error {
+  @apply text-center py-8;
+}
+
+.main-menu__error-text {
+  @apply text-red-600 dark:text-red-400 mb-4;
+}
+
+.main-menu__error-btn {
+  @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .main-menu {
+    @apply mx-1 my-1 pt-3 pb-4 px-3;
+  }
+  
+  .main-menu__search {
+    @apply mb-3;
+  }
+  
+  .main-menu__grid {
+    @apply max-w-sm overflow-y-auto;
+    max-height: 330px; /* Reducido 10px */
+  }
+}
+
+@media (min-width: 641px) {
+  .main-menu__grid {
+    @apply overflow-y-auto;
+    max-height: 440px; /* Agregado 10px más para modo web */
+  }
+}
+
+/* Ajuste específico para 2-3 columnas que se ven cortadas */
+@media (min-width: 260px) and (max-width: 639px) {
+  .main-menu__grid {
+    max-height: 330px; /* Aumentado 2px más para 3er botón completo */
+  }
+}
+
+/* Dark Mode */
+.dark .main-menu {
+  @apply bg-gray-800;
+}
+
+.dark .main-menu__title {
+  @apply text-white;
+}
+
+.dark .main-menu__grid {
+  @apply bg-gray-700 border-gray-600;
+}

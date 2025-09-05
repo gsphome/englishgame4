@@ -1,4 +1,19 @@
 /* Component-specific styles - Clean separation */
+/* Import component styles from organized structure */
+@import './components/index.css';
+
+/* Global SVG Icon Inheritance Fix */
+svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons globally in dark mode */
+.dark svg {
+  color: white !important;
+  stroke: white !important;
+}
 
 /* Layout */
 .layout-container {
@@ -422,7 +437,7 @@
 }
 
 .search__icon-svg {
-  @apply h-4 w-4 text-gray-500 dark:text-gray-400;
+  @apply h-4 w-4 text-gray-500 dark:text-gray-300;
 }
 
 .search__input {

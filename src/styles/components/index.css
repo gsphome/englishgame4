@@ -1,0 +1,13 @@
+/* Component Styles Index */
+/* Import all component-specific styles */
+
+@import './header.css';
+@import './dashboard.css';
+@import './user-profile-form.css';
+@import './advanced-settings-modal.css';
+@import './main-menu.css';
+@import './module-card.css';
+@import './search-bar.css';
+@import './score-display.css';
+@import './toast.css';
+@import './loading-skeleton.css';

@@ -1,0 +1,228 @@
+/* Module Card Styles */
+
+/* Card Container */
+.module-card {
+  @apply relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-200 dark:border-gray-700 cursor-pointer;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
+  @apply w-24 h-24 sm:w-28 sm:h-28;
+}
+
+.module-card:hover {
+  @apply border-blue-300 dark:border-blue-600;
+}
+
+.module-card:active {
+  @apply scale-95;
+}
+
+/* Card Content */
+.module-card__content {
+  @apply flex flex-col items-center justify-center h-full p-2 sm:p-3;
+}
+
+/* Icon Section */
+.module-card__icon-container {
+  @apply flex items-center justify-center mb-1 sm:mb-2;
+}
+
+.module-card__icon {
+  @apply text-blue-600 dark:text-white;
+}
+
+.module-card__icon svg {
+  @apply w-5 h-5 sm:w-6 sm:h-6;
+  color: inherit !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons in dark mode for better visibility */
+.dark .module-card__icon svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Title */
+.module-card__title {
+  @apply text-xs sm:text-sm font-semibold text-gray-900 dark:text-white text-center leading-tight;
+  @apply line-clamp-2;
+}
+
+/* Meta (Difficulty Level) */
+.module-card__meta {
+  @apply text-xs text-gray-800 dark:text-white text-center mt-1 font-medium;
+}
+
+/* Subtitle/Mode */
+.module-card__subtitle {
+  @apply text-xs text-gray-700 dark:text-white text-center mt-1;
+  @apply hidden sm:block;
+}
+
+/* Difficulty Badge */
+.module-card__difficulty {
+  @apply absolute top-1 right-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-white text-xs px-1.5 py-0.5 rounded-full font-medium;
+}
+
+/* Category Badge */
+.module-card__category {
+  @apply absolute top-1 left-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-white text-xs px-1.5 py-0.5 rounded-full font-medium;
+}
+
+/* Progress Indicator */
+.module-card__progress {
+  @apply absolute bottom-1 left-1 right-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+}
+
+.module-card__progress-fill {
+  @apply h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300;
+}
+
+/* States */
+.module-card--completed {
+  @apply bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700;
+}
+
+.module-card--in-progress {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700;
+}
+
+.module-card--locked {
+  @apply bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600 cursor-not-allowed opacity-60;
+}
+
+.module-card--locked:hover {
+  @apply transform-none shadow-lg border-gray-300 dark:border-gray-600;
+}
+
+/* Learning Mode Variants */
+.module-card--flashcard .module-card__icon {
+  @apply text-purple-600 dark:text-white;
+}
+
+.module-card--flashcard .module-card__icon svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.module-card--quiz .module-card__icon {
+  @apply text-orange-600 dark:text-white;
+}
+
+.module-card--quiz .module-card__icon svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.module-card--completion .module-card__icon {
+  @apply text-green-600 dark:text-white;
+}
+
+.module-card--completion .module-card__icon svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.module-card--sorting .module-card__icon {
+  @apply text-blue-600 dark:text-white;
+}
+
+.module-card--sorting .module-card__icon svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+.module-card--matching .module-card__icon {
+  @apply text-red-600 dark:text-white;
+}
+
+.module-card--matching .module-card__icon svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+/* Force white icons for all module types in dark mode */
+.dark .module-card--flashcard .module-card__icon svg,
+.dark .module-card--quiz .module-card__icon svg,
+.dark .module-card--completion .module-card__icon svg,
+.dark .module-card--sorting .module-card__icon svg,
+.dark .module-card--matching .module-card__icon svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Force text visibility for difficulty level */
+.module-card__meta {
+  color: #1f2937 !important; /* gray-800 for light mode */
+}
+
+.dark .module-card__meta {
+  color: white !important; /* white for dark mode */
+}
+
+/* Force text visibility for subtitle */
+.module-card__subtitle {
+  color: #374151 !important; /* gray-700 for light mode */
+}
+
+.dark .module-card__subtitle {
+  color: white !important; /* white for dark mode */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+  .module-card {
+    @apply w-20 h-20;
+  }
+  
+  .module-card__content {
+    @apply p-1.5;
+  }
+  
+  .module-card__title {
+    @apply text-xs;
+  }
+  
+  .module-card__difficulty,
+  .module-card__category {
+    @apply text-xs px-1 py-0.5;
+  }
+}
+
+/* Accessibility */
+.module-card:focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-800;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .module-card {
+    @apply border-2;
+  }
+  
+  .module-card__title {
+    @apply font-bold;
+  }
+  
+  /* Enhanced contrast for icons in high contrast mode */
+  .module-card__icon {
+    @apply text-gray-900 dark:text-white;
+  }
+}
+
+
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .module-card {
+    @apply transition-none transform-none;
+  }
+  
+  .module-card:hover {
+    @apply transform-none;
+  }
+  
+  .module-card:active {
+    @apply transform-none;
+  }
+}

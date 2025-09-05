@@ -1,0 +1,125 @@
+/* Search Bar Styles */
+
+/* SVG Icon Inheritance Fix - Force white in dark mode */
+.search-bar svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons in dark mode */
+.dark .search-bar svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Search Container */
+.search-bar {
+  @apply relative w-full max-w-md mx-auto;
+}
+
+/* Input Container */
+.search-bar__container {
+  @apply relative;
+}
+
+/* Search Icon */
+.search-bar__icon {
+  @apply absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none;
+}
+
+.search-bar__icon-svg {
+  @apply h-4 w-4 text-gray-500 dark:text-gray-300;
+}
+
+/* Input Field */
+.search-bar__input {
+  @apply w-full px-3 py-2 pl-10 pr-10 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700;
+  @apply text-gray-900 dark:text-gray-100 placeholder-gray-600 dark:placeholder-gray-400;
+  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
+  @apply transition-all duration-200;
+}
+
+.search-bar__input:focus {
+  @apply shadow-lg;
+}
+
+/* Clear Button */
+.search-bar__clear {
+  @apply absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer;
+}
+
+.search-bar__clear-icon {
+  @apply h-4 w-4 text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white;
+  @apply transition-colors duration-200;
+}
+
+/* Loading State */
+.search-bar--loading .search-bar__icon-svg {
+  @apply animate-spin;
+}
+
+/* Results Count */
+.search-bar__results {
+  @apply mt-2 text-center text-sm text-gray-600 dark:text-gray-400;
+}
+
+.search-bar__results-count {
+  @apply font-medium text-blue-600 dark:text-blue-400;
+}
+
+/* No Results */
+.search-bar__no-results {
+  @apply mt-2 text-center text-sm text-gray-500 dark:text-gray-400;
+}
+
+/* Suggestions Dropdown */
+.search-bar__suggestions {
+  @apply absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-md shadow-lg z-50;
+  @apply max-h-60 overflow-y-auto;
+}
+
+.search-bar__suggestion {
+  @apply px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer;
+  @apply border-b border-gray-100 dark:border-gray-700 last:border-b-0;
+}
+
+.search-bar__suggestion:hover {
+  @apply bg-blue-50 dark:bg-blue-900/20;
+}
+
+.search-bar__suggestion--active {
+  @apply bg-blue-100 dark:bg-blue-900/30;
+}
+
+/* Keyboard Navigation */
+.search-bar__suggestion--highlighted {
+  @apply bg-blue-100 dark:bg-blue-900/30;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .search-bar {
+    @apply max-w-full;
+  }
+  
+  .search-bar__input {
+    @apply text-base; /* Prevent zoom on iOS */
+  }
+}
+
+/* Accessibility */
+.search-bar__input:focus-visible {
+  @apply ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-800;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .search-bar__input {
+    @apply border-2;
+  }
+  
+  .search-bar__suggestions {
+    @apply border-2;
+  }
+}

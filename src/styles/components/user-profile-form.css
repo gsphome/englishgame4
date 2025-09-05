@@ -1,0 +1,254 @@
+/* UserProfile Modal Styles */
+
+/* SVG Icon Inheritance Fix - Force white in dark mode */
+.user-profile-modal svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons in dark mode */
+.dark .user-profile-modal svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+.user-profile-modal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
+}
+
+.user-profile-container {
+  @apply bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full max-h-[80vh] overflow-y-auto border border-gray-200 dark:border-gray-700;
+}
+
+.user-profile-content {
+  @apply p-4;
+}
+
+/* Header Styles */
+.user-profile-header {
+  @apply flex items-center justify-between mb-4;
+}
+
+.user-profile-title-section {
+  @apply flex items-center space-x-2;
+}
+
+.user-profile-icon-container {
+  @apply p-1.5 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 rounded-lg;
+}
+
+.user-profile-icon {
+  @apply h-4 w-4 text-blue-600 dark:text-blue-400;
+}
+
+.user-profile-title {
+  @apply text-lg font-bold text-blue-600 dark:text-blue-400 tracking-tight;
+}
+
+.user-profile-subtitle {
+  @apply text-xs text-blue-500 dark:text-blue-300 mt-0.5;
+}
+
+.user-profile-close-btn {
+  @apply p-1.5 text-gray-400 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200;
+}
+
+/* Form Styles */
+.user-profile-form {
+  @apply space-y-3;
+}
+
+/* Section Styles */
+.profile-section {
+  @apply rounded-lg p-3 border;
+}
+
+.profile-section--basic {
+  @apply bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 border-gray-200 dark:border-gray-600;
+}
+
+.profile-section--preferences {
+  @apply bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-600;
+}
+
+.profile-section-title {
+  @apply text-xs uppercase tracking-wide font-semibold mb-2 flex items-center;
+}
+
+.profile-section-title--basic {
+  @apply text-gray-600 dark:text-white mb-2;
+}
+
+.profile-section-title--preferences {
+  @apply text-purple-600 dark:text-white mb-3;
+}
+
+.profile-section-icon {
+  @apply h-3 w-3 mr-1.5;
+}
+
+/* Field Styles */
+.profile-fields {
+  @apply space-y-2.5;
+}
+
+.profile-field-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-3;
+}
+
+.profile-field-label {
+  @apply block text-sm font-medium text-blue-600 dark:text-blue-300 mb-1;
+}
+
+.profile-field-label--difficulty {
+  @apply mb-1.5;
+}
+
+.profile-field-label--categories {
+  @apply mb-1.5;
+}
+
+/* Input Styles */
+.profile-input {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 placeholder-gray-500 dark:placeholder-gray-300;
+}
+
+.profile-input--blue-focus {
+  @apply focus:ring-blue-500;
+}
+
+.profile-input--purple-focus {
+  @apply focus:ring-purple-500 focus:border-purple-500;
+}
+
+.profile-input--number {
+  @apply pr-12;
+}
+
+.profile-select {
+  @apply w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200;
+}
+
+.profile-select--blue-focus {
+  @apply focus:ring-blue-500 focus:border-blue-500;
+}
+
+.profile-select--purple-focus {
+  @apply focus:ring-purple-500 focus:border-purple-500;
+}
+
+/* Input Addon Styles */
+.profile-input-addon {
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-200 font-medium;
+}
+
+/* Range Slider Styles */
+.profile-range-container {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.profile-range-slider {
+  @apply w-full h-2 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-lg appearance-none cursor-pointer;
+}
+
+.profile-range-labels {
+  @apply flex justify-between text-xs text-gray-500 dark:text-gray-100 mt-1.5 font-medium;
+}
+
+.profile-range-label {
+  @apply flex items-center;
+}
+
+.profile-range-emoji {
+  @apply mr-1;
+}
+
+/* Categories Styles */
+.profile-categories-container {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.profile-categories-grid {
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-1.5;
+}
+
+.profile-category-item {
+  @apply flex items-center p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+}
+
+.profile-category-checkbox {
+  @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+}
+
+.profile-category-label {
+  @apply ml-2 text-sm text-gray-700 dark:text-white font-medium;
+}
+
+/* Notifications Styles */
+.profile-notifications-container {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.profile-notifications-item {
+  @apply flex items-center p-1.5 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
+}
+
+.profile-notifications-checkbox {
+  @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+}
+
+.profile-notifications-content {
+  @apply ml-2;
+}
+
+.profile-notifications-title {
+  @apply text-sm text-gray-700 dark:text-white font-medium flex items-center;
+}
+
+.profile-notifications-icon {
+  @apply mr-2;
+}
+
+.profile-notifications-description {
+  @apply text-xs text-gray-500 dark:text-gray-100 mt-0.5;
+}
+
+/* Error Styles */
+.profile-error {
+  @apply mt-2 text-sm text-red-600 dark:text-red-400 flex items-center;
+}
+
+.profile-error-icon {
+  @apply mr-1;
+}
+
+/* Actions Styles */
+.profile-actions {
+  @apply flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-3 border-t border-gray-200 dark:border-gray-700;
+}
+
+.profile-btn {
+  @apply px-3 py-1.5 rounded-lg transition-all duration-200 font-medium text-sm;
+}
+
+.profile-btn--cancel {
+  @apply text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600;
+}
+
+.profile-btn--save {
+  @apply flex items-center justify-center space-x-1.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105;
+}
+
+.profile-btn-icon {
+  @apply h-3.5 w-3.5;
+}
+
+/* Utility Classes */
+.profile-spacing-sm {
+  @apply mt-3;
+}
+
+.profile-relative {
+  @apply relative;
+}
