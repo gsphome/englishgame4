@@ -63,6 +63,7 @@ export const useAppStore = create<AppStore>()(
         // Only clear toasts when actually changing views, not on initial load
         if (state.currentView !== view) {
           // Clear all toasts when changing views to ensure clean transitions
+          console.log('🧪 appStore: Clearing toasts due to view change from', state.currentView, 'to', view);
           toast.clearAll();
         }
         

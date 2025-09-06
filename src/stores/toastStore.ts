@@ -42,19 +42,27 @@ const toastStore = {
   },
 
   setState(newState: Partial<typeof globalState>) {
+    console.log('🧪 setState: Updating state with:', newState);
+    console.log('🧪 setState: Current listeners count:', globalState.listeners.size);
     Object.assign(globalState, newState);
-    globalState.listeners.forEach(listener => {
+    globalState.listeners.forEach((listener, index) => {
       try {
+        console.log('🧪 setState: Calling listener', index);
         listener();
       } catch (e) {
         console.warn('Toast listener error:', e);
       }
     });
+    console.log('🧪 setState: Completed');
   },
 
   subscribe(listener: () => void) {
+    console.log('🧪 subscribe: Adding listener, total listeners will be:', globalState.listeners.size + 1);
     globalState.listeners.add(listener);
-    return () => globalState.listeners.delete(listener);
+    return () => {
+      console.log('🧪 unsubscribe: Removing listener, total listeners will be:', globalState.listeners.size - 1);
+      globalState.listeners.delete(listener);
+    };
   },
 
   addToast(toast: Omit<ToastData, 'id'>) {
@@ -101,13 +109,16 @@ const toastStore = {
   },
 
   clearAllToasts(immediate = false) {
+    console.log('🧪 clearAllToasts called, immediate:', immediate, 'current toasts:', globalState.toasts.length);
     if (immediate) {
       // Immediate clear for showSingleToast
+      console.log('🧪 clearAllToasts: Immediate clear');
       this.setState({ toasts: [] });
       return;
     }
 
     const toastsToRemove = [...globalState.toasts];
+    console.log('🧪 clearAllToasts: Clearing', toastsToRemove.length, 'toasts with animation');
 
     // Trigger fast close animation for all existing toasts
     toastsToRemove.forEach((toast) => {
@@ -117,6 +128,7 @@ const toastStore = {
 
     // Clear the state after animation time
     setTimeout(() => {
+      console.log('🧪 clearAllToasts: Delayed clear executing');
       this.setState({ toasts: [] });
     }, 200); // Give time for animations to complete
   },
@@ -192,15 +204,17 @@ export const useToastStore = (): ToastStore => {
   const [state, setState] = useState(() => toastStoreInstance.getState());
 
   useEffect(() => {
+    console.log('🧪 useToastStore: Setting up subscription');
     const unsubscribe = toastStoreInstance.subscribe(() => {
       const newState = toastStoreInstance.getState();
+      console.log('🧪 useToastStore: State changed, new state:', newState);
       setState(newState);
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return unsubscribe;
   }, []);
+
+  console.log('🧪 useToastStore: Current state in hook:', state);
 
   return {
     ...state,
@@ -290,8 +304,10 @@ export const showToast = {
   },
 
   clearAll() {
+    console.log('🧪 toast.clearAll() called');
     setTimeout(() => {
       try {
+        console.log('🧪 toast.clearAll() executing clearAllToasts');
         toastStoreInstance.clearAllToasts();
       } catch (e) { console.warn('Toast not ready:', e); }
     }, 0);

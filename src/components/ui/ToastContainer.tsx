@@ -5,7 +5,14 @@ import { useToastStore, type ToastData } from '../../stores/toastStore';
 export const ToastContainer: React.FC = () => {
   const { toasts, removeToast } = useToastStore();
 
-  if (toasts.length === 0) return null;
+  console.log('🧪 ToastContainer render, toasts:', toasts);
+
+  if (toasts.length === 0) {
+    console.log('🧪 ToastContainer: No toasts, returning null');
+    return null;
+  }
+
+  console.log('🧪 ToastContainer: Rendering', toasts.length, 'toasts');
 
   return (
     <div
