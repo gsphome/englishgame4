@@ -64,9 +64,9 @@ export const useAppStore = create<AppStore>()(
       setCurrentView: (view) => set((state) => {
         // Only clear toasts when actually changing views to different major sections
         // Don't clear toasts for minor state updates within the same view
-        const shouldClearToasts = state.currentView !== view && 
+        const shouldClearToasts = state.currentView !== view &&
           (view === 'menu' || state.currentView === 'menu');
-        
+
         if (shouldClearToasts) {
           console.log('🧪 appStore: Clearing toasts due to major view change from', state.currentView, 'to', view);
           // Delay clearing to allow feedback toasts to be seen
@@ -74,7 +74,7 @@ export const useAppStore = create<AppStore>()(
             toast.clearAll();
           }, 1500);
         }
-        
+
         return {
           currentView: view,
           // Clear currentModule when going back to menu
