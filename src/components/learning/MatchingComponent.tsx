@@ -42,7 +42,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [showExplanation]);
+  }, [showExplanation, setCurrentView]);
 
   useEffect(() => {
     if (!module?.data || !module?.id) return;

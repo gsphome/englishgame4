@@ -39,7 +39,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const randomizedExercises = useMemo(() => {
     if (!module?.data) return [];
     return shuffleArray(module.data as CompletionData[]);
-  }, [module?.data, module?.id]);
+  }, [module?.data]);
   
   const currentExercise = randomizedExercises[currentIndex];
 
@@ -115,7 +115,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [answer, showResult, randomizedExercises.length]);
+  }, [answer, showResult, randomizedExercises.length, checkAnswer, handleNext, setCurrentView]);
 
   // Early return if no data
   if (!randomizedExercises.length) {

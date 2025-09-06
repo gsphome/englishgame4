@@ -7,7 +7,7 @@ import tsparser from '@typescript-eslint/parser'
 
 export default [
   {
-    ignores: ['dist', 'dev-dist', 'coverage', 'node_modules', '*.config.*', 'scripts/**']
+    ignores: ['dist', 'dev-dist', 'coverage', 'node_modules', '*.config.*', 'scripts/**', 'html/**', 'tests/**/*.js']
   },
   js.configs.recommended,
   {

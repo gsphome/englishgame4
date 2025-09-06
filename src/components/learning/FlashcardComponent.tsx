@@ -30,7 +30,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
     if (!module?.data) return [];
     const allFlashcards = module.data as FlashcardData[];
     return shuffleArray(allFlashcards);
-  }, [module?.data, module?.id, startTime]);
+  }, [module?.data]);
 
 
 
@@ -101,7 +101,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex, randomizedFlashcards.length, isFlipped]);
+  }, [currentIndex, randomizedFlashcards.length, isFlipped, handleFlip, handleNext, handlePrev, setCurrentView]);
 
   // Early return if no data
   if (!randomizedFlashcards.length) {

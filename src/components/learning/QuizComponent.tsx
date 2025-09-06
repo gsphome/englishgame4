@@ -47,7 +47,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
         options: shuffledOptions
       };
     });
-  }, [module?.data, module?.id]);
+  }, [module?.data]);
 
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
@@ -124,7 +124,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [showResult, currentQuestion, randomizedQuestions.length]);
+  }, [showResult, currentQuestion, randomizedQuestions.length, handleAnswerSelect, handleNext, setCurrentView]);
 
   // Early return if no data
   if (!randomizedQuestions.length) {

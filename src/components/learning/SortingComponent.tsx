@@ -44,7 +44,7 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, []);
+  }, [setCurrentView]);
 
   useEffect(() => {
     let newExercise: SortingData = { id: '', words: [], categories: [] };
@@ -105,7 +105,7 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
       });
       setSortedItems(initialSorted);
     }
-  }, [module.id]);
+  }, [module.id, module.data]);
 
   const handleDragStart = (e: React.DragEvent, word: string) => {
     setDraggedItem(word);
