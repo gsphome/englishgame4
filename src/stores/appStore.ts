@@ -44,9 +44,11 @@ export const useAppStore = create<AppStore>()(
         // Always reset session score when setting a new module
         const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
 
-        // Clear all toasts when changing modules to ensure clean transitions
+        // Clear all toasts when changing modules, but delay to allow feedback toasts
         if (shouldResetScore) {
-          toast.clearAll();
+          setTimeout(() => {
+            toast.clearAll();
+          }, 1000);
         }
 
         const newSessionScore = shouldResetScore
@@ -60,11 +62,17 @@ export const useAppStore = create<AppStore>()(
       }),
 
       setCurrentView: (view) => set((state) => {
-        // Only clear toasts when actually changing views, not on initial load
-        if (state.currentView !== view) {
-          // Clear all toasts when changing views to ensure clean transitions
-          console.log('🧪 appStore: Clearing toasts due to view change from', state.currentView, 'to', view);
-          toast.clearAll();
+        // Only clear toasts when actually changing views to different major sections
+        // Don't clear toasts for minor state updates within the same view
+        const shouldClearToasts = state.currentView !== view && 
+          (view === 'menu' || state.currentView === 'menu');
+        
+        if (shouldClearToasts) {
+          console.log('🧪 appStore: Clearing toasts due to major view change from', state.currentView, 'to', view);
+          // Delay clearing to allow feedback toasts to be seen
+          setTimeout(() => {
+            toast.clearAll();
+          }, 1500);
         }
         
         return {
