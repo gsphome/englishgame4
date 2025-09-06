@@ -1,0 +1,29 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/dev-dist": true,
+    "**/.DS_Store": true,
+    "**/local": true,
+    "**/*.log": true,
+    "**/.vite": true,
+    "**/package-lock.json": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/dev-dist": true,
+    "**/local": true,
+    "**/.vite": true
+  },
+  "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/coverage/**": true,
+    "**/dist/**": true,
+    "**/dev-dist/**": true,
+    "**/local/**": true,
+    "**/.vite/**": true
+  }
+}
