@@ -1,0 +1,1 @@
+var r=Object.defineProperty;var a=(e,t)=>r(e,"name",{value:t,configurable:!0});import{r as o,t as s}from"./index-M6D_uxQG.js";const m=a(()=>(o.useEffect(()=>()=>{s.clearGameToasts()},[]),{clearGameToasts:a(()=>{s.clearGameToasts()},"clearGameToasts")}),"useLearningCleanup");export{m as u};

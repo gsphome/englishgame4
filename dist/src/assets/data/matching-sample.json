@@ -1,0 +1,82 @@
+[
+  {
+    "id": "pair1",
+    "term": "Ephemeral",
+    "definition": "Lasting for a very short time.",
+    "explanation": "Ephemeral means lasting for a very short time, like a fleeting moment or a short-lived trend.",
+    "term_es": "Efímero",
+    "explanation_es": "Efímero significa que dura muy poco tiempo, como un momento fugaz o una tendencia de corta duración."
+  },
+  {
+    "id": "pair2",
+    "term": "Ubiquitous",
+    "definition": "Present, appearing, or found everywhere.",
+    "explanation": "Ubiquitous describes something that is found everywhere, like smartphones in modern society.",
+    "term_es": "Ubicuo",
+    "explanation_es": "Ubicuo describe algo que se encuentra en todas partes, como los teléfonos inteligentes en la sociedad moderna."
+  },
+  {
+    "id": "pair3",
+    "term": "Benevolent",
+    "definition": "Well meaning and kindly.",
+    "explanation": "A benevolent person is kind and generous, often doing good deeds for others.",
+    "term_es": "Benévolo",
+    "explanation_es": "Una persona benévola es amable y generosa, a menudo haciendo buenas obras por los demás."
+  },
+  {
+    "id": "pair4",
+    "term": "Capricious",
+    "definition": "Given to sudden and unaccountable changes of mood or behavior.",
+    "explanation": "Someone capricious is unpredictable and changes their mind or behavior often, without clear reason.",
+    "term_es": "Caprichoso",
+    "explanation_es": "Alguien caprichoso es impredecible y cambia de opinión o comportamiento a menudo, sin una razón clara."
+  },
+  {
+    "id": "pair5",
+    "term": "Dichotomy",
+    "definition": "A division or contrast between two things that are or are represented as being opposed or entirely different.",
+    "explanation": "A dichotomy is a sharp contrast between two things, like the dichotomy between good and evil.",
+    "term_es": "Dicotomía",
+    "explanation_es": "Una dicotomía es un fuerte contraste entre dos cosas, como la dicotomía entre el bien y el mal."
+  },
+  {
+    "id": "pair6",
+    "term": "Equanimity",
+    "definition": "Calmness and composure, especially in a difficult situation.",
+    "explanation": "Equanimity is the ability to remain calm and composed, even when facing stress or difficulty.",
+    "term_es": "Ecuanimidad",
+    "explanation_es": "La ecuanimidad es la capacidad de mantener la calma y la compostura, incluso ante el estrés o la dificultad."
+  },
+  {
+    "id": "pair7",
+    "term": "Fiduciary",
+    "definition": "Involving trust, especially with regard to the relationship between a trustee and a beneficiary.",
+    "explanation": "A fiduciary relationship is one based on trust, where one party acts on behalf of another, like a financial advisor.",
+    "term_es": "Fiduciario",
+    "explanation_es": "Una relación fiduciaria se basa en la confianza, donde una parte actúa en nombre de otra, como un asesor financiero."
+  },
+  {
+    "id": "pair8",
+    "term": "Gregarious",
+    "definition": "Fond of company; sociable.",
+    "explanation": "A gregarious person enjoys being with others and is very sociable.",
+    "term_es": "Gregario",
+    "explanation_es": "Una persona gregaria disfruta de estar con los demás y es muy sociable."
+  },
+  {
+    "id": "pair9",
+    "term": "Hegemony",
+    "definition": "Leadership or dominance, especially by one state or social group over others.",
+    "explanation": "Hegemony refers to the dominance of one group or nation over others, often culturally or politically.",
+    "term_es": "Hegemonía",
+    "explanation_es": "La hegemonía se refiere al dominio de un grupo o nación sobre otros, a menudo cultural o políticamente."
+  },
+  {
+    "id": "pair10",
+    "term": "Incontrovertible",
+    "definition": "Not able to be denied or disputed.",
+    "explanation": "An incontrovertible fact is one that cannot be argued against because it is clearly true.",
+    "term_es": "Incontrovertible",
+    "explanation_es": "Un hecho incontrovertible es aquel que no puede ser refutado porque es claramente cierto."
+  }
+]
