@@ -29,7 +29,7 @@ const SortingComponent: React.FC<SortingComponentProps> = ({ module }) => {
   const { updateUserScore } = useUserStore();
   const { addProgressEntry } = useProgressStore();
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
-  const { /* clearGameToasts */ } = useLearningCleanup();
+  useLearningCleanup();
 
   const [exercise, setExercise] = useState<SortingData>({ id: '', words: [], categories: [] });
 

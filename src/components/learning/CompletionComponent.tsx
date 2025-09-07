@@ -33,7 +33,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
-  const { } = useLearningCleanup();
+  useLearningCleanup();
 
   // Randomize exercises once per component mount
   const randomizedExercises = useMemo(() => {

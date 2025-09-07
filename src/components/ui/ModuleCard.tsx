@@ -14,7 +14,7 @@ interface ModuleCardProps {
 const getIcon = (learningMode: string) => {
   const iconProps = { size: 20, strokeWidth: 2 };
   
-  const icons: Record<string, JSX.Element> = {
+  const icons: Record<string, React.ReactElement> = {
     flashcard: <CreditCard {...iconProps} />,
     quiz: <HelpCircle {...iconProps} />,
     completion: <PenTool {...iconProps} />,

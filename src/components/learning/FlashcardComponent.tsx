@@ -23,7 +23,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
   const { language } = useSettingsStore();
   const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
-  const { /* clearGameToasts */ } = useLearningCleanup();
+  useLearningCleanup();
 
   // Generate new random set each time component mounts
   const randomizedFlashcards = useMemo(() => {

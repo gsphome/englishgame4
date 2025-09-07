@@ -25,7 +25,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
   const { updateSessionScore, setCurrentView } = useAppStore();
   const { updateUserScore } = useUserStore();
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
-  const { /* clearGameToasts */ } = useLearningCleanup();
+  useLearningCleanup();
 
   // Initialize component when module changes
   // Keyboard navigation

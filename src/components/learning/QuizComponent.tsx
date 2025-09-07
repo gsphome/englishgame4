@@ -54,7 +54,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
   const { theme } = useSettingsStore();
   const { addProgressEntry } = useProgressStore();
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
-  const { /* clearGameToasts */ } = useLearningCleanup();
+  useLearningCleanup();
 
   const isDark = theme === 'dark';
   const textColor = isDark ? 'white' : '#111827';
