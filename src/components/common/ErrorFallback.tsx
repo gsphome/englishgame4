@@ -32,7 +32,7 @@ export const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ error, retr
           Try Again
         </button>
         <button
-          onClick={() => window.location.href = '/'}
+          onClick={() => window.location.href = './'}
           className="w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
         >
           Go to Home

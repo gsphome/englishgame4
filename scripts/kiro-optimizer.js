@@ -75,8 +75,8 @@ class KiroOptimizer {
         'package.json',
         '.kiroignore',
         '.gitignore',
-        'tsconfig.json',
-        'tsconfig.node.json'
+        'config/tsconfig.json',
+        'config/tsconfig.node.json'
       ];
       
       for (const file of criticalFiles) {

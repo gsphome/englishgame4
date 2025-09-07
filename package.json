@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config config/vite.config.ts",
-    "build": "tsc && vite build --config config/vite.config.ts",
+    "build": "tsc --project config/tsconfig.json && vite build --config config/vite.config.ts",
     "preview": "vite preview --config config/vite.config.ts",
     "deploy": "gh-pages -d dist",
     "test": "vitest run",
@@ -26,7 +26,7 @@
     "cleanup": "node scripts/cleanup.js",
     "security:audit": "npm audit --audit-level=moderate",
     "security:fix": "npm audit fix",
-    "type-check": "tsc --noEmit",
+    "type-check": "tsc --noEmit --project config/tsconfig.json",
     "cache-logs:toggle": "node scripts/toggle-cache-logs.js",
     "cache-logs:enable": "echo 'VITE_ENABLE_CACHE_LOGS=true' > .env.local && echo '✅ Cache logs ENABLED - restart dev server'",
     "cache-logs:disable": "echo 'VITE_ENABLE_CACHE_LOGS=false' > .env.local && echo '🔇 Cache logs DISABLED - restart dev server'",
