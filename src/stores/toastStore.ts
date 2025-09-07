@@ -131,20 +131,17 @@ const toastStore = {
     const hasShown = safeLocalStorage.getItem('welcome-toast-shown');
     console.log('showWelcomeOnce called:', { moduleCount, hasShown });
     
-    if (!hasShown) {
-      console.log('Showing welcome toast for the first time');
-      this.showToast({
-        type: 'success',
-        title: 'Bienvenido',
-        message: `${moduleCount} módulos disponibles para aprender`,
-        duration: 5000,
-        priority: 'high'
-      });
-      
-      safeLocalStorage.setItem('welcome-toast-shown', 'true');
-    } else {
-      console.log('Welcome toast already shown, skipping');
-    }
+    // Temporarily force showing the toast for debugging
+    console.log('Forcing welcome toast to show for debugging');
+    this.showToast({
+      type: 'success',
+      title: 'Bienvenido',
+      message: `${moduleCount} módulos disponibles para aprender`,
+      duration: 5000,
+      priority: 'high'
+    });
+    
+    safeLocalStorage.setItem('welcome-toast-shown', 'true');
   },
 
   // Check if welcome toast has been shown
