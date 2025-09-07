@@ -27,72 +27,61 @@ interface ToastStore {
   markToastAsShown: (key: string) => void;
 }
 
-// Ultra-simple global state to avoid initialization issues
+// Global state
 const globalState = {
   toasts: [] as ToastData[],
   shownToasts: new Set<string>(),
   listeners: new Set<() => void>(),
 };
 
-// Simple store implementation
-const toastStore = {
+// Reset function for tests
+export const resetToastStore = () => {
+  globalState.toasts = [];
+  globalState.shownToasts.clear();
+};
 
+// Store implementation
+const toastStore = {
   getState() {
     return globalState;
   },
 
   setState(newState: Partial<typeof globalState>) {
-    console.log('🧪 setState: Updating state with:', newState);
-    console.log('🧪 setState: Current listeners count:', globalState.listeners.size);
     Object.assign(globalState, newState);
-    globalState.listeners.forEach((listener, index) => {
+    globalState.listeners.forEach((listener) => {
       try {
-        console.log('🧪 setState: Calling listener', index);
         listener();
       } catch (e) {
         console.warn('Toast listener error:', e);
       }
     });
-    console.log('🧪 setState: Completed');
   },
 
   subscribe(listener: () => void) {
-    console.log('🧪 subscribe: Adding listener, total listeners will be:', globalState.listeners.size + 1);
     globalState.listeners.add(listener);
     return () => {
-      console.log('🧪 unsubscribe: Removing listener, total listeners will be:', globalState.listeners.size - 1);
       globalState.listeners.delete(listener);
     };
   },
 
   addToast(toast: Omit<ToastData, 'id'>) {
-    console.log('🧪 addToast called with:', toast);
     const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
     const newToast: ToastData = {
       id,
-      duration: 4000, // Default duration
+      duration: 4000,
       ...toast,
     };
 
-    console.log('🧪 Created new toast:', newToast);
-
-    // For better UX, limit the number of toasts visible at once
-    // Keep only the most recent toasts (max 2 at a time)
     const currentToasts = globalState.toasts;
     let updatedToasts = [...currentToasts, newToast];
 
-    // If we have more than 2 toasts, remove the oldest ones
     if (updatedToasts.length > 2) {
       updatedToasts = updatedToasts.slice(-2);
     }
 
-    console.log('🧪 About to setState with toasts:', updatedToasts);
-
     this.setState({
       toasts: updatedToasts,
     });
-
-    console.log('🧪 setState completed, globalState.toasts:', globalState.toasts);
 
     // Auto-remove toast after duration
     if (newToast.duration && newToast.duration > 0) {
@@ -109,16 +98,12 @@ const toastStore = {
   },
 
   clearAllToasts(immediate = false) {
-    console.log('🧪 clearAllToasts called, immediate:', immediate, 'current toasts:', globalState.toasts.length);
     if (immediate) {
-      // Immediate clear for showSingleToast
-      console.log('🧪 clearAllToasts: Immediate clear');
       this.setState({ toasts: [] });
       return;
     }
 
     const toastsToRemove = [...globalState.toasts];
-    console.log('🧪 clearAllToasts: Clearing', toastsToRemove.length, 'toasts with animation');
 
     // Trigger fast close animation for all existing toasts
     toastsToRemove.forEach((toast) => {
@@ -128,9 +113,8 @@ const toastStore = {
 
     // Clear the state after animation time
     setTimeout(() => {
-      console.log('🧪 clearAllToasts: Delayed clear executing');
       this.setState({ toasts: [] });
-    }, 200); // Give time for animations to complete
+    }, 200);
   },
 
   clearToastsByType(type: ToastType) {
@@ -148,22 +132,15 @@ const toastStore = {
   },
 
   replaceToastByType(toast: Omit<ToastData, 'id'>) {
-    // Remove existing toasts of the same type
     this.clearToastsByType(toast.type);
-    // Add the new toast
     setTimeout(() => {
       this.addToast(toast);
-    }, 100); // Small delay to ensure cleanup is complete
+    }, 100);
   },
 
-  // New method: Show only one toast at a time (clear all others)
   showSingleToast(toast: Omit<ToastData, 'id'>) {
-    console.log('🧪 showSingleToast called with:', toast);
-    // Clear all existing toasts immediately for single toast
     this.clearAllToasts(true);
-    // Add the new toast immediately
     this.addToast(toast);
-    console.log('🧪 showSingleToast completed, current toasts:', globalState.toasts);
   },
 
   hasShownToast(key: string) {
@@ -172,192 +149,173 @@ const toastStore = {
 
   markToastAsShown(key: string) {
     globalState.shownToasts.add(key);
-    // No need to trigger setState for this
   }
 };
 
-// Create store instance with safe initialization
-let toastStoreInstance: typeof toastStore;
-
-try {
-  toastStoreInstance = toastStore;
-} catch (error) {
-  console.warn('Toast store initialization failed, creating fallback:', error);
-  // Fallback implementation
-  toastStoreInstance = {
-    getState: () => ({ toasts: [], shownToasts: new Set() }),
-    setState: () => { },
-    subscribe: () => () => { },
-    addToast: () => { },
-    removeToast: () => { },
-    clearAllToasts: () => { },
-    clearToastsByType: () => { },
-    replaceToastByType: () => { },
-    showSingleToast: () => { },
-    hasShownToast: () => false,
-    markToastAsShown: () => { },
-  } as any;
-}
-
-// React hook to use the store
+// React hook
 export const useToastStore = (): ToastStore => {
-  const [state, setState] = useState(() => toastStoreInstance.getState());
+  const [state, setState] = useState(() => toastStore.getState());
 
   useEffect(() => {
-    console.log('🧪 useToastStore: Setting up subscription');
-    const unsubscribe = toastStoreInstance.subscribe(() => {
-      const newState = toastStoreInstance.getState();
-      console.log('🧪 useToastStore: State changed, new state:', newState);
+    const unsubscribe = toastStore.subscribe(() => {
+      const newState = toastStore.getState();
       setState(newState);
     });
 
     return unsubscribe;
   }, []);
 
-  console.log('🧪 useToastStore: Current state in hook:', state);
-
   return {
     ...state,
-    addToast: toastStoreInstance.addToast.bind(toastStoreInstance),
-    removeToast: toastStoreInstance.removeToast.bind(toastStoreInstance),
-    clearAllToasts: toastStoreInstance.clearAllToasts.bind(toastStoreInstance),
-    clearToastsByType: toastStoreInstance.clearToastsByType.bind(toastStoreInstance),
-    replaceToastByType: toastStoreInstance.replaceToastByType.bind(toastStoreInstance),
-    showSingleToast: toastStoreInstance.showSingleToast.bind(toastStoreInstance),
-    hasShownToast: toastStoreInstance.hasShownToast.bind(toastStoreInstance),
-    markToastAsShown: toastStoreInstance.markToastAsShown.bind(toastStoreInstance),
+    addToast: toastStore.addToast.bind(toastStore),
+    removeToast: toastStore.removeToast.bind(toastStore),
+    clearAllToasts: toastStore.clearAllToasts.bind(toastStore),
+    clearToastsByType: toastStore.clearToastsByType.bind(toastStore),
+    replaceToastByType: toastStore.replaceToastByType.bind(toastStore),
+    showSingleToast: toastStore.showSingleToast.bind(toastStore),
+    hasShownToast: toastStore.hasShownToast.bind(toastStore),
+    markToastAsShown: toastStore.markToastAsShown.bind(toastStore),
   };
 };
 
-// Simple toast functions without object wrapper to avoid initialization issues
-export const showToast = {
+// Toast utility functions
+export const toast = {
   success(title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.addToast({ type: 'success', title, message, ...options });
+        toastStore.addToast({ type: 'success', title, message, ...options });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   error(title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.addToast({ type: 'error', title, message, duration: 6000, ...options });
+        toastStore.addToast({ type: 'error', title, message, duration: 6000, ...options });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   warning(title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.addToast({ type: 'warning', title, message, ...options });
+        toastStore.addToast({ type: 'warning', title, message, ...options });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   info(title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.addToast({ type: 'info', title, message, ...options });
+        toastStore.addToast({ type: 'info', title, message, ...options });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   achievement(title: string, message?: string, points?: number) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.addToast({
+        toastStore.addToast({
           type: 'success',
           title: `🎉 ${title}`,
           message: points ? `${message} (+${points} points)` : message,
           duration: 5000,
         });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   once(key: string, type: ToastType, title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        if (!toastStoreInstance.hasShownToast(key)) {
-          toastStoreInstance.markToastAsShown(key);
-          toastStoreInstance.addToast({ type, title, message, ...options });
+        if (!toastStore.hasShownToast(key)) {
+          toastStore.markToastAsShown(key);
+          toastStore.addToast({ type, title, message, ...options });
         }
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   replace(type: ToastType, title: string, message?: string, options?: Partial<ToastData>) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.replaceToastByType({ type, title, message, ...options });
+        toastStore.replaceToastByType({ type, title, message, ...options });
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   clearType(type: ToastType) {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.clearToastsByType(type);
+        toastStore.clearToastsByType(type);
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   clearAll() {
-    console.log('🧪 toast.clearAll() called');
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        console.log('🧪 toast.clearAll() executing clearAllToasts');
-        toastStoreInstance.clearAllToasts();
+        toastStore.clearAllToasts();
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
   clearGameToasts() {
+    const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
     setTimeout(() => {
       try {
-        toastStoreInstance.clearToastsByType('success');
-        toastStoreInstance.clearToastsByType('error');
-        toastStoreInstance.clearToastsByType('warning');
+        toastStore.clearToastsByType('success');
+        toastStore.clearToastsByType('error');
+        toastStore.clearToastsByType('warning');
       } catch (e) { console.warn('Toast not ready:', e); }
-    }, 0);
+    }, delay);
   },
 
-  // New functions for single toast display (better UX)
+  // Single toast functions
   single: {
     success(title: string, message?: string, options?: Partial<ToastData>) {
+      const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
       setTimeout(() => {
         try {
-          toastStoreInstance.showSingleToast({ type: 'success', title, message, ...options });
+          toastStore.showSingleToast({ type: 'success', title, message, ...options });
         } catch (e) { console.warn('Toast not ready:', e); }
-      }, 0);
+      }, delay);
     },
 
     error(title: string, message?: string, options?: Partial<ToastData>) {
+      const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
       setTimeout(() => {
         try {
-          toastStoreInstance.showSingleToast({ type: 'error', title, message, duration: 6000, ...options });
+          toastStore.showSingleToast({ type: 'error', title, message, duration: 6000, ...options });
         } catch (e) { console.warn('Toast not ready:', e); }
-      }, 0);
+      }, delay);
     },
 
     warning(title: string, message?: string, options?: Partial<ToastData>) {
+      const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
       setTimeout(() => {
         try {
-          toastStoreInstance.showSingleToast({ type: 'warning', title, message, ...options });
+          toastStore.showSingleToast({ type: 'warning', title, message, ...options });
         } catch (e) { console.warn('Toast not ready:', e); }
-      }, 0);
+      }, delay);
     },
 
     info(title: string, message?: string, options?: Partial<ToastData>) {
+      const delay = process.env.NODE_ENV === 'test' ? 0 : 0;
       setTimeout(() => {
         try {
-          toastStoreInstance.showSingleToast({ type: 'info', title, message, ...options });
+          toastStore.showSingleToast({ type: 'info', title, message, ...options });
         } catch (e) { console.warn('Toast not ready:', e); }
-      }, 0);
+      }, delay);
     }
   }
 };
-
-// Backward compatibility
-export const toast = showToast;

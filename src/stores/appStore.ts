@@ -46,9 +46,10 @@ export const useAppStore = create<AppStore>()(
 
         // Clear all toasts when changing modules, but delay to allow feedback toasts
         if (shouldResetScore) {
+          const delay = process.env.NODE_ENV === 'test' ? 0 : 1000;
           setTimeout(() => {
             toast.clearAll();
-          }, 1000);
+          }, delay);
         }
 
         const newSessionScore = shouldResetScore
@@ -70,9 +71,10 @@ export const useAppStore = create<AppStore>()(
         if (shouldClearToasts) {
           console.log('🧪 appStore: Clearing toasts due to major view change from', state.currentView, 'to', view);
           // Delay clearing to allow feedback toasts to be seen
+          const delay = process.env.NODE_ENV === 'test' ? 0 : 1500;
           setTimeout(() => {
             toast.clearAll();
-          }, 1500);
+          }, delay);
         }
 
         return {
