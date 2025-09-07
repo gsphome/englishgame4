@@ -6,6 +6,7 @@ import { MemoizedHeader, MemoizedDashboard, MemoizedToastContainer } from './com
 import { useAppStore } from './stores/appStore';
 import { useMaxLimits } from './hooks/useMaxLimits';
 import { toast } from './stores/toastStore';
+import { toast } from './stores/toastStore';
 
 // Optimized QueryClient configuration
 const queryClient = new QueryClient({

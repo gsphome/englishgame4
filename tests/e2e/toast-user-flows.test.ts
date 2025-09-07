@@ -1,269 +1,292 @@
 /**
- * E2E tests for toast user flows
+ * E2E tests for Toast user flows
  * Tests complete user workflows with toast notifications
  */
 
-import { describe, test, expect, beforeEach } from 'vitest';
+import { test, expect } from '@playwright/test';
 
-// Note: These are placeholder E2E tests that would be implemented with a tool like Playwright or Cypress
-// For now, we'll define the test structure and expectations
-
-describe('Toast System E2E User Flows', () => {
-  beforeEach(async () => {
-    // Reset application state
-    // Clear localStorage
-    // Navigate to home page
+test.describe('Toast User Flows', () => {
+  test.beforeEach(async ({ page }) => {
+    // Navigate to the app
+    await page.goto('/');
+    
+    // Wait for app to load
+    await page.waitForLoadState('networkidle');
   });
 
-  describe('Welcome Toast Flow', () => {
-    test('should show welcome toast on first visit to main menu', async () => {
-      // 1. Navigate to application
-      // 2. Wait for modules to load
-      // 3. Verify welcome toast appears with module count
-      // 4. Verify toast auto-dismisses after 5 seconds
-      // 5. Verify localStorage is set to prevent showing again
+  test('should show welcome toast on first visit', async ({ page }) => {
+    // Clear localStorage to simulate first visit
+    await page.evaluate(() => localStorage.clear());
+    
+    // Reload page to trigger welcome toast
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    // Should show welcome toast
+    const welcomeToast = page.locator('.toast-card--success');
+    await expect(welcomeToast).toBeVisible();
+    await expect(welcomeToast.locator('.toast-card__title')).toContainText('Bienvenido');
+    await expect(welcomeToast.locator('.toast-card__message')).toContainText('módulos disponibles');
+  });
+
+  test('should not show welcome toast on subsequent visits', async ({ page }) => {
+    // First visit - should show welcome toast
+    await page.evaluate(() => localStorage.clear());
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    let welcomeToast = page.locator('.toast-card--success');
+    await expect(welcomeToast).toBeVisible();
+    
+    // Wait for toast to disappear
+    await expect(welcomeToast).not.toBeVisible({ timeout: 10000 });
+    
+    // Second visit - should not show welcome toast
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    // Wait a bit to ensure no toast appears
+    await page.waitForTimeout(2000);
+    welcomeToast = page.locator('.toast-card--success');
+    await expect(welcomeToast).not.toBeVisible();
+  });
+
+  test('should show module start toast when clicking a module', async ({ page }) => {
+    // Wait for modules to load
+    await page.waitForSelector('.module-card', { timeout: 10000 });
+    
+    // Click on first module
+    const firstModule = page.locator('.module-card').first();
+    await firstModule.click();
+    
+    // Should show "Iniciando módulo" toast
+    const moduleToast = page.locator('.toast-card--info');
+    await expect(moduleToast).toBeVisible();
+    await expect(moduleToast.locator('.toast-card__title')).toContainText('Iniciando módulo');
+  });
+
+  test('should show error toast when there are connection issues', async ({ page }) => {
+    // Simulate network failure
+    await page.route('**/api/**', route => route.abort());
+    
+    // Reload page to trigger error
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    // Should show error toast
+    const errorToast = page.locator('.toast-card--error');
+    await expect(errorToast).toBeVisible();
+    await expect(errorToast.locator('.toast-card__title')).toContainText('Error de conexión');
+    
+    // Should have retry button
+    const retryButton = errorToast.locator('.toast-card__action');
+    await expect(retryButton).toBeVisible();
+    await expect(retryButton).toContainText('Reintentar');
+  });
+
+  test('should maintain single toast constraint', async ({ page }) => {
+    // Trigger multiple toasts rapidly via console
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testToasts = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.success('Toast 1');
+        toast.error('Toast 2');
+        toast.warning('Toast 3');
+        toast.info('Toast 4');
+      };
+    });
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testToasts();
+    });
+    
+    // Should only have one toast visible
+    const toastCards = page.locator('.toast-card');
+    await expect(toastCards).toHaveCount(1);
+    
+    // Should be the last toast (info)
+    await expect(toastCards.first()).toHaveClass(/toast-card--info/);
+  });
+
+  test('should auto-dismiss toasts after duration', async ({ page }) => {
+    // Show a toast with short duration via console
+    await page.evaluate(() => {
+      window.testShortToast = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.success('Short Toast', 'Will disappear soon', { duration: 1000 });
+      };
+    });
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testShortToast();
+    });
+    
+    // Should be visible initially
+    const shortToast = page.locator('.toast-card--success');
+    await expect(shortToast).toBeVisible();
+    
+    // Should disappear after duration
+    await expect(shortToast).not.toBeVisible({ timeout: 2000 });
+  });
+
+  test('should allow manual dismissal of toasts', async ({ page }) => {
+    // Show a persistent toast
+    await page.evaluate(() => {
+      window.testPersistentToast = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.info('Persistent Toast', 'Click X to close', { duration: 0 });
+      };
+    });
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testPersistentToast();
+    });
+    
+    const persistentToast = page.locator('.toast-card--info');
+    await expect(persistentToast).toBeVisible();
+    
+    // Click close button
+    const closeButton = persistentToast.locator('.toast-card__close');
+    await closeButton.click();
+    
+    // Should disappear
+    await expect(persistentToast).not.toBeVisible();
+  });
+
+  test('should clear toasts when navigating between views', async ({ page }) => {
+    // Show a toast
+    await page.evaluate(() => {
+      window.testNavigationToast = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.warning('Navigation Test', 'Should clear on navigation', { duration: 0 });
+      };
+    });
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testNavigationToast();
+    });
+    
+    const navigationToast = page.locator('.toast-card--warning');
+    await expect(navigationToast).toBeVisible();
+    
+    // Navigate to a module (if available)
+    const moduleCard = page.locator('.module-card').first();
+    if (await moduleCard.isVisible()) {
+      await moduleCard.click();
       
-      // Expected behavior:
-      // - Toast appears: "Bienvenido - X módulos disponibles para aprender"
-      // - Toast is positioned correctly (centered on mobile, top-right on desktop)
-      // - Toast disappears after 5 seconds
-      // - localStorage['welcome-toast-shown'] = 'true'
-    });
-
-    test('should not show welcome toast on subsequent visits', async () => {
-      // 1. Set localStorage['welcome-toast-shown'] = 'true'
-      // 2. Navigate to application
-      // 3. Wait for modules to load
-      // 4. Verify no welcome toast appears
-      
-      // Expected behavior:
-      // - No toast should appear
-      // - Application loads normally
-    });
-
-    test('should handle localStorage errors gracefully', async () => {
-      // 1. Mock localStorage to throw errors
-      // 2. Navigate to application
-      // 3. Verify application doesn't crash
-      // 4. Verify welcome toast still appears (fallback behavior)
-    });
+      // Toast should be cleared
+      await expect(navigationToast).not.toBeVisible();
+    }
   });
 
-  describe('Learning Module Toast Flow', () => {
-    test('should show module start toast when clicking a module', async () => {
-      // 1. Navigate to main menu
-      // 2. Click on any learning module
-      // 3. Verify "Iniciando módulo" toast appears
-      // 4. Verify toast contains module name and learning mode
-      // 5. Verify toast disappears after 1.5 seconds
-      // 6. Verify navigation to learning component occurs
-    });
-
-    test('should show correct answer feedback in quiz mode', async () => {
-      // 1. Navigate to a quiz module
-      // 2. Select correct answer
-      // 3. Verify success toast appears immediately (no delay)
-      // 4. Verify toast contains positive message (¡Correcto!, ¡Excelente!, etc.)
-      // 5. Verify toast disappears after 2 seconds
-      // 6. Verify only one toast is visible at a time
-    });
-
-    test('should show incorrect answer feedback in quiz mode', async () => {
-      // 1. Navigate to a quiz module
-      // 2. Select incorrect answer
-      // 3. Verify error toast appears immediately (no delay)
-      // 4. Verify toast shows "Incorrecto"
-      // 5. Verify toast disappears after 2 seconds
-    });
-
-    test('should show module completion toast with appropriate message', async () => {
-      // 1. Complete a quiz module with high accuracy (>90%)
-      // 2. Verify completion toast appears with "¡Excelente trabajo!"
-      // 3. Verify toast contains module name, accuracy, and points
-      // 4. Complete another module with medium accuracy (70-89%)
-      // 5. Verify completion toast shows "¡Bien hecho!"
-      // 6. Complete module with low accuracy (<50%)
-      // 7. Verify completion toast shows appropriate message
-    });
+  test('should work correctly on mobile viewport', async ({ page }) => {
+    // Set mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    
+    // Clear localStorage and reload to trigger welcome toast
+    await page.evaluate(() => localStorage.clear());
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    
+    // Should show welcome toast
+    const welcomeToast = page.locator('.toast-card--success');
+    await expect(welcomeToast).toBeVisible();
+    
+    // Should be positioned correctly for mobile (centered)
+    const container = page.locator('.toast-container');
+    await expect(container).toHaveCSS('justify-content', 'center');
+    
+    // Close button should be touch-friendly
+    const closeButton = welcomeToast.locator('.toast-card__close');
+    const boundingBox = await closeButton.boundingBox();
+    expect(boundingBox?.width).toBeGreaterThanOrEqual(44);
+    expect(boundingBox?.height).toBeGreaterThanOrEqual(44);
   });
 
-  describe('Navigation Toast Cleanup Flow', () => {
-    test('should clear toasts immediately when navigating between views', async () => {
-      // 1. Show a toast in quiz mode
-      // 2. Navigate back to main menu
-      // 3. Verify toast disappears immediately (no delay)
-      // 4. Navigate to another module
-      // 5. Verify no old toasts persist
+  test('should work correctly on desktop viewport', async ({ page }) => {
+    // Set desktop viewport
+    await page.setViewportSize({ width: 1440, height: 900 });
+    
+    // Show a toast
+    await page.evaluate(() => {
+      window.testDesktopToast = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.info('Desktop Test', 'Testing desktop layout');
+      };
     });
-
-    test('should clear toasts when changing between learning modes', async () => {
-      // 1. Start quiz module and trigger feedback toast
-      // 2. Navigate to completion module
-      // 3. Verify quiz toast is cleared immediately
-      // 4. Trigger completion feedback
-      // 5. Navigate to flashcard module
-      // 6. Verify completion toast is cleared
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testDesktopToast();
     });
-
-    test('should handle rapid navigation without toast conflicts', async () => {
-      // 1. Rapidly navigate between multiple modules
-      // 2. Verify no toast accumulation occurs
-      // 3. Verify only relevant toasts for current view appear
-      // 4. Verify no orphaned toasts remain
-    });
+    
+    const desktopToast = page.locator('.toast-card--info');
+    await expect(desktopToast).toBeVisible();
+    
+    // Should be positioned to top-right on desktop
+    const container = page.locator('.toast-container');
+    await expect(container).toHaveCSS('right', '16px');
   });
 
-  describe('Single Toast System Flow', () => {
-    test('should never show multiple toasts simultaneously', async () => {
-      // 1. Trigger multiple toast events rapidly
-      // 2. Verify only one toast is visible at any time
-      // 3. Verify newer toast replaces older toast immediately
-      // 4. Verify no visual stacking or overlap occurs
+  test('should handle rapid user interactions gracefully', async ({ page }) => {
+    // Rapidly trigger multiple actions that show toasts
+    await page.evaluate(() => {
+      window.testRapidActions = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        
+        // Simulate rapid user actions
+        for (let i = 0; i < 10; i++) {
+          setTimeout(() => {
+            toast.success(`Rapid Toast ${i}`, `Message ${i}`);
+          }, i * 50);
+        }
+      };
     });
-
-    test('should replace toasts of different types correctly', async () => {
-      // 1. Show success toast
-      // 2. Immediately trigger error toast
-      // 3. Verify error toast replaces success toast
-      // 4. Immediately trigger info toast
-      // 5. Verify info toast replaces error toast
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testRapidActions();
     });
+    
+    // Should handle gracefully - only one toast visible
+    await page.waitForTimeout(1000);
+    const toastCards = page.locator('.toast-card');
+    await expect(toastCards).toHaveCount(1);
   });
 
-  describe('Error Handling Flow', () => {
-    test('should show connection error toast when modules fail to load', async () => {
-      // 1. Mock network failure
-      // 2. Navigate to application
-      // 3. Verify error toast appears with connection message
-      // 4. Verify "Reintentar" button is present
-      // 5. Click retry button
-      // 6. Verify page reloads
+  test('should maintain accessibility across user flows', async ({ page }) => {
+    // Show a toast
+    await page.evaluate(() => {
+      window.testA11yToast = async () => {
+        const { toast } = await import('./src/stores/toastStore.js');
+        toast.success('Accessibility Test', 'Testing ARIA attributes');
+      };
     });
-
-    test('should handle toast system failures gracefully', async () => {
-      // 1. Mock toast system to throw errors
-      // 2. Perform normal user actions
-      // 3. Verify application continues to function
-      // 4. Verify no crashes or broken states occur
+    
+    await page.evaluate(() => {
+      // @ts-ignore
+      window.testA11yToast();
     });
-  });
-
-  describe('Responsive Design Flow', () => {
-    test('should position toasts correctly on mobile devices', async () => {
-      // 1. Set viewport to mobile size (< 640px)
-      // 2. Trigger various toasts
-      // 3. Verify toasts are centered at top of screen
-      // 4. Verify toasts use full width minus margins
-      // 5. Verify touch targets are at least 44px
-    });
-
-    test('should position toasts correctly on desktop', async () => {
-      // 1. Set viewport to desktop size (> 1024px)
-      // 2. Trigger various toasts
-      // 3. Verify toasts appear in top-right corner
-      // 4. Verify toasts have fixed width (320-380px)
-      // 5. Verify proper spacing from edges
-    });
-
-    test('should adapt to orientation changes on mobile', async () => {
-      // 1. Set mobile viewport in portrait
-      // 2. Show toast
-      // 3. Rotate to landscape
-      // 4. Verify toast repositions correctly
-      // 5. Verify reduced padding in landscape mode
-    });
-  });
-
-  describe('Accessibility Flow', () => {
-    test('should announce toasts to screen readers', async () => {
-      // 1. Enable screen reader simulation
-      // 2. Trigger various toast types
-      // 3. Verify toasts are announced with proper aria-live
-      // 4. Verify toast content is read correctly
-    });
-
-    test('should support keyboard navigation', async () => {
-      // 1. Navigate using only keyboard
-      // 2. Trigger toast with action button
-      // 3. Verify action button is focusable
-      // 4. Verify close button is focusable
-      // 5. Verify Escape key closes toast
-    });
-
-    test('should respect reduced motion preferences', async () => {
-      // 1. Set prefers-reduced-motion: reduce
-      // 2. Trigger toasts
-      // 3. Verify animations are disabled or reduced
-      // 4. Verify functionality remains intact
-    });
-  });
-
-  describe('Performance Flow', () => {
-    test('should not cause memory leaks with rapid toast creation', async () => {
-      // 1. Create many toasts rapidly
-      // 2. Monitor memory usage
-      // 3. Verify memory is cleaned up properly
-      // 4. Verify no event listeners leak
-    });
-
-    test('should handle high-frequency toast events efficiently', async () => {
-      // 1. Trigger toasts at high frequency
-      // 2. Verify UI remains responsive
-      // 3. Verify no performance degradation
-      // 4. Verify proper cleanup occurs
-    });
+    
+    const a11yToast = page.locator('.toast-card--success');
+    await expect(a11yToast).toBeVisible();
+    
+    // Should have proper ARIA attributes
+    await expect(a11yToast).toHaveAttribute('role', 'alert');
+    await expect(a11yToast).toHaveAttribute('aria-live', 'polite');
+    await expect(a11yToast).toHaveAttribute('aria-atomic', 'true');
+    
+    // Close button should be accessible
+    const closeButton = a11yToast.locator('.toast-card__close');
+    await expect(closeButton).toHaveAttribute('aria-label', 'Close notification');
+    
+    // Should be keyboard accessible
+    await closeButton.focus();
+    await expect(closeButton).toBeFocused();
   });
 });
-
-// Helper functions for E2E tests (would be implemented with actual E2E framework)
-const e2eHelpers = {
-  async navigateToApp() {
-    // Navigate to application URL
-  },
-  
-  async waitForModulesToLoad() {
-    // Wait for modules to be loaded and displayed
-  },
-  
-  async clickModule(moduleName: string) {
-    // Click on specific module by name
-  },
-  
-  async selectQuizAnswer(answerIndex: number) {
-    // Select answer in quiz by index
-  },
-  
-  async verifyToastVisible(expectedText: string) {
-    // Verify toast with specific text is visible
-  },
-  
-  async verifyToastNotVisible() {
-    // Verify no toast is currently visible
-  },
-  
-  async setViewportSize(width: number, height: number) {
-    // Set browser viewport size
-  },
-  
-  async setLocalStorage(key: string, value: string) {
-    // Set localStorage value
-  },
-  
-  async clearLocalStorage() {
-    // Clear all localStorage
-  },
-  
-  async mockNetworkFailure() {
-    // Mock network requests to fail
-  },
-  
-  async enableScreenReaderMode() {
-    // Enable screen reader simulation
-  },
-  
-  async setReducedMotion(enabled: boolean) {
-    // Set prefers-reduced-motion preference
-  }
-};
-
-export { e2eHelpers };
