@@ -9,14 +9,14 @@ export const useLearningCleanup = () => {
   useEffect(() => {
     // Cleanup function que se ejecuta cuando el componente se desmonta
     return () => {
-      // Limpiar todos los toasts relacionados con juegos
-      toast.clearGameToasts();
+      // Clear toasts when component unmounts
+      toast.clearOnNavigation();
     };
   }, []);
 
   // También proporciona una función para limpiar manualmente
   const clearGameToasts = () => {
-    toast.clearGameToasts();
+    toast.clearOnNavigation();
   };
 
   return { clearGameToasts };

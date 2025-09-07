@@ -7,7 +7,6 @@ import { toast } from '../stores/toastStore';
 export const useToast = () => {
   // Learning-specific toast messages
   const showCorrectAnswer = useCallback(() => {
-    console.log('🧪 showCorrectAnswer called');
     const messages = [
       '¡Correcto! 🎉',
       '¡Excelente! ✨',
@@ -16,33 +15,30 @@ export const useToast = () => {
       '¡Genial! 🚀'
     ];
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-    console.log('🧪 Calling toast.single.success with:', randomMessage);
     // Quick success feedback - explanation is already in main UI
-    toast.single.success(randomMessage, undefined, { duration: 2000 });
+    toast.success(randomMessage, undefined, { duration: 2000 });
   }, []);
 
   const showIncorrectAnswer = useCallback(() => {
-    console.log('🧪 showIncorrectAnswer called');
     // Quick error feedback - explanation is already in main UI
-    console.log('🧪 Calling toast.single.error');
-    toast.single.error('Incorrecto', undefined, { duration: 2000 });
+    toast.error('Incorrecto', undefined, { duration: 2000 });
   }, []);
 
   const showModuleCompleted = useCallback((moduleName: string, score: number, accuracy: number) => {
     // Use single toast to ensure clean completion message
     if (accuracy >= 90) {
-      toast.single.success('🎉 ¡Excelente trabajo!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
+      toast.success('🎉 ¡Excelente trabajo!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
     } else if (accuracy >= 70) {
-      toast.single.success('✨ ¡Bien hecho!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
+      toast.success('✨ ¡Bien hecho!', `${moduleName} completado con ${accuracy.toFixed(0)}% de precisión (+${score} puntos)`);
     } else if (accuracy >= 50) {
-      toast.single.info('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. ¡Sigue practicando!`);
+      toast.info('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. ¡Sigue practicando!`);
     } else {
-      toast.single.warning('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. Te recomendamos repasar el contenido.`);
+      toast.warning('Módulo completado', `${moduleName} - ${accuracy.toFixed(0)}% de precisión. Te recomendamos repasar el contenido.`);
     }
   }, []);
 
   const showLevelUp = useCallback((newLevel: number, totalPoints: number) => {
-    toast.achievement('¡Nivel alcanzado!', `Has llegado al nivel ${newLevel}`, totalPoints);
+    toast.success('¡Nivel alcanzado!', `Has llegado al nivel ${newLevel} (+${totalPoints} puntos)`, { duration: 5000 });
   }, []);
 
   const showStreak = useCallback((days: number) => {

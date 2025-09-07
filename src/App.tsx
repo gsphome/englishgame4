@@ -53,15 +53,12 @@ const AppContent: React.FC = () => {
     const prevView = sessionStorage.getItem('prevView') || 'menu';
     sessionStorage.setItem('prevView', currentView);
 
-    // Clear game-related toasts when changing views
+    // Clear toasts when changing views (immediate, no delays)
     if (currentView !== prevView) {
       const learningModes = ['flashcard', 'quiz', 'completion', 'sorting', 'matching'];
       
       if (learningModes.includes(prevView) || learningModes.includes(currentView)) {
-        const delay = currentView === 'menu' ? 50 : 10;
-        setTimeout(() => {
-          toast.clearGameToasts();
-        }, delay);
+        toast.clearOnNavigation();
       }
     }
 

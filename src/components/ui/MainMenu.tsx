@@ -12,15 +12,12 @@ export const MainMenu: React.FC = () => {
   const { query, setQuery, results } = useSearch(modules);
   const { setCurrentModule, setCurrentView } = useAppStore();
 
-  // Show toast when modules are loaded (only once per session)
+  // Show welcome toast when modules are loaded (only once per session)
   useEffect(() => {
     if (modules.length > 0 && !isLoading) {
-      toast.once(
-        'modules-loaded', 
-        'success', 
-        'Módulos cargados', 
-        `${modules.length} módulos disponibles para aprender`
-      );
+      // For testing: always show welcome toast (remove this line later)
+      toast.success('Bienvenido', `${modules.length} módulos disponibles para aprender`, { duration: 5000 });
+      // toast.welcomeOnce(modules.length); // Uncomment this and remove line above for production
     }
   }, [modules.length, isLoading]);
 
@@ -43,7 +40,7 @@ export const MainMenu: React.FC = () => {
       sessionStorage.setItem('menuGridScrollPosition', gridElement.scrollTop.toString());
     }
     
-    // Show toast when starting a module (replace any existing info toast)
+    // Show toast when starting a module
     const modeLabels: Record<string, string> = {
       flashcard: 'Flashcards',
       quiz: 'Quiz',
@@ -52,7 +49,7 @@ export const MainMenu: React.FC = () => {
       matching: 'Ejercicio de emparejamiento'
     };
     
-    toast.single.info('Iniciando módulo', `${module.name} - ${modeLabels[module.learningMode] || 'Ejercicio'}`, { duration: 1500 });
+    toast.info('Iniciando módulo', `${module.name} - ${modeLabels[module.learningMode] || 'Ejercicio'}`, { duration: 1500 });
     
     setCurrentModule(module);
     setCurrentView(module.learningMode);

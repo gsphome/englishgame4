@@ -1,42 +1,44 @@
 import React from 'react';
 import Toast from './Toast';
-import { useToastStore, type ToastData } from '../../stores/toastStore';
+import { useToastStore } from '../../stores/toastStore';
 
 export const ToastContainer: React.FC = () => {
-  const { toasts, removeToast } = useToastStore();
+  const { currentToast, isVisible, clearToast } = useToastStore();
 
-  console.log('🧪 ToastContainer render, toasts:', toasts);
-
-  if (toasts.length === 0) {
-    console.log('🧪 ToastContainer: No toasts, returning null');
+  // Only render if there's a toast and it's visible
+  if (!currentToast || !isVisible) {
     return null;
   }
-
-  console.log('🧪 ToastContainer: Rendering', toasts.length, 'toasts');
 
   return (
     <div
       aria-label="Notifications"
       role="region"
+      className="toast-container"
       style={{
         position: 'fixed',
-        top: '16px',
-        right: '16px',
         zIndex: 99999,
         pointerEvents: 'none',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px',
-        maxWidth: '420px'
+        top: '16px',
+        // Responsive positioning
+        ...(window.innerWidth >= 640 ? {
+          // Desktop/Tablet - top right
+          right: '16px',
+          left: 'auto',
+        } : {
+          // Mobile - centered top
+          left: '0',
+          right: '0',
+          display: 'flex',
+          justifyContent: 'center',
+        })
       }}
     >
-      {toasts.map((toast: ToastData) => (
-        <Toast
-          key={toast.id}
-          toast={toast}
-          onClose={removeToast}
-        />
-      ))}
+      <Toast
+        key={currentToast.id}
+        toast={currentToast}
+        onClose={clearToast}
+      />
     </div>
   );
 };

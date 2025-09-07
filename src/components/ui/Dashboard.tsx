@@ -6,8 +6,6 @@ import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useProgressStore } from '../../stores/progressStore';
 import { useTranslation } from '../../utils/i18n';
-// import { useToast } from '../../hooks/useToast'; // Commented out as not currently used
-import { toast } from '../../stores/toastStore';
 
 
 interface DashboardProps {
@@ -34,8 +32,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose }) => {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      // Show dashboard toast only once per session
-      toast.once('dashboard-opened', 'info', 'Dashboard cargado', 'Aquí puedes ver tu progreso de aprendizaje');
+      // TODO: Show dashboard toast with new toast system
     }, 800);
     return () => clearTimeout(timer);
   }, []);

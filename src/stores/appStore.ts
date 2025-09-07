@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AppState, LearningModule, SessionScore } from '../types';
-import { toast } from './toastStore';
 
 interface AppStore extends AppState {
   // Global score that persists across sessions
@@ -44,14 +43,6 @@ export const useAppStore = create<AppStore>()(
         // Always reset session score when setting a new module
         const shouldResetScore = module && (!state.currentModule || module.id !== state.currentModule.id);
 
-        // Clear all toasts when changing modules, but delay to allow feedback toasts
-        if (shouldResetScore) {
-          const delay = process.env.NODE_ENV === 'test' ? 0 : 1000;
-          setTimeout(() => {
-            toast.clearAll();
-          }, delay);
-        }
-
         const newSessionScore = shouldResetScore
           ? { correct: 0, incorrect: 0, total: 0, accuracy: 0 }
           : state.sessionScore;
@@ -63,20 +54,6 @@ export const useAppStore = create<AppStore>()(
       }),
 
       setCurrentView: (view) => set((state) => {
-        // Only clear toasts when actually changing views to different major sections
-        // Don't clear toasts for minor state updates within the same view
-        const shouldClearToasts = state.currentView !== view &&
-          (view === 'menu' || state.currentView === 'menu');
-
-        if (shouldClearToasts) {
-          console.log('🧪 appStore: Clearing toasts due to major view change from', state.currentView, 'to', view);
-          // Delay clearing to allow feedback toasts to be seen
-          const delay = process.env.NODE_ENV === 'test' ? 0 : 1500;
-          setTimeout(() => {
-            toast.clearAll();
-          }, delay);
-        }
-
         return {
           currentView: view,
           // Clear currentModule when going back to menu
