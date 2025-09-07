@@ -8,7 +8,7 @@
 import React from 'react';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import { QuizComponent } from '../../../src/components/learning/QuizComponent';
 import { ToastContainer } from '../../../src/components/ui/ToastContainer';
 // import { QuizComponent } from '../../../src/components/learning/QuizComponent';

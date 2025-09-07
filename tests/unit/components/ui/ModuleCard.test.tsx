@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { vi } from 'vitest';
+import { vi, describe, it, expect } from 'vitest';
 import { ModuleCard } from '../../../../src/components/ui/ModuleCard';
 import type { LearningModule } from '../../../../src/types';
 
