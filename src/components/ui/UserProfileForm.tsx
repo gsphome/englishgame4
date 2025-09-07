@@ -9,7 +9,7 @@ import { useTranslation } from '../../utils/i18n';
 import '../../styles/components/user-profile-form.css';
 
 // Base schema for type inference
-const baseProfileSchema = z.object({
+const _baseProfileSchema = z.object({
   name: z.string().min(2),
   level: z.enum(['beginner', 'intermediate', 'advanced']),
   preferences: z.object({

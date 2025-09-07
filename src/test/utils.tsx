@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { vi } from 'vitest';
+import { vi, expect } from 'vitest';
 import { ErrorBoundary } from '../components/common/ErrorBoundary';
 import type { LearningModule, User } from '../types';
 

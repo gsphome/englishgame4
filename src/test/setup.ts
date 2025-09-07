@@ -24,7 +24,7 @@ mockIntersectionObserver.mockReturnValue({
   disconnect: () => null
 });
 window.IntersectionObserver = mockIntersectionObserver;
-global.IntersectionObserver = mockIntersectionObserver;
+globalThis.IntersectionObserver = mockIntersectionObserver;
 
 // Mock ResizeObserver
 const mockResizeObserver = vi.fn();
@@ -34,7 +34,7 @@ mockResizeObserver.mockReturnValue({
   disconnect: () => null
 });
 window.ResizeObserver = mockResizeObserver;
-global.ResizeObserver = mockResizeObserver;
+globalThis.ResizeObserver = mockResizeObserver;
 
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {

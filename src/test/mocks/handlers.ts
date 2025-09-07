@@ -124,7 +124,7 @@ export const mockFetch = (url: string): Promise<Response> => {
 
 // Setup global fetch mock
 export const setupFetchMock = () => {
-  global.fetch = vi.fn().mockImplementation(mockFetch);
+  globalThis.fetch = vi.fn().mockImplementation(mockFetch);
 };
 
 // Reset fetch mock

@@ -88,7 +88,7 @@ registerRoute(
   async ({ event }) => {
     try {
       return await fetch(event.request);
-    } catch (error) {
+    } catch {
       // Return cached offline page or main app
       const cache = await caches.open('pages');
       const cachedResponse = await cache.match('/englishgame4/');
