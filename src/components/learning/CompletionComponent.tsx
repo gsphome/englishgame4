@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Check, X, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
@@ -33,7 +33,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
   const { addProgressEntry } = useProgressStore();
   const { t } = useTranslation(language);
   const { showCorrectAnswer, showIncorrectAnswer, showModuleCompleted } = useToast();
-  const { /* clearGameToasts */ } = useLearningCleanup();
+  const { } = useLearningCleanup();
 
   // Randomize exercises once per component mount
   const randomizedExercises = useMemo(() => {
@@ -53,7 +53,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     }
   }, [currentIndex, showResult, randomizedExercises.length]);
 
-  const checkAnswer = () => {
+  const checkAnswer = useCallback(() => {
     if (showResult) return;
     
     const userAnswer = answer.toLowerCase().trim();
@@ -69,9 +69,9 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     } else {
       showIncorrectAnswer();
     }
-  };
+  }, [showResult, answer, currentExercise?.correct, updateSessionScore, showCorrectAnswer, showIncorrectAnswer]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < randomizedExercises.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setAnswer('');
@@ -96,7 +96,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }
-  };
+  }, [currentIndex, randomizedExercises.length, startTime, addProgressEntry, module.id, module.name, showModuleCompleted, updateUserScore, setCurrentView]);
 
   useEffect(() => {
     if (randomizedExercises.length === 0) return;
@@ -137,7 +137,7 @@ const CompletionComponent: React.FC<CompletionComponentProps> = ({ module }) => 
     
     // Split sentence by blank marker (______)
     const parts = currentExercise.sentence.split('______');
-    const elements: JSX.Element[] = [];
+    const elements: React.ReactElement[] = [];
     
     parts.forEach((part, index) => {
       // Add text part

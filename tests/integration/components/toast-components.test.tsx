@@ -3,6 +3,7 @@
  * Tests Toast.tsx and ToastContainer.tsx integration
  */
 
+import React from 'react';
 import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Toast from '../../../src/components/ui/Toast';

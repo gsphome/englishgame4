@@ -15,7 +15,7 @@ export const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ error, retr
       <p className="text-gray-600 mb-4">
         We're sorry, but something unexpected happened. Please try again.
       </p>
-      {process.env.NODE_ENV === 'development' && error && (
+      {import.meta.env.DEV && error && (
         <details className="text-left bg-gray-100 p-3 rounded mb-4">
           <summary className="cursor-pointer font-medium">Error Details</summary>
           <pre className="text-sm mt-2 overflow-auto">

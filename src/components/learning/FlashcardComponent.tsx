@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, RotateCcw } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
@@ -36,7 +36,7 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
 
   const currentCard = randomizedFlashcards[currentIndex];
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < randomizedFlashcards.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setIsFlipped(false);
@@ -57,18 +57,18 @@ const FlashcardComponent: React.FC<FlashcardComponentProps> = ({ module }) => {
       updateUserScore(module.id, randomizedFlashcards.length, timeSpent);
       setCurrentView('menu');
     }
-  };
+  }, [currentIndex, randomizedFlashcards.length, startTime, addProgressEntry, module.id, updateUserScore, setCurrentView]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
       setIsFlipped(false);
     }
-  };
+  }, [currentIndex]);
 
-  const handleFlip = () => {
+  const handleFlip = useCallback(() => {
     setIsFlipped(!isFlipped);
-  };
+  }, [isFlipped]);
 
   // Keyboard navigation
   useEffect(() => {

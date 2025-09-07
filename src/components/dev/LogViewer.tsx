@@ -25,7 +25,7 @@ export const LogViewer: React.FC<LogViewerProps> = ({ isOpen, onClose }) => {
   }, [isOpen]);
 
   // Don't render in production
-  if (process.env.NODE_ENV === 'production') {
+  if (!import.meta.env.DEV) {
     return null;
   }
 

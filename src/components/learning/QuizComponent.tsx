@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { CheckCircle, XCircle, ArrowRight } from 'lucide-react';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
@@ -61,7 +61,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
 
   const currentQuestion = randomizedQuestions[currentIndex];
 
-  const handleAnswerSelect = (optionIndex: number) => {
+  const handleAnswerSelect = useCallback((optionIndex: number) => {
     if (showResult || !currentQuestion) return;
     
     const selectedAnswer = currentQuestion.options?.[optionIndex];
@@ -77,9 +77,9 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
     } else {
       showIncorrectAnswer();
     }
-  };
+  }, [showResult, currentQuestion, updateSessionScore, showCorrectAnswer, showIncorrectAnswer]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < randomizedQuestions.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedAnswer(null);
@@ -104,7 +104,7 @@ const QuizComponent: React.FC<QuizComponentProps> = ({ module }) => {
       updateUserScore(module.id, finalScore, timeSpent);
       setCurrentView('menu');
     }
-  };
+  }, [currentIndex, randomizedQuestions.length, startTime, addProgressEntry, module.id, module.name, showModuleCompleted, updateUserScore, setCurrentView]);
 
   useEffect(() => {
     if (randomizedQuestions.length === 0) return;
