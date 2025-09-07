@@ -15,9 +15,7 @@ export const MainMenu: React.FC = () => {
   // Show welcome toast when modules are loaded (only once per session)
   useEffect(() => {
     if (modules.length > 0 && !isLoading) {
-      // For testing: always show welcome toast (remove this line later)
-      toast.success('Bienvenido', `${modules.length} módulos disponibles para aprender`, { duration: 5000 });
-      // toast.welcomeOnce(modules.length); // Uncomment this and remove line above for production
+      toast.welcomeOnce(modules.length);
     }
   }, [modules.length, isLoading]);
 

@@ -4,6 +4,7 @@ import '../../styles/components/header.css';
 import { useAppStore } from '../../stores/appStore';
 import { useUserStore } from '../../stores/userStore';
 import { useSettingsStore } from '../../stores/settingsStore';
+import { toast } from '../../stores/toastStore';
 
 import { UserProfileForm } from './UserProfileForm';
 import { AdvancedSettingsModal } from './AdvancedSettingsModal';
@@ -47,7 +48,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
   const handleSettings = () => {
     setShowSettings(!showSettings);
     if (!showSettings) {
-      // TODO: Show configuration toast with new toast system
+      toast.info('Configuración', 'Panel de configuración abierto');
     }
   };
 
