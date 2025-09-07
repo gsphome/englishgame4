@@ -123,11 +123,9 @@ const LearningComponentWrapper: React.FC<LearningComponentWrapperProps> = ({
 
 export const AppRouter: React.FC = () => {
   const { currentView, currentModule } = useAppStore();
-  console.log('AppRouter rendered:', { currentView, currentModule });
 
   // Return menu for menu view
   if (currentView === 'menu') {
-    console.log('Rendering MainMenu');
     return <MainMenu />;
   }
 
