@@ -49,7 +49,7 @@ jobs:
         run: npm run lint
 
       - name: Run TypeScript check
-        run: npx tsc --noEmit
+        run: npx tsc --noEmit --project config/tsconfig.json
 
       - name: Check code formatting
         run: echo "Prettier formatting check temporarily disabled" && exit 0
