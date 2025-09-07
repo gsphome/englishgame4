@@ -3,6 +3,8 @@
  * Prevents XSS attacks by sanitizing HTML content
  */
 
+import React from 'react';
+
 import React from "react";
 
 interface SanitizedHTML {
@@ -101,12 +103,12 @@ export const extractTextFromHTML = (html: string): string => {
  * Safe HTML component that renders sanitized HTML
  * Alternative to dangerouslySetInnerHTML for better security
  */
-export const renderSafeHTML = (html: string): JSX.Element => {
+export const renderSafeHTML = (html: string): React.ReactElement => {
   const sanitized = sanitizeHTML(html);
   
   // Parse the sanitized HTML and create React elements
   const parts = sanitized.split(/(<[^>]+>)/);
-  const elements: JSX.Element[] = [];
+  const elements: React.ReactElement[] = [];
   
   let key = 0;
   for (let i = 0; i < parts.length; i++) {

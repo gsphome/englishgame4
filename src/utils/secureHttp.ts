@@ -2,7 +2,7 @@
  * Secure HTTP utilities with TLS validation and security headers
  */
 
-interface SecureFetchOptions extends RequestInit {
+interface SecureFetchOptions extends globalThis.RequestInit {
   timeout?: number;
 }
 
@@ -16,7 +16,7 @@ export const secureFetch = async (url: string, options: SecureFetchOptions = {})
   const { timeout = 10000, ...fetchOptions } = options;
 
   // Security headers for requests
-  const secureHeaders: HeadersInit = {
+  const secureHeaders: globalThis.HeadersInit = {
     'X-Requested-With': 'XMLHttpRequest',
     'Cache-Control': 'no-cache',
     'Pragma': 'no-cache',
@@ -129,7 +129,7 @@ export const secureJsonFetch = async <T = any>(url: string, options: SecureFetch
 
   try {
     return await response.json();
-  } catch (error) {
+  } catch {
     throw new Error('Failed to parse JSON response');
   }
 };

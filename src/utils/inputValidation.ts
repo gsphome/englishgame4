@@ -118,7 +118,7 @@ export const validateSearchQuery = (query: string): string => {
 export const validateGameSettings = (settings: any): any => {
   try {
     return gameSettingsSchema.parse(settings);
-  } catch (error) {
+  } catch {
     // Use console.warn for validation errors as they're important for debugging
     
     // Return safe defaults
@@ -145,7 +145,7 @@ export const validateUserProfile = (profile: any): any | null => {
       level: profile.level || 'b1',
       nativeLanguage: profile.nativeLanguage || 'en',
     });
-  } catch (error) {
+  } catch {
     // Use console.warn for validation errors as they're important for debugging
     return null;
   }

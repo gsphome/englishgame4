@@ -34,7 +34,7 @@ const createProfileSchema = (t: (_key: string, _defaultValue?: string) => string
   })
 });
 
-type ProfileFormData = z.infer<typeof baseProfileSchema>;
+type ProfileFormData = z.infer<typeof _baseProfileSchema>;
 
 interface UserProfileFormProps {
   onClose: () => void;
