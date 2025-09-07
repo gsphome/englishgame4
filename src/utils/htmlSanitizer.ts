@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-import React from "react";
-
 interface SanitizedHTML {
   __html: string;
 }

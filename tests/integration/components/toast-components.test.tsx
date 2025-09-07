@@ -8,7 +8,7 @@ import { describe, test, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import Toast from '../../../src/components/ui/Toast';
 import { ToastContainer } from '../../../src/components/ui/ToastContainer';
-import { useToastStore, resetToastStore } from '../../../src/stores/toastStore';
+import { useToastStore } from '../../../src/stores/toastStore';
 import type { ToastData } from '../../../src/stores/toastStore';
 
 // Mock the toast store

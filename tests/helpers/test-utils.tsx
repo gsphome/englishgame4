@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
-import { render, RenderOptions, screen, waitFor, fireEvent } from '@testing-library/react';
+import { render, RenderOptions, screen, waitFor } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { vi, beforeEach, afterEach } from 'vitest';
+import { vi, beforeEach, afterEach, expect } from 'vitest';
 import type { LearningModule, ToastData } from '../../src/types';
 
 // Mock providers for testing
