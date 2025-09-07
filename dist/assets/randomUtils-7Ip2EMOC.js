@@ -1,1 +1,0 @@
-var e=Object.defineProperty;var n=(r,t)=>e(r,"name",{value:t,configurable:!0});function a(r){const t=[...r];for(let o=t.length-1;o>0;o--){const f=Math.floor(Math.random()*(o+1));[t[o],t[f]]=[t[f],t[o]]}return t}n(a,"shuffleArray");export{a as s};
