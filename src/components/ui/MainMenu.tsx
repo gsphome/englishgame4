@@ -8,13 +8,17 @@ import { useAppStore } from '../../stores/appStore';
 import { toast } from '../../stores/toastStore';
 
 export const MainMenu: React.FC = () => {
+  console.log('MainMenu component rendered');
   const { data: modules = [], isLoading, error } = useAllModules();
+  console.log('MainMenu data:', { modules, isLoading, error });
   const { query, setQuery, results } = useSearch(modules);
   const { setCurrentModule, setCurrentView } = useAppStore();
 
   // Show welcome toast when modules are loaded (only once per session)
   useEffect(() => {
+    console.log('MainMenu useEffect:', { modulesLength: modules.length, isLoading, hasShownWelcome: localStorage.getItem('welcome-toast-shown') });
     if (modules.length > 0 && !isLoading) {
+      console.log('Calling toast.welcomeOnce with', modules.length, 'modules');
       toast.welcomeOnce(modules.length);
     }
   }, [modules.length, isLoading]);

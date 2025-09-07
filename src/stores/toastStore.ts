@@ -129,8 +129,10 @@ const toastStore = {
   // Show welcome toast only once using localStorage
   showWelcomeOnce(moduleCount: number) {
     const hasShown = safeLocalStorage.getItem('welcome-toast-shown');
+    console.log('showWelcomeOnce called:', { moduleCount, hasShown });
     
     if (!hasShown) {
+      console.log('Showing welcome toast for the first time');
       this.showToast({
         type: 'success',
         title: 'Bienvenido',
@@ -140,6 +142,8 @@ const toastStore = {
       });
       
       safeLocalStorage.setItem('welcome-toast-shown', 'true');
+    } else {
+      console.log('Welcome toast already shown, skipping');
     }
   },
 
