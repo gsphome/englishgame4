@@ -33,6 +33,16 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
+      // Reduce false positives for unused variables
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { 
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true
+        }
+      ],
     },
   },
 ];

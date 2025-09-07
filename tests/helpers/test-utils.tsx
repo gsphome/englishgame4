@@ -5,6 +5,7 @@ import { vi, beforeEach, afterEach } from 'vitest';
 import type { LearningModule, ToastData } from '../../src/types';
 
 // Mock providers for testing
+// eslint-disable-next-line react-refresh/only-export-components
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -28,6 +29,7 @@ const customRender = (
   options?: Omit<RenderOptions, 'wrapper'>
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
+// eslint-disable-next-line react-refresh/only-export-components
 export * from '@testing-library/react';
 export { customRender as render };
 

@@ -22,7 +22,7 @@ const baseProfileSchema = z.object({
 });
 
 // Create schema with dynamic error messages
-const createProfileSchema = (t: (key: string, defaultValue?: string) => string) => z.object({
+const createProfileSchema = (t: (_key: string, _defaultValue?: string) => string) => z.object({
   name: z.string().min(2, t('profile.nameRequired', 'El nombre debe tener al menos 2 caracteres')),
   level: z.enum(['beginner', 'intermediate', 'advanced']),
   preferences: z.object({

@@ -194,7 +194,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
         return userMatch === correctMatch ? 'correct' : 'incorrect';
       } else {
         const correctPair = pairs.find((pair: { left: string; right: string }) => pair.right === item);
-        const userMatch = Object.entries(matches).find(([_, right]) => right === item);
+        const userMatch = Object.entries(matches).find(([, right]) => right === item);
         if (correctPair && userMatch) {
           return userMatch[0] === correctPair.left ? 'correct' : 'incorrect';
         }
