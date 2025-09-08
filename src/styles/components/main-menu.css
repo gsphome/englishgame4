@@ -52,14 +52,14 @@
 }
 
 /* 2 cols: 2×100px + 1×10px gap + 52px overhead = 262px minimum */
-@media (min-width: 280px) and (max-width: 399px) {
+@media (min-width: 280px) and (max-width: 409px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
   }
 }
 
-/* 3 cols: Extended range to prevent 4-col overflow */
-@media (min-width: 400px) and (max-width: 719px) {
+/* 3 cols: Conservative range to prevent cutting */
+@media (min-width: 410px) and (max-width: 719px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
