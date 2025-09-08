@@ -77,49 +77,29 @@
   }
 }
 
-/* Module Cards - High specificity after utilities */
+/* Module Cards - Updated to work with new BEM-Like structure */
+/* Base styles are now handled in module-card.css with proper BEM-Like nomenclature */
+
+/* Legacy support - these will be overridden by the new BEM-Like styles */
 .module-card {
-  width: 96px;
-  height: 96px;
-  @apply p-1 rounded-lg shadow-sm text-white text-center;
-  @apply flex flex-col items-center justify-center;
-  @apply transition-all duration-200 hover:scale-105 hover:shadow-md;
-  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
-  @apply bg-gray-600 hover:bg-gray-700;
+  /* Base styles moved to module-card.css */
 }
 
-.module-card--flashcard {
-  @apply bg-blue-600 hover:bg-blue-700 !important;
-}
-
-.module-card--quiz {
-  @apply bg-green-600 hover:bg-green-700 !important;
-}
-
-.module-card--completion {
-  @apply bg-purple-600 hover:bg-purple-700 !important;
-}
-
-.module-card--sorting {
-  @apply bg-orange-600 hover:bg-orange-700 !important;
-}
-
+/* Color variants are now handled with gradients in module-card.css */
+.module-card--flashcard,
+.module-card--quiz,
+.module-card--completion,
+.module-card--sorting,
 .module-card--matching {
-  @apply bg-pink-600 hover:bg-pink-700 !important;
+  /* Gradient backgrounds defined in module-card.css */
 }
 
-.module-card__icon {
-  @apply text-base mb-0.5;
-}
-
-.module-card__title {
-  @apply text-sm font-bold leading-tight mb-1 line-clamp-2;
-  max-width: 88px;
-}
-
-.module-card__meta {
-  @apply text-xs opacity-90 truncate;
-  max-width: 88px;
+/* Typography elements now use BEM-Like structure */
+.module-card__icon,
+.module-card__title,
+.module-card__type,
+.module-card__level {
+  /* Styles defined in module-card.css with proper BEM-Like nomenclature */
 }
 
 @layer components {

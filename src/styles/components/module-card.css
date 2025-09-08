@@ -1,208 +1,343 @@
-/* Module Card Styles */
+/* Module Card Styles - Redesigned for Consistency */
 
-/* Card Container */
+/* CSS Variables for Consistent Design System */
+:root {
+  --card-border-radius: 0.75rem;
+  --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --card-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card Container - Enhanced Design */
 .module-card {
-  @apply relative bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-200 dark:border-gray-700 cursor-pointer;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800;
-  @apply w-24 h-24 sm:w-28 sm:h-28;
+  position: relative;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--card-shadow);
+  transition: var(--card-transition);
+  cursor: pointer;
+  border: 2px solid transparent;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .module-card:hover {
-  @apply border-blue-300 dark:border-blue-600;
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .module-card:active {
-  @apply scale-95;
+  transform: translateY(0);
 }
 
-/* Card Content */
+.module-card:focus {
+  outline: none;
+  box-shadow: var(--card-shadow-hover), 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+/* Card Content - Structured Layout */
 .module-card__content {
-  @apply flex flex-col items-center justify-center h-full p-2 sm:p-3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0.75rem;
+  text-align: center;
+  gap: 0.25rem;
 }
 
-/* Icon Section */
-.module-card__icon-container {
-  @apply flex items-center justify-center mb-1 sm:mb-2;
-}
-
+/* Icon Section - Enhanced */
 .module-card__icon {
-  @apply text-blue-600 dark:text-white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+  flex-shrink: 0;
 }
 
 .module-card__icon svg {
-  @apply w-5 h-5 sm:w-6 sm:h-6;
-  color: inherit !important;
-  stroke: currentColor !important;
-  fill: none !important;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: rgba(255, 255, 255, 0.95);
+  stroke: rgba(255, 255, 255, 0.95);
+  fill: none;
+  stroke-width: 2;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Enhanced icon contrast - White icons for both light and dark modes */
-.module-card__icon svg {
-  color: #ffffff !important; /* white icons in light mode */
-  stroke: #ffffff !important;
+.module-card:hover .module-card__icon svg {
+  color: rgba(255, 255, 255, 1);
+  stroke: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
 }
 
-.dark .module-card__icon svg {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
-  stroke: #ffffff !important;
-}
-
-/* Title - White text for both modes */
+/* Typography Elements - BEM-Like Structure */
 .module-card__title {
-  @apply text-xs sm:text-sm font-semibold text-center leading-tight;
-  @apply line-clamp-2;
-  color: #ffffff !important; /* white text in light mode */
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 0.125rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  flex-shrink: 1;
+  transition: color 0.2s ease-in-out;
 }
 
-.dark .module-card__title {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
+.module-card__type {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.85);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  margin-bottom: 0.125rem;
+  flex-shrink: 0;
+  transition: color 0.2s ease-in-out;
 }
 
-/* Meta (Difficulty Level) - White text for both modes */
-.module-card__meta {
-  @apply text-xs text-center mt-1 font-medium;
-  color: #ffffff !important; /* white text in light mode */
+.module-card__level {
+  font-size: 0.625rem;
+  font-weight: 600;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+  transition: all 0.2s ease-in-out;
 }
 
-.dark .module-card__meta {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
+/* Hover States - BEM-Like Modifiers */
+.module-card:hover .module-card__title {
+  color: rgba(255, 255, 255, 1);
 }
 
-/* Subtitle/Mode */
-.module-card__subtitle {
-  @apply text-xs text-gray-700 dark:text-white text-center mt-1;
-  @apply hidden sm:block;
+.module-card:hover .module-card__type {
+  color: rgba(255, 255, 255, 0.95);
 }
 
-/* Difficulty Badge - Enhanced contrast */
-.module-card__difficulty {
-  @apply absolute top-1 right-1 bg-blue-100 dark:bg-blue-900 text-xs px-1.5 py-0.5 rounded-full font-medium;
-  color: #1e40af !important; /* blue-800 for strong contrast in light mode */
+.module-card:hover .module-card__level {
+  color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
-.dark .module-card__difficulty {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
+/* Learning Mode Variants - BEM-Like Modifiers */
+.module-card--flashcard {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
 }
 
-/* Category Badge - Enhanced contrast */
-.module-card__category {
-  @apply absolute top-1 left-1 bg-green-100 dark:bg-green-900 text-xs px-1.5 py-0.5 rounded-full font-medium;
-  color: #166534 !important; /* green-800 for strong contrast in light mode */
+.module-card--quiz {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
-.dark .module-card__category {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
+.module-card--completion {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
 }
 
-/* Progress Indicator */
-.module-card__progress {
-  @apply absolute bottom-1 left-1 right-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden;
+.module-card--sorting {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
-.module-card__progress-fill {
-  @apply h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300;
+.module-card--matching {
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
 }
 
-/* States */
+/* Hover States for Variants */
+.module-card--flashcard:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.module-card--quiz:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.module-card--completion:hover {
+  background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+}
+
+.module-card--sorting:hover {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+}
+
+.module-card--matching:hover {
+  background: linear-gradient(135deg, #db2777 0%, #be185d 100%);
+}
+
+/* State Modifiers - BEM-Like */
 .module-card--completed {
-  @apply bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700;
+  position: relative;
 }
 
-.module-card--in-progress {
-  @apply bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-700;
+.module-card--completed::after {
+  content: '✓';
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background-color: rgba(16, 185, 129, 0.9);
+  color: white;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
 .module-card--locked {
-  @apply bg-gray-50 dark:bg-gray-900 border-gray-300 dark:border-gray-600 cursor-not-allowed opacity-60;
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
 }
 
 .module-card--locked:hover {
-  @apply transform-none shadow-lg border-gray-300 dark:border-gray-600;
+  transform: none;
+  box-shadow: var(--card-shadow);
 }
 
-/* Learning Mode Variants - White icons for all types in both modes */
-.module-card--flashcard .module-card__icon svg,
-.module-card--quiz .module-card__icon svg,
-.module-card--completion .module-card__icon svg,
-.module-card--sorting .module-card__icon svg,
-.module-card--matching .module-card__icon svg {
-  color: #ffffff !important; /* white icons in light mode */
-  stroke: #ffffff !important;
+.module-card--locked .module-card__content {
+  position: relative;
 }
 
-/* Force white icons for all module types in dark mode for maximum contrast */
-.dark .module-card--flashcard .module-card__icon svg,
-.dark .module-card--quiz .module-card__icon svg,
-.dark .module-card--completion .module-card__icon svg,
-.dark .module-card--sorting .module-card__icon svg,
-.dark .module-card--matching .module-card__icon svg {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
-  stroke: #ffffff !important;
+.module-card--locked .module-card__content::before {
+  content: '🔒';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  z-index: 1;
 }
 
-/* Enhanced subtitle contrast - White for both modes */
-.module-card__subtitle {
-  color: #ffffff !important; /* white text in light mode */
-}
+/* Removed obsolete styles - now using structured BEM-Like approach */
 
-.dark .module-card__subtitle {
-  color: #ffffff !important; /* white for maximum contrast in dark mode */
-}
-
-/* Responsive Adjustments */
-@media (max-width: 640px) {
+/* Responsive Design - BEM-Like Approach */
+@media (max-width: 768px) {
   .module-card {
-    @apply w-20 h-20;
+    width: 100px;
+    height: 100px;
   }
   
   .module-card__content {
-    @apply p-1.5;
+    padding: 0.5rem;
+    gap: 0.125rem;
+  }
+  
+  .module-card__icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
   
   .module-card__title {
-    @apply text-xs;
+    font-size: 0.75rem;
+    margin-bottom: 0.125rem;
   }
   
-  .module-card__difficulty,
-  .module-card__category {
-    @apply text-xs px-1 py-0.5;
+  .module-card__type {
+    font-size: 0.625rem;
+  }
+  
+  .module-card__level {
+    font-size: 0.5625rem;
+    padding: 0.125rem 0.25rem;
   }
 }
 
-/* Accessibility */
-.module-card:focus-visible {
-  @apply ring-2 ring-blue-500 ring-offset-2 dark:ring-offset-gray-800;
+@media (max-width: 480px) {
+  .module-card {
+    width: 90px;
+    height: 90px;
+  }
+  
+  .module-card__content {
+    padding: 0.375rem;
+  }
+  
+  .module-card__icon svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+  
+  .module-card__title {
+    font-size: 0.6875rem;
+  }
+  
+  .module-card__type {
+    font-size: 0.5625rem;
+  }
+  
+  .module-card__level {
+    font-size: 0.5rem;
+    padding: 0.125rem 0.25rem;
+  }
 }
 
-/* High Contrast Mode */
+/* Accessibility - BEM-Like Approach */
+.module-card:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
 @media (prefers-contrast: high) {
   .module-card {
-    @apply border-2;
+    border-width: 3px;
   }
   
   .module-card__title {
-    @apply font-bold;
+    font-weight: 700;
   }
   
-  /* Enhanced contrast for icons in high contrast mode */
-  .module-card__icon {
-    @apply text-gray-900 dark:text-white;
+  .module-card__type {
+    font-weight: 600;
+  }
+  
+  .module-card__level {
+    font-weight: 700;
+    background-color: rgba(255, 255, 255, 0.3);
   }
 }
 
-
-
-/* Reduced Motion */
+/* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
-  .module-card {
-    @apply transition-none transform-none;
+  .module-card,
+  .module-card__icon svg,
+  .module-card__title,
+  .module-card__type,
+  .module-card__level {
+    transition: none;
   }
   
   .module-card:hover {
-    @apply transform-none;
+    transform: none;
   }
   
   .module-card:active {
-    @apply transform-none;
+    transform: none;
+  }
+  
+  .module-card:hover .module-card__icon svg {
+    transform: none;
+  }
+}
+
+/* Dark Mode Specific Adjustments */
+@media (prefers-color-scheme: dark) {
+  .module-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  }
+  
+  .module-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
   }
 }

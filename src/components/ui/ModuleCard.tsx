@@ -28,11 +28,11 @@ const getLearningModeLabel = (learningMode: string): string => {
   const labels: Record<string, string> = {
     flashcard: 'Flashcards',
     quiz: 'Quiz',
-    completion: 'Fill in the blanks',
-    sorting: 'Sorting exercise',
-    matching: 'Matching exercise'
+    completion: 'Complete',
+    sorting: 'Sort',
+    matching: 'Match'
   };
-  return labels[learningMode] || 'Learning exercise';
+  return labels[learningMode] || 'Exercise';
 };
 
 export const ModuleCard: React.FC<ModuleCardProps> = ({ 
@@ -68,17 +68,19 @@ export const ModuleCard: React.FC<ModuleCardProps> = ({
       aria-label={`${module.name} - ${learningModeLabel} - Difficulty level ${difficultyLevel}`}
       title={`Start ${learningModeLabel.toLowerCase()}: ${module.name} (Level: ${difficultyLevel})`}
     >
-      <div className="module-card__icon" aria-hidden="true">
-        {getIcon(module.learningMode)}
-      </div>
-      <h3 className="module-card__title">
-        {module.name}
-      </h3>
-      <div 
-        className="module-card__meta" 
-        aria-label={`Difficulty level: ${difficultyLevel}`}
-      >
-        {difficultyLevel}
+      <div className="module-card__content">
+        <div className="module-card__icon" aria-hidden="true">
+          {getIcon(module.learningMode)}
+        </div>
+        <h3 className="module-card__title">
+          {module.name}
+        </h3>
+        <div className="module-card__type" aria-label={`Exercise type: ${learningModeLabel}`}>
+          {learningModeLabel}
+        </div>
+        <div className="module-card__level" aria-label={`Difficulty level: ${difficultyLevel}`}>
+          {difficultyLevel}
+        </div>
       </div>
     </button>
   );
