@@ -14,7 +14,7 @@
   --card-height-desktop: 115px;
 }
 
-/* Card Container - Safari Table Display */
+/* Card Container - Flexbox Default */
 .module-card {
   position: relative;
   border-radius: var(--card-border-radius);
@@ -24,7 +24,8 @@
   border: 2px solid transparent;
   width: var(--card-width-mobile);
   height: var(--card-height-mobile);
-  display: table;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -43,22 +44,25 @@
   box-shadow: var(--card-shadow-hover), 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-/* Card Content - Safari Table-Cell Centering */
+/* Card Content - Flexbox Centering */
 .module-card__content {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100%;
-  width: 100%;
   padding: 0.5rem;
-  position: relative;
+  text-align: center;
+  gap: 0.125rem;
 }
 
-/* Icon Section - Block Centering */
+/* Icon Section - Flexbox Centering */
 .module-card__icon {
-  display: block;
-  text-align: center;
-  margin: 0 auto 0.125rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.125rem;
+  flex-shrink: 0;
 }
 
 .module-card__icon svg {
@@ -77,19 +81,20 @@
   transform: scale(1.1);
 }
 
-/* Typography Elements - Block Display */
+/* Typography Elements - Flexbox Compatible */
 .module-card__title {
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.1;
   color: rgba(255, 255, 255, 0.98);
-  margin: 0 auto 0.125rem auto;
-  display: block;
-  white-space: nowrap;
+  margin-bottom: 0.0625rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
-  width: 100%;
+  flex-shrink: 1;
   transition: color 0.2s ease-in-out;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -102,9 +107,8 @@
   color: rgba(255, 255, 255, 0.85);
   text-transform: uppercase;
   letter-spacing: 0.025em;
-  margin: 0 auto 0.125rem auto;
-  width: 100%;
-  display: block;
+  margin-bottom: 0.0625rem;
+  flex-shrink: 0;
   transition: color 0.2s ease-in-out;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
@@ -118,12 +122,8 @@
   background-color: rgba(255, 255, 255, 0.15);
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
-  margin: 0 auto;
-  display: inline-block;
-  -webkit-flex-shrink: 0;
   flex-shrink: 0;
   transition: all 0.2s ease-in-out;
-  text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
@@ -373,36 +373,47 @@
   }
 }
 
-/* Safari-Specific Fixes - Table-Cell Approach */
-@supports (-webkit-appearance: none) {
-  .module-card {
-    /* Force table display for Safari */
-    display: table !important;
-  }
-  
+/* Safari-Specific Fixes - Multiple Detection Methods */
+@supports (-webkit-appearance: none) and (not (overflow: -webkit-marquee)) and (not (-ms-ime-align: auto)) {
   .module-card__content {
-    /* Table-cell centering works perfectly in Safari */
-    display: table-cell !important;
-    vertical-align: middle !important;
-    text-align: center !important;
+    /* Safari flexbox enhancement */
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -webkit-flex-direction: column !important;
+    -webkit-box-align: center !important;
+    -webkit-align-items: center !important;
+    -webkit-box-pack: center !important;
+    -webkit-justify-content: center !important;
+    gap: 0 !important;
   }
   
-  .module-card__icon,
-  .module-card__title,
-  .module-card__type,
-  .module-card__level {
-    /* Block elements with text centering */
-    display: block !important;
-    text-align: center !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+  .module-card__icon {
+    margin-bottom: 0.125rem !important;
   }
   
-  .module-card__title,
+  .module-card__title {
+    margin-bottom: 0.125rem !important;
+    width: 100% !important;
+  }
+  
   .module-card__type {
-    /* Safari text rendering optimization */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    margin-bottom: 0.125rem !important;
+    width: 100% !important;
+  }
+  
+  .module-card__level {
+    margin: 0 auto !important;
+    display: inline-block !important;
+  }
+}
+
+/* Alternative Safari Detection */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  _::-webkit-full-page-media, _:future, :root .module-card__content {
+    -webkit-transform: translateZ(0) !important;
+    transform: translateZ(0) !important;
   }
 }
 
@@ -423,5 +434,40 @@
   
   .module-card:hover {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+}/* 
+Safari CSS Hack - BEM-Like Browser Targeting */
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) {
+  @media {
+    .module-card__content {
+      /* Force Safari to use proper flexbox */
+      display: -webkit-box !important;
+      -webkit-box-orient: vertical !important;
+      -webkit-box-pack: center !important;
+      -webkit-box-align: center !important;
+    }
+    
+    .module-card__icon,
+    .module-card__title,
+    .module-card__type {
+      /* Safari element spacing */
+      margin-bottom: 0.125rem !important;
+    }
+    
+    .module-card__level {
+      /* Safari badge centering */
+      margin: 0 auto !important;
+      text-align: center !important;
+    }
+  }
+}
+
+/* Safari 14+ Specific Fix */
+@supports (background: -webkit-named-image(i)) {
+  .module-card__content {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: normal !important;
+    -webkit-box-align: center !important;
+    -webkit-box-pack: center !important;
   }
 }
