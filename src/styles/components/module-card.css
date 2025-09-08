@@ -517,3 +517,43 @@ Safari CSS Hack - BEM-Like Browser Targeting */
 .safari .module-card__content > *:last-child {
   margin-bottom: 0 !important;
 }
+
+/* Safari Debug Fix - Visible indicators */
+html.safari .module-card {
+  display: table !important;
+  border: 3px solid red !important; /* Debug: should see red border */
+}
+
+html.safari .module-card__content {
+  display: table-cell !important;
+  vertical-align: middle !important;
+  text-align: center !important;
+  padding: 0.5rem !important;
+  background: rgba(255,0,0,0.2) !important; /* Debug: should see red background */
+}
+
+html.safari .module-card__icon {
+  display: block !important;
+  margin: 0 auto 0.125rem auto !important;
+  text-align: center !important;
+}
+
+html.safari .module-card__title {
+  display: block !important;
+  margin: 0 auto 0.125rem auto !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+html.safari .module-card__type {
+  display: block !important;
+  margin: 0 auto 0.125rem auto !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+html.safari .module-card__level {
+  display: inline-block !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
