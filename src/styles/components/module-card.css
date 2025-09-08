@@ -83,8 +83,8 @@
 
 /* Typography Elements - BEM-Like Structure */
 .module-card__title {
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 700;
   line-height: 1.1;
   color: rgba(255, 255, 255, 0.95);
   margin-bottom: 0.125rem;
@@ -100,8 +100,8 @@
 }
 
 .module-card__type {
-  font-size: 0.6875rem;
-  font-weight: 500;
+  font-size: 0.75rem;
+  font-weight: 600;
   line-height: 1;
   color: rgba(255, 255, 255, 0.85);
   text-transform: uppercase;
@@ -112,8 +112,8 @@
 }
 
 .module-card__level {
-  font-size: 0.625rem;
-  font-weight: 600;
+  font-size: 0.6875rem;
+  font-weight: 700;
   line-height: 1;
   color: rgba(255, 255, 255, 0.8);
   background-color: rgba(255, 255, 255, 0.15);
@@ -228,8 +228,8 @@
 
 /* Removed obsolete styles - now using structured BEM-Like approach */
 
-/* Responsive Design - BEM-Like Approach */
-@media (min-width: 640px) {
+/* Responsive Design - BEM-Like Approach with updated breakpoints */
+@media (min-width: 520px) {
   .module-card {
     width: var(--card-width-tablet);
     height: var(--card-height-tablet);
@@ -246,21 +246,24 @@
   }
   
   .module-card__title {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     line-height: 1.2;
+    font-weight: 700;
   }
   
   .module-card__type {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
   }
   
   .module-card__level {
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     padding: 0.125rem 0.375rem;
+    font-weight: 700;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) {
   .module-card {
     width: var(--card-width-desktop);
     height: var(--card-height-desktop);

@@ -42,39 +42,39 @@
   max-width: 100% !important;
 }
 
-/* Override with specific columns for better control */
-@media (max-width: 259px) {
+/* Override with specific columns for better control - Recalculated breakpoints */
+@media (max-width: 199px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(1, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 260px) and (max-width: 349px) {
+@media (min-width: 200px) and (max-width: 319px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 350px) and (max-width: 639px) {
+@media (min-width: 320px) and (max-width: 519px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 640px) and (max-width: 1023px) {
+@media (min-width: 520px) and (max-width: 799px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(5, minmax(145px, 1fr)) !important;
   }
 }
 
-/* Optimización para modo web - contenedor dinámico */
-@media (min-width: 640px) {
+/* Optimización para modo web - contenedor dinámico con nuevos breakpoints */
+@media (min-width: 520px) {
   .main-menu__grid {
     padding: 1.25rem;
     max-width: min(95vw, 650px); /* 4 cols × 130px + 3 gaps × 16px + 2 × 20px padding = 608px */
@@ -85,7 +85,7 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 800px) {
   .main-menu__grid {
     padding: 1.5rem;
     max-width: min(95vw, 875px); /* 5 cols × 145px + 4 gaps × 20px + 2 × 24px padding = 853px */
@@ -131,8 +131,8 @@
   @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
+/* Responsive - Updated breakpoints */
+@media (max-width: 519px) {
   .main-menu {
     @apply mx-2 my-2 pt-3 pb-4 px-4;
   }
@@ -145,7 +145,6 @@
     overflow-y: auto;
     max-height: 350px;
     padding: 0.875rem;
-    max-width: min(95vw, 350px); /* 3 cols × 100px + 2 gaps × 10px + 2 × 14px padding = 348px */
   }
   
   .main-menu__grid-container {
@@ -153,26 +152,25 @@
   }
 }
 
-@media (min-width: 641px) {
+@media (min-width: 520px) {
   .main-menu__grid {
     @apply overflow-y-auto;
     max-height: 480px;
   }
 }
 
-/* Ajuste específico para 2-3 columnas que se ven cortadas */
-/* Ajustes específicos por número de columnas */
-@media (min-width: 260px) and (max-width: 349px) {
+/* Ajustes específicos por número de columnas con nuevos breakpoints */
+@media (min-width: 200px) and (max-width: 319px) {
   .main-menu__grid {
     max-height: 360px;
-    max-width: min(95vw, 240px); /* 2 cols × 100px + 1 gap × 10px + 2 × 14px padding = 238px */
+    max-width: min(95vw, 250px); /* 2 cols × 100px + 1 gap × 10px + 2 × 14px padding = 238px */
   }
 }
 
-@media (min-width: 350px) and (max-width: 639px) {
+@media (min-width: 320px) and (max-width: 519px) {
   .main-menu__grid {
     max-height: 360px;
-    max-width: min(95vw, 350px); /* 3 cols × 100px + 2 gaps × 10px + 2 × 14px padding = 348px */
+    max-width: min(95vw, 360px); /* 3 cols × 100px + 2 gaps × 10px + 2 × 14px padding = 348px */
   }
 }
 
