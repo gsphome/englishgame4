@@ -484,3 +484,36 @@ Safari CSS Hack - BEM-Like Browser Targeting */
     -webkit-box-pack: center !important;
   }
 }
+/* Safari
+-Only Fix - Applied via JavaScript Detection */
+.safari .module-card {
+  display: table;
+}
+
+.safari .module-card__content {
+  display: table-cell !important;
+  vertical-align: middle !important;
+  text-align: center !important;
+  padding: 0.5rem !important;
+}
+
+.safari .module-card__icon,
+.safari .module-card__title,
+.safari .module-card__type {
+  display: block !important;
+  margin: 0 auto 0.125rem auto !important;
+  text-align: center !important;
+}
+
+.safari .module-card__level {
+  display: inline-block !important;
+  margin: 0 auto !important;
+}
+
+.safari .module-card__content > * {
+  margin-bottom: 0.125rem !important;
+}
+
+.safari .module-card__content > *:last-child {
+  margin-bottom: 0 !important;
+}

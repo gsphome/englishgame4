@@ -16,6 +16,15 @@
 
 <body>
     <div id="root"></div>
+    
+    <!-- Safari Detection Script -->
+    <script>
+        // Detect Safari and add class to body
+        if (/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+            document.documentElement.classList.add('safari');
+        }
+    </script>
+    
     <script type="module" src="/src/main.tsx"></script>
 </body>
 
