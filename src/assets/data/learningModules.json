@@ -1,7 +1,7 @@
 [
     {
         "id": "flashcard-ielts-home-daily-life",
-        "name": "Flashcard: Home",
+        "name": "Home & Daily Life",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-home-daily-life.json",
         "level": [
@@ -12,7 +12,7 @@
     },
     {
         "id": "flashcard-ielts-problem-solving",
-        "name": "Flashcard: Problems",
+        "name": "Problem Solving",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-problem-solving.json",
         "level": [
@@ -23,7 +23,7 @@
     },
     {
         "id": "flashcard-ielts-clothing-appearance",
-        "name": "Flashcard: Phrasal Verbs",
+        "name": "Clothing & Appearance",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-clothing-appearance.json",
         "level": [
@@ -34,7 +34,7 @@
     },
     {
         "id": "quiz-idioms-emotions-feelings",
-        "name": "Flashcard: Idioms Emotions",
+        "name": "Emotions & Feelings",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-emotions-feelings.json",
         "level": [
@@ -44,7 +44,7 @@
     },
     {
         "id": "quiz-idioms-success-failure",
-        "name": "Flashcard: Idioms Success",
+        "name": "Success & Failure",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-success-failure.json",
         "level": [
@@ -54,7 +54,7 @@
     },
     {
         "id": "quiz-idioms-time",
-        "name": "Flashcard: Idioms Time",
+        "name": "Time Expressions",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-time.json",
         "level": [
@@ -64,7 +64,7 @@
     },
     {
         "id": "quiz-idioms-nature-animals",
-        "name": "Flashcard: Idioms Nature",
+        "name": "Nature & Animals",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-nature-animals.json",
         "level": [
@@ -74,7 +74,7 @@
     },
     {
         "id": "flashcard-ielts-general",
-        "name": "Flashcard: General",
+        "name": "General Vocabulary",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-general.json",
         "level": [
@@ -85,7 +85,7 @@
     },
     {
         "id": "flashcard-ielts-environment",
-        "name": "Flashcard: Environment",
+        "name": "Environment",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-environment.json",
         "level": [
@@ -96,7 +96,7 @@
     },
     {
         "id": "flashcard-ielts-technology",
-        "name": "Flashcard: Technology",
+        "name": "Technology",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-technology.json",
         "level": [
@@ -107,7 +107,7 @@
     },
     {
         "id": "flashcard-ielts-business",
-        "name": "Flashcard: Business",
+        "name": "Business",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-business.json",
         "level": [
@@ -128,7 +128,7 @@
     },
     {
         "id": "quiz-idioms-everyday-situations",
-        "name": "Quiz: Idioms Situations",
+        "name": "Everyday Situations",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-idioms-everyday-situations.json",
         "level": [
@@ -138,7 +138,7 @@
     },
     {
         "id": "quiz-advanced-grammar-conditionals",
-        "name": "Quiz: Grammar Conditionals",
+        "name": "Advanced Conditionals",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-conditionals.json",
         "level": [
@@ -148,7 +148,7 @@
     },
     {
         "id": "quiz-advanced-grammar-participles",
-        "name": "Quiz: Grammar Participles",
+        "name": "Grammar Participles",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-participles.json",
         "level": [
@@ -158,7 +158,7 @@
     },
     {
         "id": "quiz-advanced-grammar-subjunctive",
-        "name": "Quiz: Grammar Subjunctive",
+        "name": "Grammar Subjunctive",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-subjunctive.json",
         "level": [
