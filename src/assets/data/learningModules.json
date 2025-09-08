@@ -1,7 +1,7 @@
 [
     {
         "id": "flashcard-ielts-home-daily-life",
-        "name": "Home & Daily Life",
+        "name": "Home & Daily",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-home-daily-life.json",
         "level": [
@@ -23,7 +23,7 @@
     },
     {
         "id": "flashcard-ielts-clothing-appearance",
-        "name": "Clothing & Appearance",
+        "name": "Clothing & Style",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-clothing-appearance.json",
         "level": [
@@ -34,7 +34,7 @@
     },
     {
         "id": "quiz-idioms-emotions-feelings",
-        "name": "Emotions & Feelings",
+        "name": "Emotions",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-emotions-feelings.json",
         "level": [
@@ -54,7 +54,7 @@
     },
     {
         "id": "quiz-idioms-time",
-        "name": "Time Expressions",
+        "name": "Time Idioms",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/quiz-idioms-time.json",
         "level": [
@@ -74,7 +74,7 @@
     },
     {
         "id": "flashcard-ielts-general",
-        "name": "General Vocabulary",
+        "name": "General Vocab",
         "learningMode": "flashcard",
         "dataPath": "src/assets/data/flashcard-ielts-general.json",
         "level": [
@@ -128,7 +128,7 @@
     },
     {
         "id": "quiz-idioms-everyday-situations",
-        "name": "Everyday Situations",
+        "name": "Daily Situations",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-idioms-everyday-situations.json",
         "level": [
@@ -138,7 +138,7 @@
     },
     {
         "id": "quiz-advanced-grammar-conditionals",
-        "name": "Advanced Conditionals",
+        "name": "Adv. Conditionals",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-conditionals.json",
         "level": [
@@ -148,7 +148,7 @@
     },
     {
         "id": "quiz-advanced-grammar-participles",
-        "name": "Grammar Participles",
+        "name": "Participles",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-participles.json",
         "level": [
@@ -158,7 +158,7 @@
     },
     {
         "id": "quiz-advanced-grammar-subjunctive",
-        "name": "Grammar Subjunctive",
+        "name": "Subjunctive",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-subjunctive.json",
         "level": [
@@ -168,7 +168,7 @@
     },
     {
         "id": "quiz-advanced-grammar-inversions",
-        "name": "Grammar Inversions",
+        "name": "Inversions",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-inversions.json",
         "level": [
@@ -188,7 +188,7 @@
     },
     {
         "id": "quiz-formal-vocabulary-nuance-c2",
-        "name": "Formal Vocab & Nuance",
+        "name": "Formal & Nuance",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-formal-vocabulary-nuance-c2.json",
         "level": [
@@ -198,7 +198,7 @@
     },
     {
         "id": "quiz-advanced-grammatical-structures-c2",
-        "name": "Adv. Grammar Structures",
+        "name": "Adv. Structures",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammatical-structures-c2.json",
         "level": [
@@ -208,7 +208,7 @@
     },
     {
         "id": "completion-phrasal-verbs",
-        "name": "Completion: Phrasal Verbs",
+        "name": "Phrasal Verbs",
         "learningMode": "completion",
         "dataPath": "src/assets/data/completion-phrasal-verbs.json",
         "level": [
@@ -218,7 +218,7 @@
     },
     {
         "id": "completion-used-to",
-        "name": "Grammar UsedTo",
+        "name": "Used To",
         "learningMode": "completion",
         "dataPath": "src/assets/data/completion-used-to.json",
         "level": [
@@ -228,7 +228,7 @@
     },
     {
         "id": "completion-advanced-phrasal-verbs-c2",
-        "name": "Advanced Phrasal Verbs",
+        "name": "Adv. Phrasal Verbs",
         "learningMode": "completion",
         "dataPath": "src/assets/data/completion-advanced-phrasal-verbs-c2.json",
         "level": [
@@ -238,7 +238,7 @@
     },
     {
         "id": "completion-complex-prepositions-conjunctions-c2",
-        "name": "Complex Prepositions",
+        "name": "Complex Prep.",
         "learningMode": "completion",
         "dataPath": "src/assets/data/completion-complex-prepositions-conjunctions-c2.json",
         "level": [
@@ -258,7 +258,7 @@
     },
     {
         "id": "sorting-nuance-vocabulary-c2",
-        "name": "Nuance in Vocab",
+        "name": "Vocab Nuance",
         "learningMode": "sorting",
         "dataPath": "src/assets/data/sorting-nuance-vocabulary-c2.json",
         "level": [
