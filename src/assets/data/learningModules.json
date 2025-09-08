@@ -1,0 +1,279 @@
+[
+    {
+        "id": "flashcard-ielts-home-daily-life",
+        "name": "Home & Daily",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-home-daily-life.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-ielts-problem-solving",
+        "name": "Problem Solving",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-problem-solving.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-ielts-clothing-appearance",
+        "name": "Clothing & Style",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-clothing-appearance.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "PhrasalVerbs"
+    },
+    {
+        "id": "quiz-idioms-emotions-feelings",
+        "name": "Emotions",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/quiz-idioms-emotions-feelings.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Idioms"
+    },
+    {
+        "id": "quiz-idioms-success-failure",
+        "name": "Success & Failure",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/quiz-idioms-success-failure.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Idioms"
+    },
+    {
+        "id": "quiz-idioms-time",
+        "name": "Time Idioms",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/quiz-idioms-time.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Idioms"
+    },
+    {
+        "id": "quiz-idioms-nature-animals",
+        "name": "Nature & Animals",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/quiz-idioms-nature-animals.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Idioms"
+    },
+    {
+        "id": "flashcard-ielts-general",
+        "name": "General Vocab",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-general.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-ielts-environment",
+        "name": "Environment",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-environment.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-ielts-technology",
+        "name": "Technology",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-technology.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-ielts-business",
+        "name": "Business",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-ielts-business.json",
+        "level": [
+            "b2",
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "flashcard-academic-c1",
+        "name": "Academic",
+        "learningMode": "flashcard",
+        "dataPath": "src/assets/data/flashcard-academic-c1.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "quiz-idioms-everyday-situations",
+        "name": "Situations",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-idioms-everyday-situations.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Idioms"
+    },
+    {
+        "id": "quiz-advanced-grammar-conditionals",
+        "name": "Conditionals",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-grammar-conditionals.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "quiz-advanced-grammar-participles",
+        "name": "Participles",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-grammar-participles.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "quiz-advanced-grammar-subjunctive",
+        "name": "Subjunctive",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-grammar-subjunctive.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "quiz-advanced-grammar-inversions",
+        "name": "Grammar Inversions",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-grammar-inversions.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "quiz-advanced-collocations-idioms-c2",
+        "name": "Adv. Collocations",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-collocations-idioms-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "quiz-formal-vocabulary-nuance-c2",
+        "name": "Formal & Nuance",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-formal-vocabulary-nuance-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "quiz-advanced-grammatical-structures-c2",
+        "name": "Structures",
+        "learningMode": "quiz",
+        "dataPath": "src/assets/data/quiz-advanced-grammatical-structures-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "completion-phrasal-verbs",
+        "name": "Phrasal Verbs",
+        "learningMode": "completion",
+        "dataPath": "src/assets/data/completion-phrasal-verbs.json",
+        "level": [
+            "b2"
+        ],
+        "category": "PhrasalVerbs"
+    },
+    {
+        "id": "completion-used-to",
+        "name": "Grammar UsedTo",
+        "learningMode": "completion",
+        "dataPath": "src/assets/data/completion-used-to.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "completion-advanced-phrasal-verbs-c2",
+        "name": "Phrasal Verbs+",
+        "learningMode": "completion",
+        "dataPath": "src/assets/data/completion-advanced-phrasal-verbs-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "PhrasalVerbs"
+    },
+    {
+        "id": "completion-complex-prepositions-conjunctions-c2",
+        "name": "Complex Prep.",
+        "learningMode": "completion",
+        "dataPath": "src/assets/data/completion-complex-prepositions-conjunctions-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "sorting-connector-words",
+        "name": "Connector Words",
+        "learningMode": "sorting",
+        "dataPath": "src/assets/data/sorting-connector-words.json",
+        "level": [
+            "b2"
+        ],
+        "category": "Grammar"
+    },
+    {
+        "id": "sorting-nuance-vocabulary-c2",
+        "name": "Vocab Nuance",
+        "learningMode": "sorting",
+        "dataPath": "src/assets/data/sorting-nuance-vocabulary-c2.json",
+        "level": [
+            "c2"
+        ],
+        "category": "Vocabulary"
+    },
+    {
+        "id": "matching-vocabulary-c1",
+        "name": "Vocabulary",
+        "learningMode": "matching",
+        "dataPath": "src/assets/data/matching-sample.json",
+        "level": [
+            "c1"
+        ],
+        "category": "Vocabulary"
+    }
+]

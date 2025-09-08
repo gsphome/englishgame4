@@ -1,0 +1,27 @@
+{
+  "defaultLanguage": "en",
+  "level": "all",
+  "learningSettings": {
+    "matchingMode": {
+      "wordCount": 3
+    },
+    "sortingMode": {
+      "wordCount": 3
+    },
+    "flashcardMode": {
+      "wordCount": 4
+    },
+    "quizMode": {
+      "questionCount": 4
+    },
+    "completionMode": {
+      "itemCount": 4
+    },
+    "categories": [
+      "Vocabulary",
+      "Grammar",
+      "PhrasalVerbs",
+      "Idioms"
+    ]
+  }
+}
