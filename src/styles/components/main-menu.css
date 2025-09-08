@@ -26,58 +26,64 @@
   @apply max-w-sm mx-auto mb-4;
 }
 
-/* Grid Container - Enhanced with Better Spacing */
+/* Grid Container - UX-First Approach: No Horizontal Scroll */
 .main-menu__grid {
   @apply bg-gray-50 rounded-xl border-2 border-gray-200 mx-auto;
-  padding: 1rem;
-  width: fit-content;
-  max-width: 95vw;
+  padding: 0.875rem;
+  width: 100%;
+  max-width: 100%;
 }
 
 .main-menu__grid-container {
   display: grid !important;
   place-items: center !important;
-  gap: 0.75rem !important;
-  grid-template-columns: repeat(3, minmax(100px, 1fr)) !important; /* Default: 3 columns */
+  gap: 0.625rem !important;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
   max-width: 100% !important;
+  width: 100% !important;
 }
 
-/* Override with specific columns for better control - Recalculated breakpoints */
-@media (max-width: 199px) {
+/* UX-First Breakpoints: Based on Available Container Space */
+/* Mobile: 12px main padding + 14px grid padding = 52px total overhead */
+@media (max-width: 279px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(1, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 200px) and (max-width: 319px) {
+/* 2 cols: 2×100px + 1×10px gap + 52px overhead = 262px minimum */
+@media (min-width: 280px) and (max-width: 399px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 320px) and (max-width: 519px) {
+/* 3 cols: 3×100px + 2×10px gap + 52px overhead = 372px minimum */
+@media (min-width: 400px) and (max-width: 639px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
 }
 
-@media (min-width: 520px) and (max-width: 799px) {
+/* Tablet: 24px main padding + 20px grid padding = 88px total overhead */
+/* 4 cols: 4×130px + 3×16px gap + 88px overhead = 656px minimum */
+@media (min-width: 640px) and (max-width: 899px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
   }
 }
 
-@media (min-width: 800px) {
+/* Desktop: 5 cols: 5×145px + 4×20px gap + 88px overhead = 893px minimum */
+@media (min-width: 900px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(5, minmax(145px, 1fr)) !important;
   }
 }
 
-/* Optimización para modo web - contenedor dinámico con nuevos breakpoints */
-@media (min-width: 520px) {
+/* Progressive Enhancement: Larger Screens Get More Space */
+@media (min-width: 640px) {
   .main-menu__grid {
     padding: 1.25rem;
-    max-width: min(95vw, 650px); /* 4 cols × 130px + 3 gaps × 16px + 2 × 20px padding = 608px */
   }
   
   .main-menu__grid-container {
@@ -85,10 +91,9 @@
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 900px) {
   .main-menu__grid {
     padding: 1.5rem;
-    max-width: min(95vw, 875px); /* 5 cols × 145px + 4 gaps × 20px + 2 × 24px padding = 853px */
   }
   
   .main-menu__grid-container {
@@ -131,10 +136,10 @@
   @apply bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200;
 }
 
-/* Responsive - Updated breakpoints */
-@media (max-width: 519px) {
+/* Mobile-First Responsive Design */
+@media (max-width: 639px) {
   .main-menu {
-    @apply mx-2 my-2 pt-3 pb-4 px-4;
+    @apply mx-2 my-2 pt-3 pb-4 px-3;
   }
   
   .main-menu__search {
@@ -152,25 +157,14 @@
   }
 }
 
-@media (min-width: 520px) {
+@media (min-width: 640px) {
+  .main-menu {
+    @apply px-6;
+  }
+  
   .main-menu__grid {
     @apply overflow-y-auto;
     max-height: 480px;
-  }
-}
-
-/* Ajustes específicos por número de columnas con nuevos breakpoints */
-@media (min-width: 200px) and (max-width: 319px) {
-  .main-menu__grid {
-    max-height: 360px;
-    max-width: min(95vw, 250px); /* 2 cols × 100px + 1 gap × 10px + 2 × 14px padding = 238px */
-  }
-}
-
-@media (min-width: 320px) and (max-width: 519px) {
-  .main-menu__grid {
-    max-height: 360px;
-    max-width: min(95vw, 360px); /* 3 cols × 100px + 2 gaps × 10px + 2 × 14px padding = 348px */
   }
 }
 
