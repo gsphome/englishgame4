@@ -336,29 +336,7 @@ const MatchingComponent: React.FC<MatchingComponentProps> = ({ module }) => {
           </div>
         </div>
 
-        {/* Progress Indicator */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 rounded-full">
-            <div className="flex space-x-1">
-              {Array.from({ length: pairs.length }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-2 h-2 rounded-full transition-colors ${
-                    i < Object.keys(matches).length
-                      ? 'bg-pink-500'
-                      : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-              {showResult 
-                ? `${pairs.filter((pair: { left: string; right: string }) => matches[pair.left] === pair.right).length}/${pairs.length} correct`
-                : `${Object.keys(matches).length}/${pairs.length}`
-              }
-            </span>
-          </div>
-        </div>
+
       </div>
 
       {/* Unified Control Bar */}
