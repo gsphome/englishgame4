@@ -82,30 +82,30 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose }) => {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-40">
-        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-7xl w-full max-h-[95vh] overflow-y-auto">
+      <div className="dashboard-modal-overlay">
+        <div className="dashboard-modal-container">
           <div className="p-6 sm:p-8">
-            {/* Header with Title and Action Buttons */}
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {/* Enhanced Header with Better Contrast */}
+            <div className="dashboard-header">
+              <h2 className="dashboard-title" id="dashboard-title">
                 {t('dashboard.learningDashboard')}
               </h2>
-              <div className="flex gap-2">
+              <div className="dashboard-action-buttons">
                 <button
                   onClick={() => setShowHelpModal(true)}
-                  className="w-10 h-10 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 border border-blue-200 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                  className="dashboard-help-button"
                   title={t('dashboard.helpButton')}
                   aria-label="Help"
                 >
-                  <HelpCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-200" />
+                  <HelpCircle className="dashboard-help-icon" />
                 </button>
                 <button
                   onClick={onClose}
-                  className="w-10 h-10 bg-white hover:bg-red-50 dark:bg-gray-800 dark:hover:bg-red-900/20 border border-gray-200 hover:border-red-200 dark:border-gray-700 dark:hover:border-red-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                  className="dashboard-close-button"
                   title="Close Dashboard"
                   aria-label="Close dashboard"
                 >
-                  <X className="h-5 w-5 text-gray-400 group-hover:text-red-500 transition-colors duration-200" />
+                  <X className="dashboard-close-icon" />
                 </button>
               </div>
             </div>
@@ -145,33 +145,30 @@ export const Dashboard: React.FC<DashboardProps> = ({ onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-40">
-      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-7xl w-full max-h-[98vh] overflow-y-auto">
+    <div className="dashboard-modal-overlay">
+      <div className="dashboard-modal-container">
         <div className="p-4 sm:p-6">
-          {/* Header with Title and Action Buttons */}
-          <div className="flex items-center justify-between mb-6">
-            <h2
-              className="text-3xl font-bold text-gray-900 dark:text-white"
-              id="dashboard-title"
-            >
+          {/* Enhanced Header with Better Contrast */}
+          <div className="dashboard-header">
+            <h2 className="dashboard-title" id="dashboard-title">
               {t('dashboard.learningDashboard')}
             </h2>
-            <div className="flex gap-2">
+            <div className="dashboard-action-buttons">
               <button
                 onClick={() => setShowHelpModal(true)}
-                className="w-10 h-10 bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/20 dark:hover:bg-blue-900/30 border border-blue-200 dark:border-blue-800 hover:border-blue-300 dark:hover:border-blue-700 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                className="dashboard-help-button"
                 title={t('dashboard.helpButton')}
                 aria-label="Help"
               >
-                <HelpCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-colors duration-200" />
+                <HelpCircle className="dashboard-help-icon" />
               </button>
               <button
                 onClick={onClose}
-                className="w-10 h-10 bg-white hover:bg-red-50 dark:bg-gray-800 dark:hover:bg-red-900/20 border border-gray-200 hover:border-red-200 dark:border-gray-700 dark:hover:border-red-800 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+                className="dashboard-close-button"
                 title="Close Dashboard"
                 aria-label="Close dashboard"
               >
-                <X className="h-5 w-5 text-gray-400 group-hover:text-red-500 transition-colors duration-200" />
+                <X className="dashboard-close-icon" />
               </button>
             </div>
           </div>
