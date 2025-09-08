@@ -35,44 +35,45 @@
 }
 
 .main-menu__grid-container {
-  @apply grid place-items-center;
+  display: grid;
+  place-items: center;
   gap: 0.75rem;
+  grid-template-columns: repeat(3, minmax(100px, 1fr)); /* Default: 3 columns */
 }
 
-/* Responsive Grid System - Auto-fit approach */
+/* Responsive Grid System - Fixed columns approach */
 .main-menu__grid-container {
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   max-width: 100%;
 }
 
 /* Override with specific columns for better control */
 @media (max-width: 259px) {
   .main-menu__grid-container {
-    grid-template-columns: repeat(1, minmax(100px, 1fr));
+    grid-template-columns: repeat(1, minmax(100px, 1fr)) !important;
   }
 }
 
 @media (min-width: 260px) and (max-width: 349px) {
   .main-menu__grid-container {
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    grid-template-columns: repeat(2, minmax(100px, 1fr)) !important;
   }
 }
 
 @media (min-width: 350px) and (max-width: 639px) {
   .main-menu__grid-container {
-    grid-template-columns: repeat(3, minmax(100px, 1fr));
+    grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
 }
 
 @media (min-width: 640px) and (max-width: 1023px) {
   .main-menu__grid-container {
-    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
   }
 }
 
 @media (min-width: 1024px) {
   .main-menu__grid-container {
-    grid-template-columns: repeat(5, minmax(140px, 1fr));
+    grid-template-columns: repeat(5, minmax(140px, 1fr)) !important;
   }
 }
 
