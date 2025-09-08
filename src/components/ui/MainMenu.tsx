@@ -33,7 +33,7 @@ export const MainMenu: React.FC = () => {
 
   const handleModuleClick = (module: any) => {
     // Save scroll position before changing view
-    const gridElement = document.querySelector('.menu__grid');
+    const gridElement = document.querySelector('.main-menu__grid');
     if (gridElement) {
       sessionStorage.setItem('menuGridScrollPosition', gridElement.scrollTop.toString());
     }
@@ -55,8 +55,8 @@ export const MainMenu: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="menu">
-        <div className="menu__search">
+      <div className="main-menu">
+        <div className="main-menu__search">
           <SearchBar 
             query=""
             onQueryChange={() => {}}
@@ -71,15 +71,15 @@ export const MainMenu: React.FC = () => {
 
   if (error) {
     return (
-      <div className="menu">
-        <div className="error" role="alert">
-          <p className="error__message">Error loading modules</p>
-          <p className="error__details">
+      <div className="main-menu">
+        <div className="main-menu__error" role="alert">
+          <p className="main-menu__error-text">Error loading modules</p>
+          <p className="main-menu__error-text">
             {error instanceof Error ? error.message : 'An unexpected error occurred'}
           </p>
           <button 
             onClick={() => window.location.reload()}
-            className="btn btn--primary"
+            className="main-menu__error-btn"
             aria-label="Retry loading modules"
           >
             Try Again
@@ -90,8 +90,8 @@ export const MainMenu: React.FC = () => {
   }
 
   return (
-    <div className="menu">
-      <div className="menu__search">
+    <div className="main-menu">
+      <div className="main-menu__search">
         <SearchBar 
           query={query}
           onQueryChange={setQuery}
@@ -100,8 +100,8 @@ export const MainMenu: React.FC = () => {
       </div>
 
       {results.length === 0 && query ? (
-        <div className="menu__no-results" role="status" aria-live="polite">
-          <p className="menu__no-results-text">
+        <div className="main-menu__no-results" role="status" aria-live="polite">
+          <p className="main-menu__no-results-text">
             No modules found for "<strong>{query}</strong>"
           </p>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -109,9 +109,9 @@ export const MainMenu: React.FC = () => {
           </p>
         </div>
       ) : (
-        <div className="menu__grid">
+        <div className="main-menu__grid">
           <div 
-            className="menu__grid-container"
+            className="main-menu__grid-container"
             role="grid"
             aria-label={`${results.length} learning modules available`}
           >
@@ -132,7 +132,7 @@ export const MainMenu: React.FC = () => {
 
       {query && results.length > 0 && (
         <div 
-          className="menu__results-count"
+          className="main-menu__results-count"
           role="status"
           aria-live="polite"
         >

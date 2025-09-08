@@ -68,7 +68,7 @@ const AppContent: React.FC = () => {
       if (savedScroll) {
         const scrollPos = parseInt(savedScroll, 10);
         requestAnimationFrame(() => {
-          const gridElement = document.querySelector('.menu__grid');
+          const gridElement = document.querySelector('.main-menu__grid');
           if (gridElement) {
             gridElement.scrollTop = scrollPos;
           }
