@@ -128,7 +128,7 @@
     },
     {
         "id": "quiz-idioms-everyday-situations",
-        "name": "Daily Situations",
+        "name": "Situations",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-idioms-everyday-situations.json",
         "level": [
@@ -138,7 +138,7 @@
     },
     {
         "id": "quiz-advanced-grammar-conditionals",
-        "name": "Adv. Conditionals",
+        "name": "Conditionals",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammar-conditionals.json",
         "level": [
@@ -198,7 +198,7 @@
     },
     {
         "id": "quiz-advanced-grammatical-structures-c2",
-        "name": "Adv. Structures",
+        "name": "Structures",
         "learningMode": "quiz",
         "dataPath": "src/assets/data/quiz-advanced-grammatical-structures-c2.json",
         "level": [
@@ -228,7 +228,7 @@
     },
     {
         "id": "completion-advanced-phrasal-verbs-c2",
-        "name": "Adv. Phrasal Verbs",
+        "name": "Phrasal Verbs+",
         "learningMode": "completion",
         "dataPath": "src/assets/data/completion-advanced-phrasal-verbs-c2.json",
         "level": [
