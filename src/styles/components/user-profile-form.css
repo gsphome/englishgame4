@@ -933,3 +933,603 @@
 .dark .profile-btn:focus-visible {
   outline-color: #60a5fa;
 }
+/* ==
+======================================
+   BEM-LIKE CORRECTED NOMENCLATURE
+   ======================================== */
+
+/* Main Block - User Profile Form */
+.user-profile-form {
+  /* Inherits from existing styles */
+}
+
+/* Container Elements */
+.user-profile-form__container {
+  /* Same as .user-profile-container */
+  @apply bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-lg w-full border border-gray-200 dark:border-gray-700;
+  height: 520px;
+  overflow: hidden;
+}
+
+.user-profile-form__content {
+  /* Same as .user-profile-content */
+  @apply p-2.5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Elements */
+.user-profile-form__header {
+  /* Same as .user-profile-header */
+  @apply flex items-center justify-between mb-2;
+}
+
+.user-profile-form__title-section {
+  /* Same as .user-profile-title-section */
+  @apply flex items-center space-x-2;
+}
+
+.user-profile-form__icon-container {
+  /* Same as .user-profile-icon-container */
+  @apply p-1.5 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800 rounded-lg;
+}
+
+.user-profile-form__icon {
+  /* Same as .user-profile-icon */
+  @apply h-4 w-4 text-purple-600 dark:text-purple-400;
+}
+
+.user-profile-form__title {
+  /* Same as .user-profile-title */
+  @apply text-lg font-bold text-purple-600 dark:text-purple-400 tracking-tight;
+}
+
+.user-profile-form__subtitle {
+  /* Same as .user-profile-subtitle */
+  @apply text-xs text-purple-500 dark:text-purple-300 mt-0.5;
+}
+
+.user-profile-form__close-btn {
+  /* Same as .user-profile-close-btn */
+  @apply p-1.5 text-gray-400 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200;
+}
+
+/* Content Grid */
+.user-profile-form__content-grid {
+  /* Same as .profile-content-grid */
+  @apply grid grid-cols-1 gap-1.5;
+}
+
+@media (min-width: 768px) {
+  .user-profile-form__content-grid {
+    @apply grid-cols-2;
+  }
+}
+
+/* Section Elements */
+.user-profile-form__section {
+  /* Same as .profile-section */
+  @apply rounded-lg p-2 border;
+}
+
+.user-profile-form__section--basic {
+  /* Same as .profile-section--basic */
+  @apply bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-600;
+}
+
+.user-profile-form__section--preferences {
+  /* Same as .profile-section--preferences */
+  @apply bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-600;
+}
+
+.user-profile-form__section-title {
+  /* Same as .profile-section-title */
+  @apply text-xs uppercase tracking-wide font-semibold mb-2 flex items-center;
+}
+
+.user-profile-form__section-title--basic {
+  /* Same as .profile-section-title--basic */
+  @apply text-purple-600 dark:text-white mb-1.5;
+}
+
+.user-profile-form__section-title--preferences {
+  /* Same as .profile-section-title--preferences */
+  @apply text-purple-600 dark:text-white mb-1.5;
+}
+
+.user-profile-form__section-icon {
+  /* Same as .profile-section-icon */
+  @apply h-3 w-3 mr-1.5;
+}
+
+/* Field Elements */
+.user-profile-form__fields {
+  /* Same as .profile-fields */
+  @apply space-y-1.5;
+}
+
+.user-profile-form__field-grid {
+  /* Same as .profile-field-grid */
+  @apply grid grid-cols-1 md:grid-cols-2 gap-2;
+  align-items: start;
+  grid-template-rows: auto;
+}
+
+.user-profile-form__field-item {
+  /* Same as .profile-field-item */
+  @apply flex flex-col;
+  min-height: fit-content;
+  justify-self: stretch;
+  align-self: start;
+}
+
+.user-profile-form__field-container {
+  /* Same as .profile-field-container */
+  @apply relative;
+  min-height: fit-content;
+}
+
+.user-profile-form__field-container--error {
+  /* Same as .profile-field-container--error */
+  padding-bottom: 0.25rem;
+}
+
+.user-profile-form__field-label {
+  /* Same as .profile-field-label */
+  @apply block text-xs font-medium text-purple-600 dark:text-purple-300 mb-0.5;
+  line-height: 1.2;
+  min-height: 1.2em;
+}
+
+.user-profile-form__field-label--compact {
+  /* Same as .profile-field-label--compact */
+  @apply text-xs;
+  margin-bottom: 0.25rem;
+}
+
+.user-profile-form__field-label--difficulty {
+  /* Same as .profile-field-label--difficulty */
+  @apply mb-1;
+}
+
+.user-profile-form__field-label--categories {
+  /* Same as .profile-field-label--categories */
+  @apply mb-1;
+}
+
+/* Input Elements */
+.user-profile-form__input {
+  /* Same as .profile-input */
+  @apply w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200 placeholder-gray-500 dark:placeholder-gray-300;
+  outline: none;
+}
+
+.user-profile-form__input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.dark .user-profile-form__input:focus {
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.25);
+}
+
+.user-profile-form__input--purple-focus {
+  /* Same as .profile-input--purple-focus */
+  @apply focus:ring-purple-500 focus:border-purple-500;
+}
+
+.user-profile-form__input--number {
+  /* Same as .profile-input--number */
+  @apply pr-12;
+}
+
+.user-profile-form__input--error {
+  /* Same as .profile-input--error */
+  @apply border-red-300 dark:border-red-500 focus:ring-red-500 focus:border-red-500;
+}
+
+.user-profile-form__select {
+  /* Same as .profile-select */
+  @apply w-full px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-200;
+  outline: none;
+}
+
+.user-profile-form__select:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.dark .user-profile-form__select:focus {
+  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.25);
+}
+
+.user-profile-form__select--purple-focus {
+  /* Same as .profile-select--purple-focus */
+  @apply focus:ring-purple-500 focus:border-purple-500;
+}
+
+.user-profile-form__select--error {
+  /* Same as .profile-select--error */
+  @apply border-red-300 dark:border-red-500 focus:ring-red-500 focus:border-red-500;
+}
+
+/* Input Addon */
+.user-profile-form__input-addon {
+  /* Same as .profile-input-addon */
+  @apply absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500 dark:text-gray-200 font-medium;
+}
+
+.user-profile-form__relative {
+  /* Same as .profile-relative */
+  @apply relative;
+}
+
+/* Range Slider Elements */
+.user-profile-form__range-container {
+  /* Same as .profile-range-container */
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.user-profile-form__range-slider {
+  /* Same as .profile-range-slider */
+  @apply w-full h-2 bg-gradient-to-r from-green-200 via-yellow-200 to-red-200 rounded-lg appearance-none cursor-pointer;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-profile-form__range-slider:focus {
+  transform: scaleY(1.2);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .user-profile-form__range-slider:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
+}
+
+.user-profile-form__range-labels {
+  /* Same as .profile-range-labels */
+  @apply flex justify-between text-xs text-gray-500 dark:text-gray-100 mt-1 font-medium;
+}
+
+.user-profile-form__range-label {
+  /* Same as .profile-range-label */
+  @apply flex items-center;
+}
+
+.user-profile-form__range-emoji {
+  /* Same as .profile-range-emoji */
+  @apply mr-1;
+}
+
+/* Categories Elements */
+.user-profile-form__categories-container {
+  /* Same as .profile-categories-container */
+  @apply bg-white dark:bg-gray-800 rounded-lg p-1.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.user-profile-form__categories-grid {
+  /* Same as .profile-categories-grid */
+  @apply grid grid-cols-2 gap-1;
+  align-items: center;
+  justify-items: start;
+}
+
+.user-profile-form__category-item {
+  /* Same as .profile-category-item */
+  @apply flex items-center p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer border border-transparent hover:border-gray-200 dark:hover:border-gray-600;
+  width: 100%;
+  min-height: 32px;
+  justify-content: flex-start;
+}
+
+.user-profile-form__category-checkbox {
+  /* Same as .profile-category-checkbox */
+  @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-profile-form__category-checkbox:focus {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .user-profile-form__category-checkbox:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
+}
+
+.user-profile-form__category-label {
+  /* Same as .profile-category-label */
+  @apply ml-1.5 text-xs text-gray-700 dark:text-white font-medium;
+}
+
+/* Notifications Elements */
+.user-profile-form__notifications-container {
+  /* Same as .profile-notifications-container */
+  @apply bg-white dark:bg-gray-800 rounded-lg p-1.5 border border-gray-200 dark:border-gray-600 shadow-sm;
+}
+
+.user-profile-form__notifications-item {
+  /* Same as .profile-notifications-item */
+  @apply flex items-center p-1 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 cursor-pointer;
+}
+
+.user-profile-form__notifications-checkbox {
+  /* Same as .profile-notifications-checkbox */
+  @apply rounded border-gray-300 dark:border-gray-600 text-purple-600 focus:ring-purple-500 focus:ring-2;
+  outline: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.user-profile-form__notifications-checkbox:focus {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.2);
+}
+
+.dark .user-profile-form__notifications-checkbox:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.3);
+}
+
+.user-profile-form__notifications-content {
+  /* Same as .profile-notifications-content */
+  @apply ml-1.5;
+}
+
+.user-profile-form__notifications-title {
+  /* Same as .profile-notifications-title */
+  @apply text-xs text-gray-700 dark:text-white font-medium flex items-center;
+}
+
+.user-profile-form__notifications-icon {
+  /* Same as .profile-notifications-icon */
+  @apply mr-2;
+}
+
+.user-profile-form__notifications-description {
+  /* Same as .profile-notifications-description */
+  @apply text-xs text-gray-500 dark:text-gray-100 mt-0;
+}
+
+/* Error Elements */
+.user-profile-form__error {
+  /* Same as .profile-error */
+  @apply mt-0.5 text-xs text-red-600 dark:text-red-400 flex items-center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-profile-form__error-icon {
+  /* Same as .profile-error-icon */
+  @apply mr-1 flex-shrink-0;
+  font-size: 0.75rem;
+}
+
+.user-profile-form__error--compact {
+  /* Same as .profile-error--compact */
+  @apply absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-xs cursor-help;
+  font-size: 0.6rem;
+  z-index: 10;
+}
+
+.user-profile-form__error-tooltip {
+  /* Same as .profile-error-tooltip */
+  @apply absolute bottom-full right-0 mb-1 px-2 py-1 bg-red-600 text-white text-xs rounded shadow-lg opacity-0 pointer-events-none transition-opacity duration-200;
+  white-space: nowrap;
+  z-index: 20;
+  max-width: 200px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+.user-profile-form__error--compact:hover .user-profile-form__error-tooltip {
+  @apply opacity-100;
+}
+
+.user-profile-form__error--inline {
+  /* Same as .profile-error--inline */
+  @apply mt-0.5 text-xs text-red-600 dark:text-red-400;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Action Elements */
+.user-profile-form__actions {
+  /* Same as .profile-actions */
+  @apply flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-1.5 border-t border-gray-200 dark:border-gray-700;
+}
+
+.user-profile-form__btn {
+  /* Same as .profile-btn */
+  @apply px-3 py-1.5 rounded-lg transition-all duration-200 font-medium text-sm;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-profile-form__btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-profile-form__btn:active {
+  transform: translateY(0);
+}
+
+.user-profile-form__btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.user-profile-form__btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.user-profile-form__btn--cancel {
+  /* Same as .profile-btn--cancel */
+  @apply text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 border border-gray-200 dark:border-gray-600;
+}
+
+.user-profile-form__btn--cancel:focus {
+  box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.3);
+}
+
+.dark .user-profile-form__btn--cancel:focus {
+  box-shadow: 0 0 0 3px rgba(209, 213, 219, 0.3);
+}
+
+.user-profile-form__btn--save {
+  /* Same as .profile-btn--save */
+  @apply flex items-center justify-center space-x-1.5 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105;
+}
+
+.user-profile-form__btn--save:focus {
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3), 0 8px 16px rgba(147, 51, 234, 0.2);
+}
+
+.dark .user-profile-form__btn--save:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.4), 0 8px 16px rgba(196, 181, 253, 0.3);
+}
+
+.user-profile-form__btn-icon {
+  /* Same as .profile-btn-icon */
+  @apply h-3.5 w-3.5;
+}
+
+/* Utility Classes */
+.user-profile-form__spacing-sm {
+  /* Same as .profile-spacing-sm */
+  @apply mt-1.5;
+}
+
+/* Dark Mode Specific BEM-Like Classes */
+.dark .user-profile-form__field-label {
+  @apply text-purple-300;
+}
+
+.dark .user-profile-form__section-title--basic {
+  @apply text-purple-300;
+}
+
+.dark .user-profile-form__section-title--preferences {
+  @apply text-purple-300;
+}
+
+.dark .user-profile-form__section--basic {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+.dark .user-profile-form__section--preferences {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+/* Responsive BEM-Like Classes */
+@media (max-width: 640px) {
+  .user-profile-form__actions {
+    @apply flex-col space-y-2 space-x-0;
+  }
+  
+  .user-profile-form__btn {
+    @apply w-full justify-center;
+  }
+}
+
+@media (min-width: 641px) {
+  .user-profile-form__actions {
+    @apply flex-row space-y-0 space-x-2;
+  }
+  
+  .user-profile-form__btn {
+    @apply w-auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .user-profile-form__field-grid {
+    @apply grid-cols-2 gap-1.5;
+  }
+}
+
+@media (min-width: 1024px) {
+  .user-profile-form__content-grid {
+    @apply gap-2;
+  }
+  
+  .user-profile-form__field-grid {
+    @apply grid-cols-2 gap-1.5;
+  }
+}
+
+/* Focus Visible for Better Keyboard Navigation */
+.user-profile-form__input:focus-visible,
+.user-profile-form__select:focus-visible,
+.user-profile-form__category-checkbox:focus-visible,
+.user-profile-form__notifications-checkbox:focus-visible,
+.user-profile-form__range-slider:focus-visible,
+.user-profile-form__btn:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 2px;
+}
+
+.dark .user-profile-form__input:focus-visible,
+.dark .user-profile-form__select:focus-visible,
+.dark .user-profile-form__category-checkbox:focus-visible,
+.dark .user-profile-form__notifications-checkbox:focus-visible,
+.dark .user-profile-form__range-slider:focus-visible,
+.dark .user-profile-form__btn:focus-visible {
+  outline-color: #a78bfa;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .user-profile-form__input,
+  .user-profile-form__select {
+    border-width: 2px;
+  }
+  
+  .user-profile-form__btn {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+  
+  .user-profile-form__category-item,
+  .user-profile-form__notifications-item {
+    border-width: 1px;
+    border-color: currentColor;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .user-profile-form__container,
+  .user-profile-form__content-grid,
+  .user-profile-form__content-grid > *,
+  .user-profile-form__input,
+  .user-profile-form__select,
+  .user-profile-form__btn,
+  .user-profile-form__category-checkbox,
+  .user-profile-form__notifications-checkbox,
+  .user-profile-form__range-slider {
+    animation: none;
+    transition: none;
+  }
+  
+  .user-profile-form__btn::before {
+    display: none;
+  }
+}
