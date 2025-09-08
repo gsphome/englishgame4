@@ -1,32 +1,91 @@
 /* Header Component Styles */
 
-/* SVG Icon Inheritance Fix - Force white in dark mode */
+/* CSS Variables for Consistent Color System */
+:root {
+  /* Light Mode Colors */
+  --header-bg: #ffffff;
+  --header-border: #e5e7eb;
+  --header-text-primary: #111827;
+  --header-text-secondary: #6b7280;
+  --header-icon-color: #6b7280;
+  --header-icon-hover: #111827;
+  --header-button-hover-bg: #f3f4f6;
+  --header-button-active-bg: #e5e7eb;
+  --header-focus-ring: #3b82f6;
+  
+  /* Side Menu Colors */
+  --menu-bg: #ffffff;
+  --menu-border: #e5e7eb;
+  --menu-header-bg: #f9fafb;
+  --menu-item-hover: #f3f4f6;
+  --menu-item-active: #e5e7eb;
+}
+
+/* Dark Mode Color Variables */
+.dark {
+  --header-bg: #1f2937;
+  --header-border: #374151;
+  --header-text-primary: #ffffff;
+  --header-text-secondary: #d1d5db;
+  --header-icon-color: #d1d5db;
+  --header-icon-hover: #ffffff;
+  --header-button-hover-bg: #374151;
+  --header-button-active-bg: #4b5563;
+  --header-focus-ring: #60a5fa;
+  
+  /* Side Menu Dark Colors */
+  --menu-bg: #1f2937;
+  --menu-border: #374151;
+  --menu-header-bg: #111827;
+  --menu-item-hover: #374151;
+  --menu-item-active: #4b5563;
+}
+
+/* Enhanced SVG Icon System with Better Contrast */
 .header-redesigned svg {
-  color: currentColor !important;
-  stroke: currentColor !important;
-  fill: none !important;
+  color: var(--header-icon-color);
+  stroke: var(--header-icon-color);
+  fill: none;
+  stroke-width: 1.5;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Force white icons in dark mode */
-.dark .header-redesigned svg {
-  color: white !important;
-  stroke: white !important;
+/* Icon Hover States for Better UX */
+.header-redesigned__menu-btn:hover svg,
+.header-redesigned__user-btn:hover svg,
+.header-redesigned__login-btn:hover svg,
+.header-redesigned__control-btn:hover svg {
+  color: var(--header-icon-hover);
+  stroke: var(--header-icon-hover);
+  transform: scale(1.05);
 }
 
-/* Specific button icon overrides for dark mode */
-.dark .header-redesigned__menu-btn svg,
-.dark .header-redesigned__user-btn svg,
-.dark .header-redesigned__login-btn svg,
-.dark .header-redesigned__control-btn svg,
-.dark .header-side-menu__icon {
-  color: white !important;
-  stroke: white !important;
+/* Side Menu Icons with Enhanced Contrast */
+.header-side-menu__icon {
+  color: var(--header-icon-color);
+  stroke: var(--header-icon-color);
+  stroke-width: 1.5;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Header Container - Consistent Height Design */
+.header-side-menu__item:hover .header-side-menu__icon {
+  color: var(--header-icon-hover);
+  stroke: var(--header-icon-hover);
+  transform: scale(1.1);
+}
+
+/* Header Container - Enhanced Design System */
 .header-redesigned {
-  @apply bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700;
-  min-height: 64px; /* Consistent minimum height */
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  min-height: 64px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Enhanced shadow for dark mode */
+.dark .header-redesigned {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 .header-redesigned__container {
@@ -46,9 +105,34 @@
 }
 
 .header-redesigned__menu-btn {
-  @apply p-2 rounded-md text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
-  min-width: 40px; /* Consistent button size */
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--header-icon-color);
+  background-color: transparent;
+  min-width: 40px;
   min-height: 40px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-redesigned__menu-btn:hover {
+  color: var(--header-icon-hover);
+  background-color: var(--header-button-hover-bg);
+  transform: translateY(-1px);
+}
+
+.header-redesigned__menu-btn:active {
+  background-color: var(--header-button-active-bg);
+  transform: translateY(0);
+}
+
+.header-redesigned__menu-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
 }
 
 .header-redesigned__brand {
@@ -57,13 +141,25 @@
 }
 
 .header-redesigned__logo {
-  @apply text-2xl;
-  line-height: 1; /* Consistent emoji alignment */
+  font-size: 1.75rem;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
 }
 
 .header-redesigned__title {
-  @apply text-xl font-bold text-gray-900 dark:text-white;
-  line-height: 1.2; /* Consistent text alignment */
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--header-text-primary);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  transition: color 0.2s ease-in-out;
 }
 
 /* Center Section - Consistent Alignment */
@@ -83,17 +179,69 @@
 }
 
 .header-redesigned__user-btn {
-  @apply flex items-center space-x-2 p-2 rounded-md text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
-  min-height: 40px; /* Consistent button height */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--header-text-secondary);
+  background-color: transparent;
+  min-height: 40px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.header-redesigned__user-btn:hover {
+  color: var(--header-text-primary);
+  background-color: var(--header-button-hover-bg);
+  transform: translateY(-1px);
+}
+
+.header-redesigned__user-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
 }
 
 .header-redesigned__login-btn {
-  @apply flex items-center p-2 rounded-md text-gray-700 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
-  min-height: 40px; /* Consistent button height */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--header-text-secondary);
+  background-color: transparent;
+  min-height: 40px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+}
+
+.header-redesigned__login-btn:hover {
+  color: var(--header-text-primary);
+  background-color: var(--header-button-hover-bg);
+  transform: translateY(-1px);
+}
+
+.header-redesigned__login-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
 }
 
 .header-redesigned__avatar {
-  @apply w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--header-button-hover-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.header-redesigned__user-btn:hover .header-redesigned__avatar {
+  background-color: var(--header-button-active-bg);
+  transform: scale(1.05);
 }
 
 .header-redesigned__user-info {
@@ -101,7 +249,10 @@
 }
 
 .header-redesigned__username {
-  @apply text-sm font-medium text-gray-900 dark:text-white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--header-text-primary);
+  transition: color 0.2s ease-in-out;
 }
 
 .header-redesigned__control-panel {
@@ -113,9 +264,34 @@
 }
 
 .header-redesigned__control-btn {
-  @apply p-2 rounded-md text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
-  min-width: 40px; /* Consistent button size */
+  padding: 8px;
+  border-radius: 6px;
+  color: var(--header-icon-color);
+  background-color: transparent;
+  min-width: 40px;
   min-height: 40px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-redesigned__control-btn:hover {
+  color: var(--header-icon-hover);
+  background-color: var(--header-button-hover-bg);
+  transform: translateY(-1px);
+}
+
+.header-redesigned__control-btn:active {
+  background-color: var(--header-button-active-bg);
+  transform: translateY(0);
+}
+
+.header-redesigned__control-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
 }
 
 /* Side Menu Styles */
@@ -123,42 +299,41 @@
   @apply fixed inset-0 bg-black bg-opacity-50 z-40;
 }
 
-/* Hamburger Menu - Clean Design System Implementation */
+/* Enhanced Hamburger Menu with Design System */
 .header-side-menu {
-  @apply fixed left-0 top-0 h-full w-64 shadow-lg z-50;
-  background-color: white !important;
-  border-right: 1px solid #e5e7eb !important;
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1) !important;
-  transition: transform 0.3s ease-in-out;
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: 280px;
+  z-index: 50;
+  background-color: var(--menu-bg);
+  border-right: 1px solid var(--menu-border);
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
 }
 
-/* Dark Mode Hamburger Menu - Enhanced UX */
+/* Enhanced shadow for dark mode */
 .dark .header-side-menu {
-  background-color: #1f2937 !important; /* gray-800 - proper dark background */
-  border-right: 1px solid #374151 !important; /* gray-700 border */
-  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.4) !important; /* Enhanced shadow */
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.5);
 }
 
-/* Menu Header - Clean Implementation */
+/* Enhanced Menu Header */
 .header-side-menu__header {
-  @apply p-4;
-  background-color: #f9fafb !important; /* gray-50 */
-  border-bottom: 1px solid #e5e7eb !important; /* gray-200 */
+  padding: 20px;
+  background-color: var(--menu-header-bg);
+  border-bottom: 1px solid var(--menu-border);
+  backdrop-filter: blur(8px);
 }
 
-.dark .header-side-menu__header {
-  background-color: #111827 !important; /* gray-900 */
-  border-bottom: 1px solid #374151 !important; /* gray-700 */
-}
-
-/* Menu Title - Clean Typography */
+/* Enhanced Menu Title Typography */
 .header-side-menu__title {
-  @apply text-lg font-semibold;
-  color: #111827 !important; /* gray-900 */
-}
-
-.dark .header-side-menu__title {
-  color: white !important;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--header-text-primary);
+  letter-spacing: -0.025em;
+  margin: 0;
 }
 
 /* Menu Content */
@@ -166,57 +341,52 @@
   @apply p-4 space-y-2;
 }
 
-/* Menu Items - Enhanced UX Design */
+/* Enhanced Menu Items with Better UX */
 .header-side-menu__item {
-  @apply w-full text-left p-3 rounded-md flex items-center space-x-3 transition-all duration-200;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
-  color: #111827 !important; /* gray-900 */
-  background-color: transparent !important;
+  width: 100%;
+  text-align: left;
+  padding: 12px 16px;
+  margin: 4px 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--header-text-secondary);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 .header-side-menu__item:hover {
-  background-color: #f3f4f6 !important; /* gray-100 */
-  transform: translateX(2px); /* Subtle slide effect */
+  background-color: var(--menu-item-hover);
+  color: var(--header-text-primary);
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header-side-menu__item:active {
-  background-color: #e5e7eb !important; /* gray-200 */
+  background-color: var(--menu-item-active);
+  transform: translateX(2px);
 }
 
-/* Dark Mode Menu Items */
-.dark .header-side-menu__item {
-  color: white !important;
-  background-color: transparent !important;
+.header-side-menu__item:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
 }
 
+/* Enhanced shadow for dark mode menu items */
 .dark .header-side-menu__item:hover {
-  background-color: #374151 !important; /* gray-700 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.dark .header-side-menu__item:active {
-  background-color: #4b5563 !important; /* gray-600 */
-}
-
-/* Menu Icons and Text - Clean Design System */
-.header-side-menu__icon {
-  @apply h-5 w-5 font-medium;
-  color: #374151 !important; /* gray-700 */
-  stroke: #374151 !important;
-}
-
+/* Enhanced Menu Icons and Text */
 .header-side-menu__text {
-  @apply font-medium;
-  color: #111827 !important; /* gray-900 */
-}
-
-/* Dark Mode Icons and Text */
-.dark .header-side-menu__icon {
-  color: white !important;
-  stroke: white !important;
-}
-
-.dark .header-side-menu__text {
-  color: white !important;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: inherit;
+  transition: color 0.2s ease-in-out;
 }
 
 /* Responsive Adjustments - Maintaining Consistency */
@@ -251,5 +421,128 @@
   .header-redesigned__control-btn {
     min-width: 36px; /* Consistent mobile button size */
     min-height: 36px;
+  }
+}
+/* Enhance
+d Accessibility and High Contrast Support */
+@media (prefers-contrast: high) {
+  :root {
+    --header-icon-color: #000000;
+    --header-icon-hover: #000000;
+    --header-text-primary: #000000;
+    --header-text-secondary: #333333;
+  }
+  
+  .dark {
+    --header-icon-color: #ffffff;
+    --header-icon-hover: #ffffff;
+    --header-text-primary: #ffffff;
+    --header-text-secondary: #e5e5e5;
+    --header-button-hover-bg: #4b5563;
+    --header-button-active-bg: #6b7280;
+  }
+}
+
+/* Enhanced Focus Indicators for Better Accessibility */
+.header-redesigned button:focus-visible {
+  outline: 2px solid var(--header-focus-ring);
+  outline-offset: 2px;
+}
+
+/* Improved Animation Performance */
+.header-redesigned *,
+.header-side-menu * {
+  will-change: auto;
+}
+
+.header-redesigned button:hover,
+.header-side-menu__item:hover {
+  will-change: transform, background-color;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .header-redesigned *,
+  .header-side-menu * {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* Enhanced Logo with Better Dark Mode Contrast */
+.dark .header-redesigned__logo {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover effect for logo in dark mode */
+.dark .header-redesigned__brand:hover .header-redesigned__logo {
+  background: linear-gradient(135deg, #4b5563 0%, #6b7280 100%);
+  transform: scale(1.05);
+  box-shadow: 
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Light mode - keep it clean */
+.header-redesigned__logo {
+  background: transparent;
+}
+
+.header-redesigned__brand:hover .header-redesigned__logo {
+  transform: scale(1.05);
+}
+
+/* Better Overlay for Side Menu */
+.header-side-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease-in-out;
+}
+
+.dark .header-side-menu-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}/*
+ Logo Animation and Accessibility Enhancements */
+.header-redesigned__brand {
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.header-redesigned__brand:focus {
+  outline: none;
+}
+
+.header-redesigned__brand:focus .header-redesigned__logo {
+  box-shadow: 0 0 0 2px var(--header-focus-ring);
+}
+
+/* Alternative high contrast version for accessibility */
+@media (prefers-contrast: high) {
+  .dark .header-redesigned__logo {
+    background: #000000;
+    border: 2px solid #ffffff;
+    box-shadow: none;
+  }
+  
+  .dark .header-redesigned__brand:hover .header-redesigned__logo {
+    background: #333333;
+    border: 2px solid #ffffff;
+  }
+}
+
+/* Reduced motion support for logo */
+@media (prefers-reduced-motion: reduce) {
+  .header-redesigned__logo,
+  .header-redesigned__brand:hover .header-redesigned__logo {
+    transform: none !important;
+    transition: none !important;
   }
 }
