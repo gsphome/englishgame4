@@ -36,10 +36,10 @@
   fill: none !important;
 }
 
-/* Enhanced icon contrast - Force appropriate colors for both modes */
+/* Enhanced icon contrast - White icons for both light and dark modes */
 .module-card__icon svg {
-  color: #374151 !important; /* gray-700 for good contrast in light mode */
-  stroke: #374151 !important;
+  color: #ffffff !important; /* white icons in light mode */
+  stroke: #ffffff !important;
 }
 
 .dark .module-card__icon svg {
@@ -47,21 +47,21 @@
   stroke: #ffffff !important;
 }
 
-/* Title - Enhanced contrast */
+/* Title - White text for both modes */
 .module-card__title {
   @apply text-xs sm:text-sm font-semibold text-center leading-tight;
   @apply line-clamp-2;
-  color: #111827 !important; /* gray-900 for maximum contrast in light mode */
+  color: #ffffff !important; /* white text in light mode */
 }
 
 .dark .module-card__title {
   color: #ffffff !important; /* white for maximum contrast in dark mode */
 }
 
-/* Meta (Difficulty Level) - Enhanced contrast */
+/* Meta (Difficulty Level) - White text for both modes */
 .module-card__meta {
   @apply text-xs text-center mt-1 font-medium;
-  color: #111827 !important; /* gray-900 for maximum contrast in light mode */
+  color: #ffffff !important; /* white text in light mode */
 }
 
 .dark .module-card__meta {
@@ -120,30 +120,14 @@
   @apply transform-none shadow-lg border-gray-300 dark:border-gray-600;
 }
 
-/* Learning Mode Variants - Enhanced contrast for all types */
-.module-card--flashcard .module-card__icon svg {
-  color: #7c3aed !important; /* purple-600 for good contrast in light mode */
-  stroke: #7c3aed !important;
-}
-
-.module-card--quiz .module-card__icon svg {
-  color: #ea580c !important; /* orange-600 for good contrast in light mode */
-  stroke: #ea580c !important;
-}
-
-.module-card--completion .module-card__icon svg {
-  color: #059669 !important; /* emerald-600 for good contrast in light mode */
-  stroke: #059669 !important;
-}
-
-.module-card--sorting .module-card__icon svg {
-  color: #2563eb !important; /* blue-600 for good contrast in light mode */
-  stroke: #2563eb !important;
-}
-
+/* Learning Mode Variants - White icons for all types in both modes */
+.module-card--flashcard .module-card__icon svg,
+.module-card--quiz .module-card__icon svg,
+.module-card--completion .module-card__icon svg,
+.module-card--sorting .module-card__icon svg,
 .module-card--matching .module-card__icon svg {
-  color: #dc2626 !important; /* red-600 for good contrast in light mode */
-  stroke: #dc2626 !important;
+  color: #ffffff !important; /* white icons in light mode */
+  stroke: #ffffff !important;
 }
 
 /* Force white icons for all module types in dark mode for maximum contrast */
@@ -156,9 +140,9 @@
   stroke: #ffffff !important;
 }
 
-/* Enhanced subtitle contrast */
+/* Enhanced subtitle contrast - White for both modes */
 .module-card__subtitle {
-  color: #374151 !important; /* gray-700 for good contrast in light mode */
+  color: #ffffff !important; /* white text in light mode */
 }
 
 .dark .module-card__subtitle {
