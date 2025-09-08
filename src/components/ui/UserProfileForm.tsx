@@ -115,7 +115,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
               {/* Left Column - Personal Information */}
               <div className="profile-section profile-section--basic">
                 <h3 className="profile-section-title profile-section-title--basic">
-                  <User className="profile-section-icon" />
+                  <span className="profile-section-icon">👤</span>
                   {t('profile.personalInfo')}
                 </h3>
 
@@ -126,7 +126,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
                     </label>
                     <input
                       {...register('name')}
-                      className={`profile-input profile-input--blue-focus ${errors.name ? 'profile-input--error' : ''}`}
+                      className={`profile-input profile-input--purple-focus ${errors.name ? 'profile-input--error' : ''}`}
                       placeholder={t('profile.enterName')}
                       aria-label={t('profile.name')}
                       aria-invalid={errors.name ? 'true' : 'false'}
@@ -154,7 +154,7 @@ export const UserProfileForm: React.FC<UserProfileFormProps> = ({ onClose }) => 
                     </label>
                     <select
                       {...register('level')}
-                      className={`profile-select profile-select--blue-focus ${errors.level ? 'profile-select--error' : ''}`}
+                      className={`profile-select profile-select--purple-focus ${errors.level ? 'profile-select--error' : ''}`}
                       aria-label={t('profile.englishLevel')}
                       aria-invalid={errors.level ? 'true' : 'false'}
                       aria-describedby={errors.level ? 'level-error' : undefined}
