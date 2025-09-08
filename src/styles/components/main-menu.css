@@ -58,16 +58,16 @@
   }
 }
 
-/* 3 cols: 3×100px + 2×10px gap + 52px overhead = 372px minimum */
-@media (min-width: 400px) and (max-width: 639px) {
+/* 3 cols: Extended range to prevent 4-col overflow */
+@media (min-width: 400px) and (max-width: 719px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(3, minmax(100px, 1fr)) !important;
   }
 }
 
-/* Tablet: 24px main padding + 20px grid padding = 88px total overhead */
-/* 4 cols: 4×130px + 3×16px gap + 88px overhead = 656px minimum */
-@media (min-width: 640px) and (max-width: 899px) {
+/* 4 cols: Conservative breakpoint to prevent horizontal scroll */
+/* Real calculation: 4×130px + 3×16px + 88px overhead = 656px + safety margin = 720px */
+@media (min-width: 720px) and (max-width: 899px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
     grid-template-columns: repeat(4, minmax(130px, 1fr)) !important;
   }
@@ -81,7 +81,7 @@
 }
 
 /* Progressive Enhancement: Larger Screens Get More Space */
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .main-menu__grid {
     padding: 1.25rem;
   }
@@ -137,7 +137,7 @@
 }
 
 /* Mobile-First Responsive Design */
-@media (max-width: 639px) {
+@media (max-width: 719px) {
   .main-menu {
     @apply mx-2 my-2 pt-3 pb-4 px-3;
   }
@@ -157,7 +157,7 @@
   }
 }
 
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .main-menu {
     @apply px-6;
   }

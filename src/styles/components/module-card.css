@@ -229,7 +229,7 @@
 /* Removed obsolete styles - now using structured BEM-Like approach */
 
 /* Responsive Design - Synchronized with Grid Breakpoints */
-@media (min-width: 640px) {
+@media (min-width: 720px) {
   .module-card {
     width: var(--card-width-tablet);
     height: var(--card-height-tablet);
