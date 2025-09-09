@@ -73,15 +73,10 @@
   }
 }
 
-/* Desktop: 5 cols x 3 rows: 5×155px + 4×16px gap + constrained width */
+/* Desktop: 5 cols: 5×145px + 4×20px gap = 805px minimum */
 @media (min-width: 900px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
-    grid-template-columns: repeat(5, minmax(155px, 1fr)) !important;
-    grid-template-rows: repeat(3, 125px) !important;
-    max-width: 850px !important;
-    max-height: 415px !important;
-    margin: 0 auto !important;
-    overflow: hidden !important;
+    grid-template-columns: repeat(5, minmax(145px, 1fr)) !important;
   }
 }
 
@@ -99,13 +94,14 @@
 @media (min-width: 900px) {
   .main-menu__grid {
     padding: 1.5rem;
-    height: 450px;
-    overflow: hidden;
+    max-width: 833px;
+    max-height: 350px;
+    margin: 0 auto;
+    overflow-y: auto;
   }
   
   .main-menu__grid-container {
     gap: 1.25rem;
-    height: 100%;
   }
 }
 
@@ -172,7 +168,7 @@
   
   .main-menu__grid {
     @apply overflow-y-auto;
-    max-height: 480px;
+    max-height: 430px;
   }
 }
 
