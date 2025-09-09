@@ -390,7 +390,7 @@
 }
 
 /* Responsive Adjustments - Maintaining Consistency */
-@media (max-width: 640px) {
+@media (max-width: 719px) {
   .header-redesigned__container {
     @apply px-3 py-2; /* Consistent with layout-main mobile padding */
     min-height: 56px; /* Slightly smaller but consistent on mobile */
@@ -405,9 +405,14 @@
     min-height: 36px; /* Proportional mobile height */
   }
   
+  /* Hide app name on mobile */
   .header-redesigned__title {
-    @apply text-lg;
-    line-height: 1.2; /* Maintain consistent alignment */
+    @apply hidden;
+  }
+  
+  /* Hide username on mobile */
+  .header-redesigned__username {
+    @apply hidden;
   }
   
   .header-redesigned__center,
