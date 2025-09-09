@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, X, Github, Heart } from 'lucide-react';
+import { X, Github, Heart } from 'lucide-react';
 import { useSettingsStore } from '../../stores/settingsStore';
 import { useTranslation } from '../../utils/i18n';
 import { FluentFlowLogo } from './FluentFlowLogo';
