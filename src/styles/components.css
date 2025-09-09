@@ -404,8 +404,8 @@ a svg,
 
 @media (min-width: 1024px) {
   .menu__grid-container {
-    @apply grid-cols-4;
-    max-width: 720px;
+    @apply grid-cols-3;
+    max-width: 540px;
     margin: 0 auto;
     padding: 0 1.5rem;
     gap: 1.5rem;
