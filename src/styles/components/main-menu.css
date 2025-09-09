@@ -152,7 +152,7 @@
   
   .main-menu__grid {
     overflow-y: auto;
-    max-height: 350px;
+    max-height: 295px;
     padding: 0.875rem;
   }
   
@@ -168,7 +168,7 @@
   
   .main-menu__grid {
     @apply overflow-y-auto;
-    max-height: 430px;
+    max-height: 365px;
   }
 }
 
