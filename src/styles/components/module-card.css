@@ -10,8 +10,8 @@
   --card-height-mobile: 85px;
   --card-width-tablet: 130px;
   --card-height-tablet: 105px;
-  --card-width-desktop: 145px;
-  --card-height-desktop: 115px;
+  --card-width-desktop: 155px;
+  --card-height-desktop: 125px;
 }
 
 /* Card Container - Enhanced Design with Rectangular Shape */
@@ -296,29 +296,29 @@
   }
   
   .module-card__content {
-    padding: 0.5rem;
-    gap: 0.125rem;
+    padding: 0.625rem;
+    gap: 0.1875rem;
   }
   
   .module-card__icon svg {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: 1.375rem;
+    height: 1.375rem;
   }
   
   .module-card__title {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.1;
     font-weight: 700;
   }
   
   .module-card__type {
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 600;
   }
   
   .module-card__level {
     font-size: 0.5625rem;
-    padding: 0.125rem 0.25rem;
+    padding: 0.125rem 0.3125rem;
     font-weight: 700;
   }
 }
