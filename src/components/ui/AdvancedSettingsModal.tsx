@@ -140,21 +140,21 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
 
   const allCategories = ['Vocabulary', 'Grammar', 'PhrasalVerbs', 'Idioms'];
   const categoryLabels = {
-    'Vocabulary': t('vocabulary'),
-    'Grammar': t('grammar'),
-    'PhrasalVerbs': t('phrasalVerbs'),
-    'Idioms': t('idioms')
+    'Vocabulary': t('settings.vocabulary'),
+    'Grammar': t('settings.grammar'),
+    'PhrasalVerbs': t('settings.phrasalVerbs'),
+    'Idioms': t('settings.idioms')
   };
 
   return (
     <div className="advanced-settings-modal">
       <div className="advanced-settings-modal__container">
         <div className="advanced-settings-modal__header">
-          <h2 className="advanced-settings-modal__title">{t('settings')}</h2>
+          <h2 className="advanced-settings-modal__title">{t('settings.settings')}</h2>
           <button
             onClick={onClose}
             className="advanced-settings-modal__close-btn"
-            aria-label="Close settings"
+            aria-label={t('common.close')}
           >
             <X className="h-5 w-5" />
           </button>
@@ -166,21 +166,21 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             onClick={() => setActiveTab('general')}
             className={`advanced-settings-modal__tab ${activeTab === 'general' ? 'advanced-settings-modal__tab--active' : ''}`}
           >
-            <span className="advanced-settings-modal__tab-title">{t('generalSettings')}</span>
+            <span className="advanced-settings-modal__tab-title">{t('settings.generalSettings')}</span>
             <span className="advanced-settings-modal__tab-icon">🎛️</span>
           </button>
           <button
             onClick={() => setActiveTab('game')}
             className={`advanced-settings-modal__tab ${activeTab === 'game' ? 'advanced-settings-modal__tab--active' : ''}`}
           >
-            <span className="advanced-settings-modal__tab-title">{t('itemSettings')}</span>
+            <span className="advanced-settings-modal__tab-title">{t('settings.itemSettings')}</span>
             <span className="advanced-settings-modal__tab-icon">🎮</span>
           </button>
           <button
             onClick={() => setActiveTab('categories')}
             className={`advanced-settings-modal__tab ${activeTab === 'categories' ? 'advanced-settings-modal__tab--active' : ''}`}
           >
-            <span className="advanced-settings-modal__tab-title">{t('categorySettings')}</span>
+            <span className="advanced-settings-modal__tab-title">{t('settings.categorySettings')}</span>
             <span className="advanced-settings-modal__tab-icon">📚</span>
           </button>
         </div>
@@ -192,46 +192,46 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <div className="advanced-settings-modal__section">
               <div className="advanced-settings-modal__grid">
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">{t('theme')}</label>
+                  <label className="advanced-settings-modal__label">{t('settings.theme')}</label>
                   <select
                     className="advanced-settings-modal__select"
                     value={localTheme}
                     onChange={(e) => setLocalTheme(e.target.value as 'light' | 'dark')}
                     disabled={!isEditMode}
                   >
-                    <option value="light">☀️ {t('light')}</option>
-                    <option value="dark">🌙 {t('dark')}</option>
+                    <option value="light">☀️ {t('settings.light')}</option>
+                    <option value="dark">🌙 {t('settings.dark')}</option>
                   </select>
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">{t('language')}</label>
+                  <label className="advanced-settings-modal__label">{t('settings.language')}</label>
                   <select
                     className="advanced-settings-modal__select"
                     value={localLanguage}
                     onChange={(e) => setLocalLanguage(e.target.value as 'en' | 'es')}
                     disabled={!isEditMode}
                   >
-                    <option value="en">🇺🇸 {t('english')}</option>
-                    <option value="es">🇪🇸 {t('spanish')}</option>
+                    <option value="en">🇺🇸 {t('settings.english')}</option>
+                    <option value="es">🇪🇸 {t('settings.spanish')}</option>
                   </select>
                 </div>
 
                 <div className="advanced-settings-modal__field advanced-settings-modal__field--full">
-                  <label className="advanced-settings-modal__label">{t('level')}</label>
+                  <label className="advanced-settings-modal__label">{t('settings.level')}</label>
                   <select
                     className="advanced-settings-modal__select advanced-settings-modal__select--full"
                     value={localLevel}
                     onChange={(e) => setLocalLevel(e.target.value as any)}
                     disabled={!isEditMode}
                   >
-                    <option value="all">🌟 {t('all')}</option>
-                    <option value="a1">🟢 {t('a1')}</option>
-                    <option value="a2">🟡 {t('a2')}</option>
-                    <option value="b1">🟠 {t('b1')}</option>
-                    <option value="b2">🔴 {t('b2')}</option>
-                    <option value="c1">🟣 {t('c1')}</option>
-                    <option value="c2">⚫ {t('c2')}</option>
+                    <option value="all">🌟 {t('settings.all')}</option>
+                    <option value="a1">🟢 {t('settings.a1')}</option>
+                    <option value="a2">🟡 {t('settings.a2')}</option>
+                    <option value="b1">🟠 {t('settings.b1')}</option>
+                    <option value="b2">🔴 {t('settings.b2')}</option>
+                    <option value="c1">🟣 {t('settings.c1')}</option>
+                    <option value="c2">⚫ {t('settings.c2')}</option>
                   </select>
                 </div>
               </div>
@@ -243,7 +243,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <div className="advanced-settings-modal__section">
               <div className="advanced-settings-modal__grid">
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">📚 {t('flashcardMode')}</label>
+                  <label className="advanced-settings-modal__label">📚 {t('settings.flashcardMode')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -257,7 +257,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">❓ {t('quizMode')}</label>
+                  <label className="advanced-settings-modal__label">❓ {t('settings.quizMode')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -271,7 +271,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">✏️ {t('completionMode')}</label>
+                  <label className="advanced-settings-modal__label">✏️ {t('settings.completionMode')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -285,7 +285,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">🔄 {t('sortingMode')}</label>
+                  <label className="advanced-settings-modal__label">🔄 {t('settings.sortingMode')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -299,7 +299,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">📊 {t('sortingCategories')}</label>
+                  <label className="advanced-settings-modal__label">📊 {t('settings.sortingCategories')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -313,7 +313,7 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
                 </div>
 
                 <div className="advanced-settings-modal__field">
-                  <label className="advanced-settings-modal__label">🔗 {t('matchingMode')}</label>
+                  <label className="advanced-settings-modal__label">🔗 {t('settings.matchingMode')}</label>
                   <input
                     type="number"
                     className="advanced-settings-modal__input"
@@ -365,28 +365,28 @@ export const AdvancedSettingsModal: React.FC<AdvancedSettingsModalProps> = ({ is
             <button
               onClick={handleEdit}
               className="advanced-settings-modal__btn advanced-settings-modal__btn--edit"
-              aria-label="Edit settings"
+              aria-label={t('settings.edit')}
             >
               <span className="advanced-settings-modal__btn-icon">✏️</span>
-              <span className="advanced-settings-modal__btn-text">{t('edit')}</span>
+              <span className="advanced-settings-modal__btn-text">{t('settings.edit')}</span>
             </button>
           ) : (
             <>
               <button
                 onClick={handleCancel}
                 className="advanced-settings-modal__btn advanced-settings-modal__btn--cancel"
-                aria-label="Cancel changes"
+                aria-label={t('settings.cancel')}
               >
                 <span className="advanced-settings-modal__btn-icon">❌</span>
-                <span className="advanced-settings-modal__btn-text">{t('cancel')}</span>
+                <span className="advanced-settings-modal__btn-text">{t('settings.cancel')}</span>
               </button>
               <button
                 onClick={handleSave}
                 className="advanced-settings-modal__btn advanced-settings-modal__btn--save"
-                aria-label="Save settings"
+                aria-label={t('settings.save')}
               >
                 <span className="advanced-settings-modal__btn-icon">💾</span>
-                <span className="advanced-settings-modal__btn-text">{t('save')}</span>
+                <span className="advanced-settings-modal__btn-text">{t('settings.save')}</span>
               </button>
             </>
           )}
