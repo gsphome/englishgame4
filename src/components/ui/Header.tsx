@@ -8,7 +8,9 @@ import { toast } from '../../stores/toastStore';
 
 import { UserProfileForm } from './UserProfileForm';
 import { AdvancedSettingsModal } from './AdvancedSettingsModal';
+import { AboutModal } from './AboutModal';
 import { ScoreDisplay } from './ScoreDisplay';
+import { FluentFlowLogo } from './FluentFlowLogo';
 
 interface HeaderProps {
   onMenuToggle?: () => void;
@@ -21,6 +23,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
   const { theme } = useSettingsStore();
   const [showProfileForm, setShowProfileForm] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [showSideMenu, setShowSideMenu] = useState(false);
 
   // Determine header layout mode
@@ -68,8 +71,8 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
             <Menu className="w-5 h-5" />
           </button>
           <div className="header-redesigned__brand">
-            <span className="header-redesigned__logo" role="img" aria-label="Education">🎓</span>
-            <h1 className="header-redesigned__title">LearnEng</h1>
+            <FluentFlowLogo size="md" className="header-redesigned__logo" />
+            <h1 className="header-redesigned__title">FluentFlow</h1>
           </div>
         </div>
 
@@ -144,6 +147,11 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
         onClose={() => setShowSettings(false)}
       />
 
+      <AboutModal
+        isOpen={showAbout}
+        onClose={() => setShowAbout(false)}
+      />
+
       {showSideMenu && (
         <div
           className="header-side-menu-overlay"
@@ -181,7 +189,7 @@ export const Header: React.FC<HeaderProps> = ({ onDashboardToggle }) => {
               </button>
               <button
                 className="header-side-menu__item"
-                onClick={() => alert('Acerca de esta App\n\nEsta es una aplicación avanzada de aprendizaje diseñada para ayudarte a mejorar tu vocabulario y comprensión del inglés a través de ejercicios interactivos.\n\nDesarrollado por Genil Suarez.')}
+                onClick={() => { setShowAbout(true); setShowSideMenu(false); }}
                 aria-label="Acerca de esta aplicación"
               >
                 <User className="header-side-menu__icon" aria-hidden="true" />

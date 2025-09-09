@@ -1,0 +1,507 @@
+/* About Modal Styles - Based on UserProfileForm structure */
+
+/* SVG Icon Inheritance Fix - Force white in dark mode */
+.about-modal svg {
+  color: currentColor !important;
+  stroke: currentColor !important;
+  fill: none !important;
+}
+
+/* Force white icons in dark mode */
+.dark .about-modal svg {
+  color: white !important;
+  stroke: white !important;
+}
+
+/* Enhanced dark mode compatibility */
+.dark .about-modal {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Improved contrast for dark mode text */
+.dark .about-modal__section-title {
+  @apply text-purple-300;
+}
+
+/* Enhanced dark mode gradients - Homologated styles */
+.dark .about-modal__section--app {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+.dark .about-modal__section--description {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+.dark .about-modal__section--developer {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+.dark .about-modal__section--acknowledgments {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(124, 58, 237, 0.15) 100%);
+  border-color: #7c3aed;
+}
+
+/* Enhanced animations and transitions for modal */
+.about-modal {
+  animation: modalFadeIn 0.2s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+.about-modal__container {
+  animation: modalSlideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Main Modal Container */
+.about-modal {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50;
+}
+
+.about-modal__container {
+  @apply bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-2xl w-full border border-gray-200 dark:border-gray-700;
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+/* Responsive container sizing */
+@media (max-width: 768px) {
+  .about-modal__container {
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+}
+
+@media (max-height: 600px) {
+  .about-modal__container {
+    max-height: 95vh;
+  }
+}
+
+.about-modal__content {
+  @apply p-4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Mobile content padding */
+@media (max-width: 640px) {
+  .about-modal__content {
+    @apply p-3;
+  }
+}
+
+/* Header Styles */
+.about-modal__header {
+  @apply flex items-center justify-between mb-4;
+  flex-shrink: 0;
+}
+
+.about-modal__title-section {
+  @apply flex items-center space-x-2;
+}
+
+.about-modal__icon-container {
+  @apply p-1.5 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900 dark:to-purple-800 rounded-lg;
+}
+
+.about-modal__icon {
+  @apply h-5 w-5 text-purple-600 dark:text-purple-400;
+}
+
+.about-modal__title {
+  @apply text-lg font-bold text-purple-600 dark:text-purple-400 tracking-tight;
+}
+
+.about-modal__subtitle {
+  @apply text-xs text-purple-500 dark:text-purple-300 mt-0.5;
+}
+
+.about-modal__close-btn {
+  @apply p-2 text-gray-400 hover:text-gray-600 dark:text-gray-200 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-200;
+}
+
+/* Body Styles */
+.about-modal__body {
+  @apply space-y-3;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  margin-right: -4px;
+}
+
+/* Custom scrollbar */
+.about-modal__body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.about-modal__body::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+}
+
+.about-modal__body::-webkit-scrollbar-thumb {
+  @apply bg-purple-300 dark:bg-purple-600 rounded-full;
+}
+
+.about-modal__body::-webkit-scrollbar-thumb:hover {
+  @apply bg-purple-400 dark:bg-purple-500;
+}
+
+/* Section Styles */
+.about-modal__section {
+  @apply rounded-lg p-3 border;
+}
+
+.about-modal__section--app {
+  @apply bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/30 dark:to-purple-800/30 border-purple-200 dark:border-purple-600;
+}
+
+.about-modal__section--description {
+  @apply bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/30 border-blue-200 dark:border-blue-600;
+}
+
+.about-modal__section--developer {
+  @apply bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30 border-green-200 dark:border-green-600;
+}
+
+.about-modal__section--acknowledgments {
+  @apply bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900/30 dark:to-orange-800/30 border-orange-200 dark:border-orange-600;
+}
+
+.about-modal__section-title {
+  @apply text-xs uppercase tracking-wide font-semibold mb-2 flex items-center;
+}
+
+.about-modal__section-title--app {
+  @apply text-purple-600 dark:text-purple-300;
+}
+
+.about-modal__section-title--description {
+  @apply text-blue-600 dark:text-blue-300;
+}
+
+.about-modal__section-title--developer {
+  @apply text-green-600 dark:text-green-300;
+}
+
+.about-modal__section-title--acknowledgments {
+  @apply text-orange-600 dark:text-orange-300;
+}
+
+.about-modal__section-icon {
+  @apply mr-1.5 text-sm;
+}
+
+/* App Information Grid */
+.about-modal__info-grid {
+  @apply grid grid-cols-1 sm:grid-cols-3 gap-2;
+}
+
+/* Mobile responsive - stack in single column */
+@media (max-width: 640px) {
+  .about-modal__info-grid {
+    @apply grid-cols-1;
+  }
+}
+
+.about-modal__info-item {
+  @apply bg-white dark:bg-gray-800 rounded-lg p-2 border border-gray-200 dark:border-gray-600;
+}
+
+.about-modal__info-label {
+  @apply block text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1;
+}
+
+.about-modal__info-value {
+  @apply text-sm font-semibold text-gray-900 dark:text-white;
+}
+
+/* Description Styles */
+.about-modal__description {
+  @apply space-y-3;
+}
+
+.about-modal__description-text {
+  @apply text-sm text-gray-700 dark:text-gray-300 leading-relaxed;
+}
+
+.about-modal__features-title {
+  @apply text-sm font-semibold text-gray-900 dark:text-white mb-1.5;
+}
+
+.about-modal__features-list {
+  @apply space-y-1.5;
+}
+
+.about-modal__feature-item {
+  @apply flex items-center text-sm text-gray-700 dark:text-gray-300;
+}
+
+.about-modal__feature-icon {
+  @apply mr-2 text-sm flex-shrink-0;
+}
+
+/* Developer Styles */
+.about-modal__developer {
+  @apply space-y-3;
+}
+
+.about-modal__developer-info {
+  @apply text-center;
+}
+
+.about-modal__developer-name {
+  @apply text-base font-bold text-gray-900 dark:text-white;
+}
+
+.about-modal__developer-title {
+  @apply text-sm text-gray-600 dark:text-gray-400 mt-0.5;
+}
+
+.about-modal__developer-links {
+  @apply flex justify-center;
+}
+
+.about-modal__developer-link {
+  @apply flex items-center space-x-2 px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white;
+}
+
+.about-modal__link-icon {
+  @apply h-4 w-4;
+}
+
+/* Acknowledgments Styles */
+.about-modal__acknowledgments {
+  @apply space-y-3;
+}
+
+.about-modal__acknowledgments-text {
+  @apply flex items-start text-sm text-gray-700 dark:text-gray-300 leading-relaxed;
+}
+
+.about-modal__heart-icon {
+  @apply h-4 w-4 text-red-500 mr-2 mt-0.5 flex-shrink-0;
+}
+
+.about-modal__tech-stack {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.about-modal__tech-item {
+  @apply px-2 py-0.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300;
+}
+
+/* Actions Styles */
+.about-modal__actions {
+  @apply flex justify-end pt-3 border-t border-gray-200 dark:border-gray-700 mt-4;
+  flex-shrink: 0;
+}
+
+.about-modal__btn {
+  @apply px-4 py-1.5 rounded-lg transition-all duration-200 font-medium text-sm;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-modal__btn:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.about-modal__btn:active {
+  transform: translateY(0);
+}
+
+/* Ripple effect for buttons */
+.about-modal__btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.about-modal__btn:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.about-modal__btn--close {
+  @apply bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl transform hover:scale-105;
+}
+
+.about-modal__btn--close:focus {
+  box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.3), 0 8px 16px rgba(147, 51, 234, 0.2);
+}
+
+.dark .about-modal__btn--close:focus {
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.4), 0 8px 16px rgba(196, 181, 253, 0.3);
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 640px) {
+  .about-modal__header {
+    @apply mb-3;
+  }
+  
+  .about-modal__title {
+    @apply text-base;
+  }
+  
+  .about-modal__subtitle {
+    @apply text-xs;
+  }
+  
+  .about-modal__body {
+    @apply space-y-2;
+  }
+  
+  .about-modal__section {
+    @apply p-2;
+  }
+  
+  .about-modal__info-grid {
+    @apply grid-cols-1 gap-1.5;
+  }
+  
+  .about-modal__developer-links {
+    @apply flex justify-center;
+  }
+  
+  .about-modal__developer-link {
+    @apply justify-center;
+  }
+  
+  .about-modal__actions {
+    @apply pt-2 mt-3;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .about-modal,
+  .about-modal__container,
+  .about-modal__btn {
+    animation: none;
+    transition: none;
+  }
+  
+  .about-modal__btn::before {
+    display: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .about-modal__section {
+    border-width: 2px;
+  }
+  
+  .about-modal__btn {
+    border-width: 2px;
+    border-color: currentColor;
+  }
+  
+  .about-modal__info-item,
+  .about-modal__developer-link,
+  .about-modal__tech-item {
+    border-width: 2px;
+  }
+}
+
+/* Focus visible for better keyboard navigation */
+.about-modal__btn:focus-visible,
+.about-modal__developer-link:focus-visible,
+.about-modal__close-btn:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.dark .about-modal__btn:focus-visible,
+.dark .about-modal__developer-link:focus-visible,
+.dark .about-modal__close-btn:focus-visible {
+  outline-color: #60a5fa;
+}
+
+/* Compact Developer Section Styles */
+.about-modal__developer-compact {
+  @apply space-y-3;
+}
+
+.about-modal__developer-info-compact {
+  @apply flex flex-wrap items-center gap-3 justify-center text-center;
+}
+
+.about-modal__developer-name-compact {
+  @apply text-sm font-bold text-gray-900 dark:text-white;
+}
+
+.about-modal__developer-title-compact {
+  @apply text-xs text-gray-600 dark:text-gray-400;
+}
+
+.about-modal__developer-link-compact {
+  @apply flex items-center space-x-1 px-3 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white;
+}
+
+.about-modal__link-icon-compact {
+  @apply h-3 w-3;
+}
+
+.about-modal__acknowledgments-compact {
+  @apply mt-3;
+}
+
+.about-modal__acknowledgments-text-compact {
+  @apply flex items-start text-xs text-gray-700 dark:text-gray-300 leading-relaxed;
+}
+
+.about-modal__heart-icon-compact {
+  @apply h-3 w-3 text-red-500 mr-2 mt-0.5 flex-shrink-0;
+}
+
+/* Mobile adjustments for compact version */
+@media (max-width: 640px) {
+  .about-modal__developer-info-compact {
+    @apply flex-col gap-2;
+  }
+  
+  .about-modal__developer-name-compact {
+    @apply text-xs;
+  }
+  
+  .about-modal__developer-title-compact {
+    @apply text-xs;
+  }
+}

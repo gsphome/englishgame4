@@ -60,6 +60,21 @@ export const translations = {
       cancel: 'Cancel',
       save: 'Save'
     },
+    about: {
+      title: 'About FluentFlow',
+      subtitle: 'Advanced English Learning Platform',
+      description: 'Description',
+      descriptionText: 'FluentFlow is an advanced English learning platform designed to help you improve your vocabulary and comprehension through interactive exercises.',
+      features: 'Key Features',
+      feature1: 'Interactive flashcards and quizzes',
+      feature2: 'Adaptive difficulty levels (A1-C2)',
+      feature3: 'Progress tracking and analytics',
+      feature4: 'Multilingual interface (English/Spanish)',
+      feature5: 'Multiple learning modes and games',
+      developerTitle: 'Cloud Expert passionate about GenAI',
+      acknowledgments: 'Acknowledgments',
+      acknowledgementsText: 'Built with passion for language learning and education. Special thanks to the open-source community for the amazing tools and libraries that made this project possible.'
+    },
     learning: {
       flashcards: 'Flashcards',
       quiz: 'Quiz',
@@ -229,6 +244,21 @@ export const translations = {
       edit: 'Editar',
       cancel: 'Cancelar',
       save: 'Guardar'
+    },
+    about: {
+      title: 'Acerca de FluentFlow',
+      subtitle: 'Plataforma Avanzada de Aprendizaje de Inglés',
+      description: 'Descripción',
+      descriptionText: 'FluentFlow es una plataforma avanzada de aprendizaje de inglés diseñada para ayudarte a mejorar tu vocabulario y comprensión a través de ejercicios interactivos.',
+      features: 'Características Principales',
+      feature1: 'Tarjetas interactivas y cuestionarios',
+      feature2: 'Niveles de dificultad adaptativos (A1-C2)',
+      feature3: 'Seguimiento de progreso y análisis',
+      feature4: 'Interfaz multiidioma (Inglés/Español)',
+      feature5: 'Múltiples modos de aprendizaje y juegos',
+      developerTitle: 'Experto Cloud apasionado por la GenAI',
+      acknowledgments: 'Agradecimientos',
+      acknowledgementsText: 'Construido con pasión por el aprendizaje de idiomas y la educación. Agradecimientos especiales a la comunidad de código abierto por las increíbles herramientas y librerías que hicieron posible este proyecto.'
     },
     learning: {
       flashcards: 'Tarjetas',

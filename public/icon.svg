@@ -1,6 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
-  <rect width="192" height="192" rx="24" fill="#3b82f6"/>
-  <text x="96" y="120" font-family="Arial, sans-serif" font-size="72" font-weight="bold" text-anchor="middle" fill="white">E</text>
-  <circle cx="96" cy="60" r="20" fill="white" opacity="0.8"/>
-  <rect x="76" y="140" width="40" height="8" rx="4" fill="white" opacity="0.6"/>
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="50%" style="stop-color:#ffffff;stop-opacity:0.7" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Main background -->
+  <rect width="192" height="192" rx="32" fill="url(#bgGradient)"/>
+  
+  <!-- Flow lines representing fluency -->
+  <path d="M40 80 Q96 60 152 80" stroke="url(#flowGradient)" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M40 96 Q96 76 152 96" stroke="url(#flowGradient)" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <path d="M40 112 Q96 92 152 112" stroke="url(#flowGradient)" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
+  
+  <!-- Central "F" for FluentFlow -->
+  <text x="96" y="140" font-family="system-ui, -apple-system, sans-serif" font-size="64" font-weight="700" text-anchor="middle" fill="white">F</text>
+  
+  <!-- Accent dot -->
+  <circle cx="130" cy="110" r="4" fill="white" opacity="0.8"/>
 </svg>
