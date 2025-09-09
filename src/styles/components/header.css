@@ -428,6 +428,57 @@
     min-height: 36px;
   }
 }
+
+/* Extra small screens - make score display smaller but balanced */
+@media (max-width: 480px) {
+  .header-redesigned__center {
+    @apply flex-1;
+    max-width: 160px;
+    min-width: 140px;
+  }
+  
+  .header-redesigned__container {
+    min-height: 52px;
+    @apply px-2 py-2;
+  }
+  
+  .header-redesigned__left,
+  .header-redesigned__right {
+    @apply flex-shrink-0;
+  }
+  
+  .header-redesigned__left {
+    @apply space-x-1;
+  }
+  
+  .header-redesigned__right {
+    @apply space-x-1;
+  }
+}
+
+/* Ultra small screens - hide app logo */
+@media (max-width: 400px) {
+  .header-redesigned__logo {
+    @apply hidden;
+  }
+  
+  .header-redesigned__left {
+    @apply space-x-1;
+  }
+}
+
+/* Extremely small screens - minimal score display */
+@media (max-width: 300px) {
+  .header-redesigned__center {
+    max-width: 100px;
+    min-width: 80px;
+  }
+  
+  .header-redesigned__container {
+    @apply px-1 py-1;
+    min-height: 44px;
+  }
+}
 /* Enhance
 d Accessibility and High Contrast Support */
 @media (prefers-contrast: high) {

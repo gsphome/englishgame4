@@ -244,8 +244,10 @@
 
 @media (max-width: 480px) {
   .score-display-compact {
-    min-width: 120px;
-    max-width: 160px;
+    min-width: 100px;
+    max-width: 130px;
+    @apply px-1 py-1;
+    height: 28px;
   }
   
   .score-display-compact__icon {
@@ -253,11 +255,20 @@
   }
   
   .score-display-compact__level {
-    @apply gap-1;
+    @apply gap-0.5;
   }
   
   .score-display-compact__accuracy {
     @apply hidden;
+  }
+  
+  .score-display-compact__values {
+    @apply text-xs;
+  }
+  
+  .score-display-compact__points {
+    @apply text-xs;
+    min-width: 18px;
   }
 }
 
@@ -287,6 +298,26 @@
   
   .score-display-compact__progress-bar {
     @apply w-6 h-0.5;
+  }
+}
+
+/* Ultra small screens - hide score symbols */
+@media (max-width: 300px) {
+  .score-display-compact {
+    min-width: 80px;
+    max-width: 100px;
+  }
+  
+  .score-display-compact__level-badge {
+    @apply hidden;
+  }
+  
+  .score-display-compact__progress-bar {
+    @apply hidden;
+  }
+  
+  .score-display-compact__level {
+    @apply hidden;
   }
 }
 

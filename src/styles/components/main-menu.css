@@ -81,7 +81,7 @@
 }
 
 /* Progressive Enhancement: Larger Screens Get More Space */
-@media (min-width: 720px) {
+@media (min-width: 720px) and (max-width: 899px) {
   .main-menu__grid {
     padding: 1.25rem;
   }
@@ -95,7 +95,7 @@
   .main-menu__grid {
     padding: 1.5rem;
     max-width: 833px;
-    max-height: 350px;
+    max-height: 425px;
     margin: 0 auto;
     overflow-y: auto;
   }
@@ -161,7 +161,7 @@
   }
 }
 
-@media (min-width: 720px) {
+@media (min-width: 720px) and (max-width: 899px) {
   .main-menu {
     @apply px-6;
   }
