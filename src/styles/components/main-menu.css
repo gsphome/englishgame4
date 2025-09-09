@@ -73,10 +73,12 @@
   }
 }
 
-/* Desktop: 5 cols: 5×145px + 4×20px gap + 88px overhead = 893px minimum */
+/* Desktop: 3 cols: 3×155px + 2×16px gap + constrained width */
 @media (min-width: 900px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
-    grid-template-columns: repeat(5, minmax(145px, 1fr)) !important;
+    grid-template-columns: repeat(3, minmax(155px, 1fr)) !important;
+    max-width: 520px !important;
+    margin: 0 auto !important;
   }
 }
 
