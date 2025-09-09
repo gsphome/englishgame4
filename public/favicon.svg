@@ -1,19 +1,10 @@
-<svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8b5cf6" />
-      <stop offset="100%" stop-color="#3b82f6" />
-    </linearGradient>
-  </defs>
-  
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!-- Background -->
-  <circle cx="12" cy="12" r="10" fill="url(#faviconGradient)" />
+  <rect width="32" height="32" rx="6" fill="#8b5cf6"/>
   
-  <!-- Flow lines -->
-  <path d="M6 9 Q12 7 18 9" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.9" />
-  <path d="M6 12 Q12 10 18 12" stroke="white" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.7" />
-  <path d="M6 15 Q12 13 18 15" stroke="white" stroke-width="0.8" fill="none" stroke-linecap="round" opacity="0.5" />
+  <!-- Letter F using paths for better compatibility -->
+  <path d="M10 8 L10 24 M10 8 L22 8 M10 15 L18 15" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
   
-  <!-- Letter F -->
-  <text x="12" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" text-anchor="middle" fill="white">F</text>
+  <!-- Flow accent -->
+  <circle cx="24" cy="12" r="2" fill="white" opacity="0.7"/>
 </svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="faviconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="16" cy="16" r="14" fill="url(#faviconGradient)" />
+  
+  <!-- Flow lines -->
+  <path d="M6 12 Q16 8 26 12" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8" />
+  <path d="M6 16 Q16 12 26 16" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.6" />
+  <path d="M6 20 Q16 16 26 20" stroke="white" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.4" />
+  
+  <!-- Letter F -->
+  <text x="16" y="24" font-family="Arial, sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="white">F</text>
+</svg>
