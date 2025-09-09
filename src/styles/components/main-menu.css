@@ -73,12 +73,15 @@
   }
 }
 
-/* Desktop: 4 cols: 4×155px + 3×16px gap + constrained width */
+/* Desktop: 5 cols x 3 rows: 5×155px + 4×16px gap + constrained width */
 @media (min-width: 900px) {
   .main-menu .main-menu__grid .main-menu__grid-container {
-    grid-template-columns: repeat(4, minmax(155px, 1fr)) !important;
-    max-width: 680px !important;
+    grid-template-columns: repeat(5, minmax(155px, 1fr)) !important;
+    grid-template-rows: repeat(3, 125px) !important;
+    max-width: 850px !important;
+    max-height: 415px !important;
     margin: 0 auto !important;
+    overflow: hidden !important;
   }
 }
 
@@ -96,12 +99,13 @@
 @media (min-width: 900px) {
   .main-menu__grid {
     padding: 1.5rem;
-    max-height: 400px;
-    overflow-y: auto;
+    height: 450px;
+    overflow: hidden;
   }
   
   .main-menu__grid-container {
     gap: 1.25rem;
+    height: 100%;
   }
 }
 
