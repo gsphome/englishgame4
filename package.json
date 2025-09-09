@@ -3,8 +3,9 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --config config/vite.config.ts",
-    "build": "tsc --project config/tsconfig.json && vite build --config config/vite.config.ts",
+    "dev": "vite --mode development --config config/vite.config.ts",
+    "build": "tsc --project config/tsconfig.json && vite build --mode production --config config/vite.config.ts",
+    "build:dev": "tsc --project config/tsconfig.json && vite build --mode development --config config/vite.config.ts",
     "preview": "vite preview --config config/vite.config.ts",
     "deploy": "gh-pages -d dist",
     "test": "vitest run --config config/vitest.config.ts",
