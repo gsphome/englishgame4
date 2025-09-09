@@ -89,13 +89,13 @@
 }
 
 .header-redesigned__container {
-  @apply flex items-center justify-between px-4 py-3 max-w-7xl mx-auto;
+  @apply flex items-center justify-between px-3 sm:px-6 py-3 max-w-6xl mx-auto;
   min-height: 64px; /* Ensure consistent height */
 }
 
 /* Learning mode maintains same height but optimized spacing */
 .header-redesigned__container--learning {
-  @apply px-3 py-3; /* Consistent padding for professional look */
+  @apply px-3 sm:px-6 py-3; /* Consistent padding with layout-main */
 }
 
 /* Left Section - Enhanced Consistency */
@@ -392,12 +392,12 @@
 /* Responsive Adjustments - Maintaining Consistency */
 @media (max-width: 640px) {
   .header-redesigned__container {
-    @apply px-3 py-2; /* Maintain reasonable padding */
+    @apply px-3 py-2; /* Consistent with layout-main mobile padding */
     min-height: 56px; /* Slightly smaller but consistent on mobile */
   }
   
   .header-redesigned__container--learning {
-    @apply px-3 py-2; /* Same padding as main menu on mobile */
+    @apply px-3 py-2; /* Same padding as layout-main on mobile */
   }
   
   .header-redesigned__left {
